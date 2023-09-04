@@ -1,0 +1,75 @@
+id,Screen,en,es,de,it,Arabic,fr
+onboarding.superpower,Intro,Your writing superpower,Tu superpoder de escritura,Deine Schreib-Superkraft,Il tuo superpotere nella scrittura,قوتك الكتابية الخارقة,Votre superpuissance d'écriture
+onboarding.learn,Intro,Learn a new language,Aprende un nuevo idioma,Lerne eine neue Sprache,Impara una nuova lingua,تعلم لغة جديدة,Apprendre une nouvelle langue
+onboarding.writeBlog,Intro,Write a blog post,Escribe una entrada de blog,Schreibe einen Blogbeitrag,Scrivi un post sul blog,اكتب مقالة مدونة,Écrire un article de blog
+onboarding.fixGrammar,Intro,Fix your grammar,Corrige tu gramática,Korrigiere deine Grammatik,Correggi la tua grammatica,صحح قواعدك,Corriger votre grammaire
+onboarding.helpWithStudies,Intro,Help with vour studies + gazillion other use cases,Ayuda con tus estudios + un millón de otros casos de uso,Hilfe bei deinem Studium + unzählige andere Anwendungsfälle,Aiuto con i tuoi studi + un'infinità di altri casi d'uso,مساعدة في دراستك + عدد لا يحصى من حالات الاستخدام الأخرى,Aidez avec vos études + un milliard d'autres cas d'utilisation
+onboarding.tryItOut,Intro,Try it out!,¡Pruébalo!,Probier es aus!,Provalo!,جربه!,Essayez-le!
+onboarding.skip,Intro,Skip,Omitir,Überspringen,Salta,تخطى,Passer
+feed.youHaveMessagesLeft,Feed,You have %@ free messages & %@ images left,Te quedan %@ mensajes gratuitos y %@ imágenes,Sie haben noch %@ kostenlose Nachrichten und %@ Bilder übrig,Ti rimangono %@ messaggi gratuiti e %@ immagini,باقي 10 رسائل مجانية,Il vous reste %@ messages gratuits et %@ images
+feed.messagesLeft,Feed,%@ free messages,%@ mensajes gratuitos, %@ kostenlose Nachrichten,%@ messaggi gratuiti ,,%@ messages gratuits
+feed.imagesLeft,Feed,%@ images,%@ imágenes,%@ Bilder,%@ immagini,,%@ images
+feed.characters,Feed,Characters,Caracteres,Zeichen,Caratteri,شخصيات,Personnages
+feed.explore,Feed,Explore,Explorar,Entdecken,Esplora,استكشف,Explorer
+feed.letsStart,Feed,Let's start a chat!,Empecemos a chatear,Lass uns chatten,Iniziamo una chat,لنبدأ المحادثة,Commençons un chat
+feed.startFreeTrial,Feed,Start free trial,Iniciar prueba gratuita,Kostenlose Testversion starten,Inizia la prova gratuit,,Commencer l'essai gratuit
+history.history,History,History,Historial,Verlauf,Cronologia,التاريخ,Historique
+history.clear,History,Clear history?,¿Borrar historial?,Verlauf löschen?,Cancellare la cronologia?,مسح التاريخ؟,Effacer l'historique ?
+history.undo,History,You will not be able to undo this action,No podrás deshacer esta acción,Diese Aktion kann nicht rückgängig gemacht werden,Non sarai in grado di annullare questa azione,لن تتمكن من التراجع عن هذا الإجراء,Vous ne pourrez pas annuler cette action
+history.no,History,No,No,Nein,No,لا,Non
+history.yes,History,Yes,Sí,Ja,Sì,نعم,Oui
+history.today,History,Today,Hoy,Heute,Oggi,,Aujourd'hui
+history.yesterday,History,Yesterday,Ayer,Gestern,Ieri,,Hier
+history.at,History,%@ at %@,%@ a las %@,%@ um %@,%@ alle %@,,%@ à %@
+settings.settings,Settings,Settings,Ajustes,Einstellungen,Impostazioni,الإعدادات,Paramètres
+settings.terms,Settings,Terms of use,Términos de uso,Nutzungsbedingungen,Termini di utilizzo,شروط الاستخدام,Conditions d'utilisation
+settings.privacy,Settings,Privacy policy,Política de privacidad,Datenschutzrichtlinie,Politica sulla privacy,سياسة الخصوصية,Politique de confidentialité
+settings.cancel,Settings,Cancel,Cancelar,Abbrechen,Annulla,إلغاء,Annuler
+settings.contactUs,Settings,Contact us,Contáctanos,Kontaktiere uns,Contattaci,اتصل بنا,Contactez-nous
+settings.ver,Settings,ver,ver,Version,ver,الإصدار 2.3,ver
+settings.madeBy,Settings,made by programmers empowered by ChatGPT,hecho por programadores potenciados por ChatGPT,"Entwickelt von Programmierern, unterstützt durch ChatGPT",realizzato da programmatori potenziati da ChatGPT,صنع من قبل مبرمجين مدعومين بـ ChatGPT,réalisé par des programmeurs soutenus par ChatGPT
+post.postedOn,Post,Posted on,Publicado en,Veröffentlicht am,Pubblicato il,نشر على,Publié le
+payments.somethingWentWrong,Payments,Something went wrong,Algo salió mal,Etwas ist schiefgelaufen,Qualcosa è andato storto,حدث خطأ ما,Quelque chose s'est mal passé
+payments.save20,Payments,Save 20%,Ahorra 20%,Spare 20%,Risparmia il 20%,وفر 20%,Économisez 20%
+payments.failed,Payments,Transaction failed,Transacción fallida,Transaktion fehlgeschlagen,Transazione fallita,فشلت المعاملة,Échec de la transaction
+payments.restored,Payments,Transactions restored,Transacciones restauradas,Transaktionen wiederhergestellt,Transazioni ripristinate,تم استعادة المعاملات,Transactions restaurées
+payments.okay,Payments,Okay,De acuerdo,Okay,Okay,حسنًا,D'accord
+payments.restorePurchase,Payments,Restore purchase,Restaurar compra,Kauf wiederherstellen,Ripristina acquisto,استعادة الشراء,Restaurer l'achat
+payments.first3free,Payments,First 3 days free,Primeros 3 días gratis,Erste 3 Tage kostenlos,Primi 3 giorni gratuiti,أول 3 أيام مجانية,Premiers 3 jours gratuits
+payments.getAccess,Payments,Get unlimited access to all current (and future) features,Obtén acceso ilimitado a todas las funciones actuales (y futuras),Erhalte unbegrenzten Zugang zu allen aktuellen (und zukünftigen) Funktionen,Ottieni accesso illimitato a tutte le funzioni attuali (e future),احصل على وصول غير محدود لجميع الميزات الحالية (والمستقبلية),Obtenez un accès illimité à toutes les fonctionnalités actuelles (et futures)
+payments.byTappingYouAgree,Payments,"By tapping „Start 3-day free trial“, you agree to our Terms of Use","Al tocar ""Iniciar prueba gratuita de 3 días"", aceptas nuestros Términos de Uso","Indem du auf „3-Tage-Gratis-Test starten“ tippst, stimmst du unseren Nutzungsbedingungen zu","Toccando ""Inizia la prova gratuita di 3 giorni"", accetti i nostri Termini di Utilizzo","بالنقر فوق ""ابدأ التجربة المجانية لمدة 3 أيام""، فإنك توافق على شروط الاستخدام الخاصة بنا","En appuyant sur « Démarrer l'essai gratuit de 3 jours », vous acceptez nos conditions d'utilisation"
+payments.start,Payments,Start 3-days free trial,Iniciar prueba gratuita de 3 días,3-Tage-Gratis-Test starten,Inizia la prova gratuita di 3 giorni,ابدأ التجربة المجانية لمدة 3 أيام,Démarrer l'essai gratuit de 3 jours
+payments.monthly,Payments,Monthly,Mensual,Monatlich,Mensile,شهريًا,Mensuel
+payments.month,Payments,Month,Mes,Monat,Mese,شهر,Mois
+payments.weekly,Payments,Weekly,Semanal,Wöchentlich,Settimanale,أسبوعيًا,Hebdomadaire
+payments.week,Payments,Week,Semana,Woche,Settimana,أسبوع,Semaine
+chat.noAnswer,Chat,No answer here :(,No hay respuesta aquí :(,Keine Antwort hier :(,Nessuna risposta qui :(,لا يوجد إجابة هنا :(,Pas de réponse ici :(
+chat.tryAgain,Chat,Try again,Inténtalo de nuevo,Versuche es erneut,Prova ancora,حاول مرة أخرى,Réessayez
+chat.typeYourQuestion,Chat,Type your question,Escribe tu pregunta,Gib deine Frage ein,Digita la tua domanda,اكتب سؤالك,Tapez votre question
+chat.isTyping,Chat,%@ is typing,%@ está escribiendo,%@ tippt,%@ sta scrivendo,جو يكتب...,%@ est en train d'écrire
+chat.ask,Chat,ask %@,preguntar %@,fragen %@,chiedere %@,,demander %@
+chat.copy,Chat,Copy,Copiar,Kopieren,Copia,,Copier
+chat.share,Chat,Share,Compartir,Teilen,Condividi,,Partager
+chat.aFewExamples,Chat,A few examples of interesting things you can ask %@ about,Algunos ejemplos de cosas interesantes que puedes preguntar a %@ sobre,"Ein paar Beispiele für interessante Dinge, über die du %@ fragen kannst",Alcuni esempi di cose interessanti che puoi chiedere a %@,,Quelques exemples de choses intéressantes que vous pouvez demander à %@
+prompts.explainPhysics,Prompts,Explain quantum physics,Explica la física cuántica,Erkläre Quantenphysik,Spiega la fisica quantistica,شرح الفيزياء الكمومية,Expliquer la physique quantique
+prompts.explainTimeDog,Prompts,Explain the concept of time like I am a dog,Explícame el concepto del tiempo como si fuera un perro,"Erkläre das Konzept der Zeit, als wäre ich ein Hund",Spiega il concetto di tempo come se fossi un cane,شرح مفهوم الزمن كما لو كنت كلبًا,Expliquez le concept du temps comme si j'étais un chien
+prompts.explainTime3yearsOld,Prompts,Explain the concept of time like I am three years old,Explícame el concepto del tiempo como si tuviera tres años,"Erkläre das Konzept der Zeit, als wäre ich drei Jahre alt",Spiega il concetto di tempo come se avessi tre anni,شرح مفهوم الزمن كما لو كنت في الثالثة من عمري,Expliquez le concept du temps comme si j'avais trois ans
+prompts.describePotato,Prompts,"Use florid, baroque language to describe a potato",Usa lenguaje florido y barroco para describir una patata,"Verwende blumige, barocke Sprache, um eine Kartoffel zu beschreiben",Usa un linguaggio florido e barocco per descrivere una patata,استخدم لغة زهرية وباروكية لوصف البطاطس,Utilisez un langage fleuri et baroque pour décrire une pomme de terre
+prompts.writeAPoemRabbit,Prompts,Write a short poem about a rabbit,Escribe un breve poema sobre un conejo,Schreibe ein kurzes Gedicht über ein Kaninchen,Scrivi una breve poesia su un coniglio,اكتب قصيدة قصيرة عن أرنب,Écrivez un court poème sur un lapin
+prompts.writeNewsPotato,Prompts,Write a breaking news article about a potato,Escribe un artículo de noticias de última hora sobre una patata,Schreibe einen Eilmeldungsartikel über eine Kartoffel,Scrivi un articolo di notizie di ultima ora su una patata,اكتب مقالة عاجلة عن البطاطس,Écrire un article d'actualité sur une pomme de terre
+prompts.writeBirthdayCongrats,Prompts,Write a birthday congrats to my grandma's 90 birthday in ultra gen z style,Felicita a mi abuela por su cumpleaños 90 en estilo ultra gen z,Gratuliere meiner Großmutter zum 90. Geburtstag im ultra Gen-Z-Stil,Auguri di buon compleanno per i 90 anni di mia nonna in stile ultra gen z,اكتب ته,Écrire des félicitations d'anniversaire pour les 90 ans de ma grand-mère dans un style ultra génération Z
+prompts.writeWuTang,Prompts,Write a invitation to party in wu tang style,Escribe una invitación a una fiesta al estilo Wu Tang,Schreibe eine Partyeinladung im Wu-Tang-Stil,Scrivi un invito a una festa in stile Wu Tang,,Écrire une invitation à une fête dans le style Wu Tang
+prompts.tellMeSolar,Prompts,Tell me about solar system,Cuéntame sobre el sistema solar,Erzähl mir über das Sonnensystem,Dimmi del sistema solare,,Parlez-moi du système solaire
+prompts.offerSpanish,Prompts,How to say 'I will make him an offer you can't refuse' in Spanish,Cómo decir 'Le haré una oferta que no podrá rechazar' en español,"Wie sagt man 'Ich werde ihm ein Angebot machen, das er nicht ablehnen kann' auf Spanisch",Come dire 'Gli farò un'offerta che non potrà rifiutare' in spagnolo,,Comment dire 'Je lui ferai une offre qu'il ne pourra pas refuser' en espagnol
+prompts.offerKlingon,Prompts,How to say 'I will make him an offer you can't refuse' in Klingon,Cómo decir 'Le haré una oferta que no podrá rechazar' en klingon,"Wie sagt man 'Ich werde ihm ein Angebot machen, das er nicht ablehnen kann' auf Klingonisch",Come dire 'Gli farò un'offerta che non potrà rifiutare' in klingon,,Comment dire 'Je lui ferai une offre qu'il ne pourra pas refuser' en Klingon
+prompts.offerMadeUp,Prompts,How to say 'I will make him an offer you can't refuse' in made-up language,Cómo decir 'Le haré una oferta que no podrá rechazar' en un idioma inventado,"Wie sagt man 'Ich werde ihm ein Angebot machen, das er nicht ablehnen kann' in einer erfundenen Sprache",Come dire 'Gli farò un'offerta che non potrà rifiutare' in una lingua inventata,,Comment dire 'Je lui ferai une offre qu'il ne pourra pas refuser' dans une langue inventée
+prompts.askRaiseGenZ,Prompts,Ask for a raise in ultra gen z style,Pedir un aumento en estilo ultra gen z,Frag im ultra Gen-Z-Stil nach einer Gehaltserhöhung,Chiedi un aumento in stile ultra gen z,,Demander une augmentation de salaire dans un style ultra génération Z
+prompts.sellMePen,Prompts,Sell me this pen,Véndeme este bolígrafo,Verkaufe mir diesen Stift,Vendimi questa penna,,Vendez-moi ce stylo
+images.aiArtGenerator,Images,AI Art Generator,Generador de arte con IA,AI-Kunstgenerator,Generatore d'arte con intelligenza artificiale,,Générateur d'art IA
+images.doItForMe,Images,Do it for me,Hazlo por mí,Mach es für mich,Fallo per me,,Faites-le pour moi
+images.typeYourRequest,Images,Type your request,Escribe tu solicitud,Gib deine Anfrage ein,Digita la tua richiesta,,Tapez votre demande
+images.itMayTakeTime,Images,"It may take some time to create, don't close this screen","Puede tomar algún tiempo crearlo, no cierres esta pantalla","Es kann einige Zeit dauern, um es zu erstellen. Schließe diesen Bildschirm nicht.","Potrebbe richiedere del tempo per crearlo, non chiudere questa schermata",,"La création peut prendre un certain temps, ne fermez pas cet écran"
+images.save,Images,Save,Guardar,Speichern,Salva,,Enregistrer
+images.share,Images,Share,Compartir,Teilen,Condividi,,Partager
+images.somethingWentWrong,Images,Something went wrong,Algo salió mal,Etwas ist schiefgegangen,Qualcosa è andato storto,,Une erreur s'est produite
+images.tryAgain,Images,Try again,Inténtalo de nuevo,Versuche es erneut,Riprova,,Réessayez
