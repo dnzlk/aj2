@@ -39,7 +39,7 @@ final class ChatEndpoint: APIEndpoint {
         }
         amMessages.append(.init(role: Role.user.rawValue, content: request))
 
-        let amChat = AMChat(characterId: chat.person?.characterId, messages: amMessages, version: version, chatId: chat.chatId)
+        let amChat = AMChat(characterId: nil, messages: amMessages, version: version, chatId: chat.chatId)
         let encodedAmChat = try JSONEncoder().encode(amChat)
 
         var request = URLRequest(url: url)

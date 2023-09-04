@@ -11,8 +11,6 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var popRecognizer: InteractivePopRecognizer?
-
     init() {
         super.init(nibName: nil, bundle: nil)
         bind()
@@ -24,7 +22,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setInteractiveRecognizer()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -33,21 +30,9 @@ class ViewController: UIViewController {
     }
 
     func bind() {}
-
-    private func setInteractiveRecognizer() {
-        guard let controller = navigationController else { return }
-        popRecognizer = InteractivePopRecognizer(controller: controller)
-        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
-    }
 }
 
 extension ViewController {
-    
-    func openPayment() {
-        let vc = PaymentController()
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
-    }
 
     func openBrowser(url: URL) {
         let config = SFSafariViewController.Configuration()

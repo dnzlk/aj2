@@ -38,25 +38,10 @@ final class DataManager {
         return chats
     }
 
-    func getDailyPrompts() -> [Prompt] {
-        let lastTimeGenerated = ud.getLastTimePromptsWereGenerated()
-        if lastTimeGenerated > 0,
-           Calendar.current.isDateInToday(Date(timeIntervalSince1970: lastTimeGenerated)),
-           let lastPrompts = ud.getLastGeneratedDailyPrompts() {
-            return lastPrompts
-        } else {
-            let prompts = Prompt.random(3)
-            ud.saveLastTimePromptsWereGenerated(date: Date())
-            ud.saveLastGeneratedDailyPrompts(prompts: prompts)
-
-            return prompts
-        }
-    }
-
     // MARK: - CREATE Methods
 
-    func createChat(person: Person? = nil) async -> Chat? {
-        guard let entity = try? await db.createChat(person: person) else { return nil }
+    func createChat() async -> Chat? {
+        guard let entity = try? await db.createChat() else { return nil }
 
         let chat = await convert(entity: entity)
         nm.emit(.chatUpdated(chat))
@@ -107,17 +92,9 @@ final class DataManager {
         let messages = ((try? await db.messages(fromChat: entity)) ?? []).compactMap {
             Message(entity: $0)
         }
-        let prompt: Prompt? = {
-            if let text = entity.summaryText {
-                return .init(text: text)
-            }
-            return nil
-        }()
         let chat = Chat(id: entity.objectID.uriRepresentation(),
                         chatId: entity.chatId,
-                        messages: messages,
-                        prompt: prompt,
-                        person: Person(entity: entity.person))
+                        messages: messages)
 
         return chat
     }

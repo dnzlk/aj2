@@ -11,7 +11,6 @@ import UIKit
 enum ChatCellModel: Differentiable, Hashable {
     case message(Message)
     case joeIsTyping
-    case prompt(Prompt)
     case tryAgainError
 
     func isContentEqual(to source: ChatCellModel) -> Bool {
@@ -24,8 +23,6 @@ enum ChatCellModel: Differentiable, Hashable {
             return "joeIsTyping"
         case let .message(message):
             return message.id.absoluteString
-        case let .prompt(prompt):
-            return prompt.text
         case .tryAgainError:
             return "tryAgainError"
         }

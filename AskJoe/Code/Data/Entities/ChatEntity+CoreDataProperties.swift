@@ -20,7 +20,6 @@ extension ChatEntity {
     @NSManaged public var summaryText: String?
     @NSManaged public var chatId: String?
     @NSManaged public var messages: NSSet?
-    @NSManaged public var person: PersonEntity?
 
 }
 

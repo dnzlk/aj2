@@ -12,6 +12,4 @@ struct Chat: Hashable {
     let id: URL?
     let chatId: String?
     var messages: [Message]
-    var prompt: Prompt?
-    var person: Person?
 }

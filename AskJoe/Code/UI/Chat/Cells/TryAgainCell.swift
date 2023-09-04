@@ -26,7 +26,7 @@ final class TryAgainCell: Cell<EmptyModel, TapOnlyAction> {
         label.font = .medium(14)
         label.textColor = Assets.Colors.dark
         label.textAlignment = .center
-        label.text = L10n.Chat.noAnswer
+        label.text = "No answer here"
         return label
     }()
 
@@ -35,7 +35,7 @@ final class TryAgainCell: Cell<EmptyModel, TapOnlyAction> {
         label.font = .medium(14).boldItalic
         label.textColor = Assets.Colors.accentColor
         label.textAlignment = .center
-        label.text = L10n.Chat.tryAgain
+        label.text = "Try again"
         return label
     }()
 

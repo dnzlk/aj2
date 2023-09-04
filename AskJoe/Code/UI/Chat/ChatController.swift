@@ -19,26 +19,19 @@ final class ChatController: ViewController {
 
     private let dm = DataManager.shared
     private let nm = NotificationsManager.shared
-    private let pm = PurchaseManager.shared
     private let ud = UserDefaultsManager.shared
-    private let freeMessagesStorage = SecureStore(secureStoreQueryable: GenericPasswordQueryable(key: .numberOfMessagesLeftToday))
 
-    private var isFirstAppearance = true
     private var isJoeTyping = false
     private var isError = false
     private var usersLastMessage: String?
     private var version: String?
 
     private var chat: Chat?
-    private var prompt: Prompt?
-    private var person: Person?
-
+    
     // MARK: - Init
 
-    init(chat: Chat? = nil, prompt: Prompt? = nil, person: Person? = nil) {
+    init(chat: Chat? = nil) {
         self.chat = chat
-        self.prompt = prompt
-        self.person = person
         super.init()
     }
 
@@ -55,25 +48,6 @@ final class ChatController: ViewController {
         reloadTable()
 
         nm.addObserver(self)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        guard isFirstAppearance && person == nil && prompt == nil else {
-            isFirstAppearance = false
-            return
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            self?.chatView.becomeFirstResponder()
-        }
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        registerForRemoteNotifications()
     }
 
     override func bind() {
@@ -111,15 +85,8 @@ final class ChatController: ViewController {
             } else if isError {
                 newCells.append(.tryAgainError)
             }
-        } else if let prompt { // TODO: REMOVE FROM HERE!!!!!!!
-            newCells = [.prompt(prompt)]
-            Task {
-                await send(text: prompt.text)
-            }
-        } else if person == nil {
-            newCells = dm.getDailyPrompts().map { .prompt($0) }
         }
-        chatView.model = .init(newCells: newCells.reversed(), person: chat?.person ?? person)
+        chatView.model = .init(newCells: newCells.reversed())
     }
 
     private func addChatView() {
@@ -131,7 +98,7 @@ final class ChatController: ViewController {
 
     private func send(text: String, isNewMessage: Bool = true) async {
         if chat == nil {
-            guard let _chat = await dm.createChat(person: person) else { return } // TODO: Popup error
+            guard let _chat = await dm.createChat() else { return } // TODO: Popup error
             chat = _chat
         }
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -145,21 +112,6 @@ final class ChatController: ViewController {
         }
         FBAnalytics.log(.chat_send_tap)
 
-        // Payment check
-        var hasDecreasedFreeMessagesCount = false
-
-        if !pm.hasUnlockedFullAccess && !ud.isDebugMode() {
-            let freeMessagesLeft = Int((try? freeMessagesStorage.getValue()?.0) ?? "0") ?? 0
-
-            if freeMessagesLeft > 0 {
-                try? freeMessagesStorage.set(value: "\(freeMessagesLeft - 1)")
-                hasDecreasedFreeMessagesCount = true
-            } else {
-                openPayment()
-                FBAnalytics.log(.chat_show_payment)
-                return
-            }
-        }
         chatView.clear()
 
         do {
@@ -177,11 +129,6 @@ final class ChatController: ViewController {
             isJoeTyping = false
             reloadTable()
             FBAnalytics.log(.chat_error)
-
-            if hasDecreasedFreeMessagesCount {
-                let freeMessagesLeft = Int((try? freeMessagesStorage.getValue()?.0) ?? "0") ?? 0
-                try? freeMessagesStorage.set(value: "\(freeMessagesLeft + 1)")
-            }
         }
     }
 
@@ -199,22 +146,6 @@ final class ChatController: ViewController {
         chatView.endEditing(true)
 
         share(items: [text])
-    }
-
-    private func registerForRemoteNotifications() {
-        let application = UIApplication.shared
-
-        guard let appDelegate = application.delegate as? AppDelegate else { return }
-
-        if ud.getStartingDay() != 0 {
-            UNUserNotificationCenter.current().delegate = appDelegate
-
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-              options: authOptions) { _, _ in }
-
-            application.registerForRemoteNotifications()
-        }
     }
 }
 

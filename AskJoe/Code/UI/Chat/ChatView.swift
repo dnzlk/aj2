@@ -5,6 +5,7 @@
 //  Created by Денис on 21.02.2023.
 //
 
+import SnapKit
 import DifferenceKit
 import UIKit
 
@@ -15,7 +16,6 @@ final class ChatView: View<ChatView.Model, ChatView.Action> {
     struct Model {
 
         var newCells: [ChatCellModel] = []
-        var person: Person? = nil
 
         var hasMessages: Bool {
             newCells.contains(where: {
@@ -56,9 +56,7 @@ final class ChatView: View<ChatView.Model, ChatView.Action> {
         return table
     }()
 
-    private let chatPersonPromptsView = ChatPersonPromptsView()
-
-    private let textField = ChatTextField(model: .init(placeholder: L10n.Chat.typeYourQuestion))
+    private let textField = ChatTextField(model: .init(placeholder: "Send message"))
 
     private var cells: [ChatCellModel] = []
 
@@ -77,7 +75,6 @@ final class ChatView: View<ChatView.Model, ChatView.Action> {
         addSubview(navBar)
         addSubview(tableView)
         addSubview(textField)
-        addSubview(chatPersonPromptsView)
     }
 
     override func setupConstraints() {
@@ -93,10 +90,6 @@ final class ChatView: View<ChatView.Model, ChatView.Action> {
             make.left.right.equalToSuperview()
             make.top.equalTo(tableView.snp.bottom)
             make.bottom.equalTo(keyboardLayoutGuide.snp.top)
-        }
-        chatPersonPromptsView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(24)
-            make.centerY.equalToSuperview()
         }
         super.setupConstraints()
     }
@@ -114,11 +107,9 @@ final class ChatView: View<ChatView.Model, ChatView.Action> {
             switch action {
             case .onBecomeActive:
                 self?.isTextFieldActive = true
-                self?.updateCharacterPromptsVisibility(animated: true)
                 self?.lastTimeScrollWentDownOffset = self?.tableView.contentOffset.y ?? 0
             case .onBecomeInactive:
                 self?.isTextFieldActive = false
-                self?.updateCharacterPromptsVisibility(animated: true)
             case let .sendButtonTap(text):
                 self?.onAction?(.sendButtonTapped(text))
                 self?.tableView.setContentOffset(.zero, animated: true)
@@ -144,23 +135,8 @@ final class ChatView: View<ChatView.Model, ChatView.Action> {
         tableView.reload(using: diff, with: .fade) { [weak self] data in
             self?.cells = data
         }
-        if let person = model.person {
-            navBar.model = .init(title: .attributed(generateAskPersonString(person)),
-                                 avatarURL: person.avatarUrl,
-                                 backgroundColor: Assets.Colors.white,
-                                 backButtonImage: .init(named: "arrowBack"))
-            updateCharacterPromptsVisibility()
-            chatPersonPromptsView.model = person
-            chatPersonPromptsView.onAction = { [weak self] action in
-                switch action {
-                case let .tap(prompt):
-                    self?.onAction?(.sendButtonTapped(prompt))
-                }
-            }
-        } else {
-            navBar.model = .init(backgroundColor: Assets.Colors.white, backButtonImage: .init(named: "arrowBack"))
-            chatPersonPromptsView.isHidden = true
-        }
+        navBar.model = .init(backgroundColor: Assets.Colors.white, backButtonImage: .init(named: "arrowBack"))
+
         super.reloadData(animated: animated)
     }
 
@@ -183,32 +159,6 @@ final class ChatView: View<ChatView.Model, ChatView.Action> {
     private func onChatTap() {
         endEditing(true)
     }
-
-    private func generateAskPersonString(_ person: Person) -> NSAttributedString {
-        let string = L10n.Chat.ask(person.name)
-        let attributedString = NSMutableAttributedString(string: string)
-        let attrs = [NSAttributedString.Key.font : UIFont.bold(18).boldItalic]
-        let range = (string as NSString).range(of: person.name)
-        attributedString.addAttributes(attrs, range: range)
-
-        return attributedString
-    }
-
-    private func updateCharacterPromptsVisibility(animated: Bool = false) {
-        guard let model, let person = model.person else {
-            chatPersonPromptsView.alpha = 0
-            return
-        }
-        let isHidden = !model.newCells.isEmpty || person.prompts.isEmpty || isTextFieldActive
-
-        if animated {
-            UIView.animate(withDuration: 0.2) {
-                self.chatPersonPromptsView.alpha = isHidden ? 0 : 1
-            }
-        } else {
-            chatPersonPromptsView.alpha = isHidden ? 0 : 1
-        }
-    }
 }
 
 // MARK: - UITableViewDataSource
@@ -228,13 +178,7 @@ extension ChatView: UITableViewDataSource {
             guard let joeCell = tableView.dequeueReusableCell(withIdentifier: JoeIsTypingCell.reuseId, for: indexPath) as? JoeIsTypingCell else {
                 return cell
             }
-            let typingModel: JoeIsTypingCell.Model = {
-                if let person = model?.person {
-                    return .custom(person.name)
-                }
-                return .joe
-            }()
-            joeCell.model = .init(typingModel)
+            joeCell.model = .init()
             cell = joeCell
         case let .message(message):
             guard let messageCell = tableView.dequeueReusableCell(withIdentifier: MessageCell.reuseId, for: indexPath) as? MessageCell
@@ -243,19 +187,6 @@ extension ChatView: UITableViewDataSource {
             }
             messageCell.model = .init(style: .message(message))
             messageCell.onAction = nil
-            cell = messageCell
-        case let .prompt(prompt):
-            guard let messageCell = tableView.dequeueReusableCell(withIdentifier: MessageCell.reuseId, for: indexPath) as? MessageCell else {
-                return cell
-            }
-            messageCell.model = .init(style: .prompt(prompt))
-            messageCell.onAction = { [weak self] action in
-                switch action {
-                case .tap:
-                    self?.onAction?(.sendButtonTapped(prompt.text))
-                    FBAnalytics.log(.chat_prompt_tap)
-                }
-            }
             cell = messageCell
         case .tryAgainError:
             guard let tryAgainCell = tableView.dequeueReusableCell(withIdentifier: TryAgainCell.reuseId, for: indexPath) as? TryAgainCell else {
@@ -303,14 +234,14 @@ extension ChatView: UITableViewDelegate {
         return .init(identifier: "\(indexPath.row)" as NSString,
                      previewProvider: nil) { _ in
             let copyAction = UIAction(
-                title: L10n.Chat.copy,
+                title: "Copy",
                 image: UIImage(systemName: "doc.on.doc")) { _ in
                     UIPasteboard.general.string = text
                     FBAnalytics.log(.chat_copy_message_tap)
                 }
 
             let shareAction = UIAction(
-                title: L10n.Chat.share,
+                title: "Share",
                 image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
                     self?.onAction?(.share(text))
                 }

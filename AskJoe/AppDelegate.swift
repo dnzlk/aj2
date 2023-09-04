@@ -5,7 +5,6 @@
 //  Created by Денис on 14.02.2023.
 //
 
-import AppsFlyerLib
 import UIKit
 import FirebaseCore
 import FirebaseAnalytics
@@ -23,14 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Public Methods
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        AppsFlyerLib.shared().appsFlyerDevKey = "JgtJa5bmFQFQuVNSYJc9mk"
-        AppsFlyerLib.shared().appleAppID = "1669677026"
-        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(appsflyerSendLaunch), name: UIApplication.didBecomeActiveNotification, object: nil)
 
         setupFirebase(application: application)
-        _ = PurchaseManager.shared
         
         return true
     }
@@ -41,17 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         FirebaseConfiguration.shared.setLoggerLevel(.min)
         Messaging.messaging().delegate = self
-    }
-
-    @objc private func appsflyerSendLaunch() {
-        Task {
-            do {
-                let result = try await AppsFlyerLib.shared().start()
-                print(result)
-            } catch {
-                print("APPSFLYER ERROR: \(error)")
-            }
-        }
     }
 
     // MARK: UISceneSession Lifecycle

@@ -24,7 +24,6 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
 
     enum Style {
         case message(Message)
-        case prompt(Prompt)
     }
 
     // MARK: - Public Properties
@@ -93,17 +92,6 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
                 container.backgroundColor = Assets.Colors.solidWhite
                 label.textColor = Assets.Colors.black
             }
-        case let .prompt(prompt):
-            label.text = prompt.text
-
-            container.snp.remakeConstraints { make in
-                make.top.equalToSuperview()
-                make.right.equalToSuperview()
-                make.bottom.equalToSuperview().inset(8)
-                make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
-            }
-            container.backgroundColor = Assets.Colors.solidWhite
-            label.textColor = Assets.Colors.black
         }
         super.reloadData(animated: animated)
     }

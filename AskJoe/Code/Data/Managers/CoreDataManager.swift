@@ -60,44 +60,13 @@ final class CoreDataManager {
         return try? context.existingObject(with: objectId) as? MessageEntity
     }
 
-    func persons() async throws -> [PersonEntity] {
-        let request = PersonEntity.fetchRequest()
-
-        return try await context.get(request: request)
-    }
-
     // MARK: CREATE Methods
 
-    func createChat(person: Person?) async throws -> ChatEntity? {
-        var personEntity: PersonEntity?
+    func createChat() async throws -> ChatEntity? {
+        let chat = ChatEntity(context: context)
+        chat.createdAt = Date()
+        chat.chatId = UUID().uuidString
 
-        if let person {
-            let persons = try? await persons()
-
-            personEntity = persons?.first(where: { $0.character_id == person.characterId })
-        }
-        try context.performAndWait {
-            let chat = ChatEntity(context: context)
-            chat.createdAt = Date()
-            chat.chatId = UUID().uuidString
-
-            if let person {
-                if let personEntity {
-                    chat.person = personEntity
-                } else {
-                    let personEntity = PersonEntity(context: context)
-                    personEntity.character_id = person.characterId
-                    personEntity.name = person.name
-                    personEntity.desc = person.description
-                    personEntity.avatarUrl = person.avatarUrl
-                    personEntity.type = person.type
-                    personEntity.prompts = person.prompts.joined(separator: ";")
-                    
-                    chat.person = personEntity
-                }
-            }
-            try context.save()
-        }
         let chats = try await chats(isSorted: true)
 
         return chats.first

@@ -7,16 +7,9 @@
 
 import UIKit
 
-final class JoeIsTypingCell: Cell<JoeIsTypingCell.Model, EmptyAction> {
+final class JoeIsTypingCell: Cell<EmptyModel, EmptyAction> {
 
     static let reuseId = String(describing: JoeIsTypingCell.self)
-
-    // MARK: - Types
-
-    enum Model {
-        case joe
-        case custom(String)
-    }
 
     // MARK: - Private Properties
 
@@ -59,27 +52,9 @@ final class JoeIsTypingCell: Cell<JoeIsTypingCell.Model, EmptyAction> {
     }
 
     override func reloadData(animated: Bool) {
-        guard let model else {
-            super.reloadData(animated: animated)
-            return
-        }
         startAnimating()
 
-        let name: String = {
-            switch model {
-            case .joe:
-                return "Joe"
-            case let .custom(name):
-                return name
-            }
-        }()
-
-        let string = L10n.Chat.isTyping(name)
-        let attrString = NSMutableAttributedString(string: string)
-        let attrs = [NSAttributedString.Key.font : UIFont.bold(14).italic]
-        let range = (string as NSString).range(of: name)
-        attrString.addAttributes(attrs, range: range)
-        label.attributedText = attrString
+        label.text = "AJ is typing"
 
         super.reloadData(animated: animated)
     }
