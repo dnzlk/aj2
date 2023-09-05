@@ -40,8 +40,6 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
 
     // MARK: - Private Properties
 
-    private let navBar = NavBar()
-
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.backgroundColor = Assets.Colors.white
@@ -72,19 +70,14 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
 
         backgroundColor = Assets.Colors.white
 
-        addSubview(navBar)
         addSubview(tableView)
         addSubview(textField)
     }
 
     override func setupConstraints() {
-        navBar.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide.snp.top)
-        }
         tableView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(16)
-            make.top.equalTo(navBar.snp.bottom)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top)
         }
         textField.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -95,14 +88,6 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
     }
 
     override func bind() {
-        navBar.onAction = { [weak self] action in
-            switch action {
-            case .backButtonTap:
-                self?.onAction?(.backButtonTapped)
-            case .rightButtonTap:
-                break
-            }
-        }
         textField.onAction = { [weak self] action in
             switch action {
             case .onBecomeActive:
@@ -135,7 +120,6 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
         tableView.reload(using: diff, with: .fade) { [weak self] data in
             self?.cells = data
         }
-        navBar.model = .init(backgroundColor: Assets.Colors.white, backButtonImage: .init(named: "arrowBack"))
 
         super.reloadData(animated: animated)
     }

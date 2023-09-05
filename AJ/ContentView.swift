@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         ChatView()
+            .background(Color( Assets.Colors.white ?? .white))
     }
 }
 

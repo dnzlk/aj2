@@ -22,7 +22,7 @@ enum ChatCellModel: Differentiable, Hashable {
         case .joeIsTyping:
             return "joeIsTyping"
         case let .message(message):
-            return message.id.absoluteString
+            return message.id
         case .tryAgainError:
             return "tryAgainError"
         }

@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct AMChat: Codable {
+
+    let messages: [AMChatMessage]
+}
+
 final class ChatEndpoint: APIEndpoint {
 
     // MARK: - Types
@@ -30,16 +35,16 @@ final class ChatEndpoint: APIEndpoint {
 
     // MARK: - Public Methods
 
-    func ask(request: String, chat: Chat, version: String?) async throws -> String {
+    func ask(request: String, messages: [Message]) async throws -> String {
         guard let url else { throw E.wrongUrl }
 
-        var amMessages = chat.messages.map {
+        var amMessages = messages.map {
             AMChatMessage(role: $0.isUserMessage ? Role.user.rawValue : Role.assistant.rawValue,
                           content: $0.text)
         }
         amMessages.append(.init(role: Role.user.rawValue, content: request))
 
-        let amChat = AMChat(characterId: nil, messages: amMessages, version: version, chatId: chat.chatId)
+        let amChat = AMChat(messages: amMessages)
         let encodedAmChat = try JSONEncoder().encode(amChat)
 
         var request = URLRequest(url: url)

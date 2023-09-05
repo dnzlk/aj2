@@ -6,21 +6,19 @@
 //
 
 import Foundation
+import SwiftData
 
 struct Message: Hashable {
 
-    let id: URL
-    var text: String
-    var date: Date
-    var isUserMessage: Bool
+    let id: String
+    let text: String
+    let date: Date
+    let isUserMessage: Bool
 
-    init?(entity: MessageEntity) {
-        guard let text = entity.text, let date = entity.date else {
-            return nil
-        }
-        self.id = entity.objectID.uriRepresentation()
+    init(id: String, text: String, date: Date, isUserMessage: Bool) {
+        self.id = id
         self.text = text
         self.date = date
-        self.isUserMessage = entity.isUser
+        self.isUserMessage = isUserMessage
     }
 }

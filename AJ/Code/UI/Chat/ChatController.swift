@@ -11,7 +11,7 @@ import UIKit
 struct ChatView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) ->ChatController {
-        ChatController(chat: nil)
+        ChatController()
     }
 
     func updateUIViewController(_ uiViewController: ChatController, context: Context) {
@@ -29,27 +29,15 @@ final class ChatController: _ViewController {
 
     private let chatView = _ChatView()
 
-    private let dm = DataManager.shared
+    private let chatEndpoint = ChatEndpoint.shared
     private let nm = NotificationsManager.shared
     private let ud = UserDefaultsManager.shared
 
     private var isJoeTyping = false
     private var isError = false
     private var usersLastMessage: String?
-    private var version: String?
 
-    private var chat: Chat?
-    
-    // MARK: - Init
-
-    init(chat: Chat? = nil) {
-        self.chat = chat
-        super.init()
-    }
-
-    required init?(coder: NSCoder) {
-        return nil
-    }
+    private var messages: [Message] = []
 
     // MARK: - Lifecycle
 
@@ -86,21 +74,6 @@ final class ChatController: _ViewController {
 
     // MARK: - Private Methods
 
-    private func reloadTable() {
-        var newCells: [ChatCellModel] = []
-        
-        if let chat {
-            newCells = chat.messages.map { .message($0) }
-
-            if isJoeTyping {
-                newCells.append(.joeIsTyping)
-            } else if isError {
-                newCells.append(.tryAgainError)
-            }
-        }
-        chatView.model = .init(newCells: newCells.reversed())
-    }
-
     private func addChatView() {
         view.addSubview(chatView)
         chatView.snp.makeConstraints { make in
@@ -108,32 +81,47 @@ final class ChatController: _ViewController {
         }
     }
 
-    private func send(text: String, isNewMessage: Bool = true) async {
-        if chat == nil {
-            guard let _chat = await dm.createChat() else { return } // TODO: Popup error
-            chat = _chat
+    private func reloadTable() {
+        var newCells: [ChatCellModel] = messages.map { .message($0) }
+
+        if isJoeTyping {
+            newCells.append(.joeIsTyping)
+        } else if isError {
+            newCells.append(.tryAgainError)
         }
+        chatView.model = .init(newCells: newCells.reversed())
+    }
+
+    private func send(text: String, isNewMessage: Bool = true) async {
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
         usersLastMessage = text
 
-        guard !text.isEmpty,
-              !isJoeTyping,
-              let chat
-        else {
-            return
-        }
+        guard !text.isEmpty, !isJoeTyping else { return }
+
         FBAnalytics.log(.chat_send_tap)
 
         chatView.clear()
 
+        if isNewMessage {
+            messages.append(.init(id: UUID().uuidString,
+                                  text: text,
+                                  date: Date(),
+                                  isUserMessage: true))
+        }
+
         do {
             isJoeTyping = true
+            reloadTable()
 
             if isError {
                 isError = false
                 reloadTable()
             }
-            _ = try await dm.sendMessage(text: text, chat: chat, version: version, isNewMessage: isNewMessage)
+            let response = try await chatEndpoint.ask(request: text, messages: messages)
+            messages.append(.init(id: UUID().uuidString,
+                                  text: response,
+                                  date: Date(),
+                                  isUserMessage: false))
             isJoeTyping = false
             reloadTable()
         } catch {
@@ -150,7 +138,6 @@ final class ChatController: _ViewController {
             reloadTable()
             return
         }
-        version = "3.5"
         await send(text: usersLastMessage, isNewMessage: false)
     }
 
@@ -167,15 +154,7 @@ extension ChatController: NotificationsObserver {
 
     func onEvent(_ event: NotificationsManager.Event) {
         switch event {
-        case let .chatUpdated(chat):
-            guard chat.id == self.chat?.id else { return }
-
-            self.chat = chat
-
-            DispatchQueue.main.async {
-                self.reloadTable()
-            }
-        default:
+        case .subscriptionInfoUpdated:
             break
         }
     }

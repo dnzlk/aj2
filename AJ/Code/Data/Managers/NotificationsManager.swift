@@ -16,8 +16,6 @@ final class NotificationsManager {
     // MARK: - Types
 
     enum Event {
-        case chatUpdated(Chat)
-        case chatsRemoved
         case subscriptionInfoUpdated
     }
 
