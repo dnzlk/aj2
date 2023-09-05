@@ -5,7 +5,19 @@
 //  Created by Денис on 15.02.2023.
 //
 
+import SwiftUI
 import UIKit
+
+struct ChatView: UIViewControllerRepresentable {
+
+    func makeUIViewController(context: Context) ->ChatController {
+        ChatController(chat: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: ChatController, context: Context) {
+        
+    }
+}
 
 final class ChatController: _ViewController {
 
@@ -15,7 +27,7 @@ final class ChatController: _ViewController {
 
     // MARK: - Private Properties
 
-    private let chatView = ChatView()
+    private let chatView = _ChatView()
 
     private let dm = DataManager.shared
     private let nm = NotificationsManager.shared

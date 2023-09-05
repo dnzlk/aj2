@@ -9,7 +9,7 @@ import SnapKit
 import DifferenceKit
 import UIKit
 
-final class ChatView: _View<ChatView.Model, ChatView.Action> {
+final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
 
     // MARK: - Types
 
@@ -163,7 +163,7 @@ final class ChatView: _View<ChatView.Model, ChatView.Action> {
 
 // MARK: - UITableViewDataSource
 
-extension ChatView: UITableViewDataSource {
+extension _ChatView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cells.count
@@ -224,7 +224,7 @@ extension ChatView: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension ChatView: UITableViewDelegate {
+extension _ChatView: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         guard let model, case .message(let message) = model.newCells[indexPath.row] else { return nil }
@@ -262,7 +262,7 @@ extension ChatView: UITableViewDelegate {
 
 // MARK: - UIScrollViewDelegate
 
-extension ChatView: UIScrollViewDelegate {
+extension _ChatView: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let newOffset = scrollView.contentOffset.y

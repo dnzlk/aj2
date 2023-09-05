@@ -137,14 +137,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E32AC4DD299D09ED00F242CC /* UIComponents */ = {
-			isa = PBXGroup;
-			children = (
-				E32AC4E3299D1C5500F242CC /* NavBar.swift */,
-			);
-			path = UIComponents;
-			sourceTree = "<group>";
-		};
 		E32AC4E0299D1AD000F242CC /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,7 +285,6 @@
 			children = (
 				E32AC50929A3C5B900F242CC /* Data */,
 				E3C95E75299BD3B50099DC16 /* Extensions */,
-				E32AC4DD299D09ED00F242CC /* UIComponents */,
 				E3C95E4D299BB9710099DC16 /* UI */,
 			);
 			path = Code;
@@ -302,6 +293,7 @@
 		E3C95E52299BBA8C0099DC16 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				E32AC4E3299D1C5500F242CC /* NavBar.swift */,
 				E3C95E53299BBA8C0099DC16 /* ViewController.swift */,
 				E3C95E54299BBA8C0099DC16 /* View.swift */,
 				E3C95E55299BBA8C0099DC16 /* Cell.swift */,
@@ -371,7 +363,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 22F33CDC298FDD88006CA8E0 /* Build configuration list for PBXProject "AskJoe" */;
+			buildConfigurationList = 22F33CDC298FDD88006CA8E0 /* Build configuration list for PBXProject "A2Z" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -591,6 +583,8 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Teacher;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -626,6 +620,8 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Teacher;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -649,7 +645,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		22F33CDC298FDD88006CA8E0 /* Build configuration list for PBXProject "AskJoe" */ = {
+		22F33CDC298FDD88006CA8E0 /* Build configuration list for PBXProject "A2Z" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				22F33D03298FDD89006CA8E0 /* Debug */,
