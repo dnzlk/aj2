@@ -33,7 +33,7 @@ final class TryAgainCell: Cell<EmptyModel, TapOnlyAction> {
     private let tryAgainLabel: UILabel = {
         let label = UILabel()
         label.font = .medium(14).boldItalic
-        label.textColor = Assets.Colors.accentColor
+        label.textColor = UIColor(Assets.Colors.accentColor) 
         label.textAlignment = .center
         label.text = "Try again"
         return label

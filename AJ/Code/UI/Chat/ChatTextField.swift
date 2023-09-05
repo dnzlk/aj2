@@ -75,7 +75,7 @@ final class ChatTextField: _View<ChatTextField.Model, ChatTextField.Action> {
         container.addSubview(sendButton)
         container.addSubview(placeholder)
 
-        backgroundColor = Assets.Colors.white
+        backgroundColor = UIColor(Assets.Colors.white)
     }
 
     override func setupConstraints() {

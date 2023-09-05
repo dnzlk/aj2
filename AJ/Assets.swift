@@ -5,6 +5,7 @@
 //  Created by Денис on 14.02.2023.
 //
 
+import SwiftUI
 import UIKit
 
 // TODO: SwiftGen
@@ -13,9 +14,9 @@ struct Assets {
 
     struct Colors {
 
-        static let white = UIColor(named: "Colors/White")
+        static let white = Color(UIColor(named: "Colors/White") ?? .white)
         static let black = UIColor(named: "Colors/Black")
-        static let accentColor = UIColor(named: "Colors/AccentColor")
+        static let accentColor = Color(UIColor(named: "Colors/AccentColor") ?? .blue)
         static let solidBlack = UIColor(named: "Colors/SolidBlack")
         static let solidWhite = UIColor(named: "Colors/SolidWhite")
         static let mediumGray = UIColor(named: "Colors/MediumGray")

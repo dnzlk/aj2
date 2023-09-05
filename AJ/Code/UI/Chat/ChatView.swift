@@ -42,7 +42,7 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
 
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
-        table.backgroundColor = Assets.Colors.white
+        table.backgroundColor = .clear
         table.delegate = self
         table.dataSource = self
         table.separatorStyle = .none
@@ -68,7 +68,7 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
     override func make() {
         super.make()
 
-        backgroundColor = Assets.Colors.white
+        backgroundColor = .clear
 
         addSubview(tableView)
         addSubview(textField)

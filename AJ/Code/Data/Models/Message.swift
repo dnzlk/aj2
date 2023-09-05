@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftData
+//import SwiftData
 
 struct Message: Hashable {
 

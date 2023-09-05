@@ -46,7 +46,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
         container.addSubview(label)
         container.isUserInteractionEnabled = true
 
-        backgroundColor = Assets.Colors.white
+        backgroundColor = UIColor(Assets.Colors.white)
         selectionStyle = .none
         container.roundCorners(12)
     }
@@ -67,7 +67,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
             super.reloadData(animated: animated)
             return
         }
-        backgroundColor = Assets.Colors.white
+        backgroundColor = UIColor(Assets.Colors.white)
 
         switch model.style {
         case let .message(message):
@@ -80,7 +80,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
                     make.bottom.equalToSuperview().inset(8)
                     make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
                 }
-                container.backgroundColor = Assets.Colors.accentColor
+                container.backgroundColor = UIColor(Assets.Colors.accentColor)
                 label.textColor = Assets.Colors.textOnAccent
             } else {
                 container.snp.remakeConstraints { make in

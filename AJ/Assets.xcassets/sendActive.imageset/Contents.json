@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "send-3.pdf",
+      "filename" : "sendActive.pdf",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "send-4.pdf",
+      "filename" : "sendActive 1.pdf",
       "idiom" : "universal"
     }
   ],
