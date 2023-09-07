@@ -50,6 +50,7 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
         table.register(MessageCell.self, forCellReuseIdentifier: MessageCell.reuseId)
         table.register(JoeIsTypingCell.self, forCellReuseIdentifier: JoeIsTypingCell.reuseId)
         table.register(TryAgainCell.self, forCellReuseIdentifier: TryAgainCell.reuseId)
+        table.register(DateCell.self, forCellReuseIdentifier: DateCell.reuseId)
         table.showsVerticalScrollIndicator = false
         return table
     }()
@@ -158,6 +159,12 @@ extension _ChatView: UITableViewDataSource {
         let item = cells[indexPath.row]
 
         switch item {
+        case let .date(date):
+            guard let dateCell = tableView.dequeueReusableCell(withIdentifier: DateCell.reuseId, for: indexPath) as? DateCell else {
+                return cell
+            }
+            dateCell.model = .init(date: date)
+            cell = dateCell
         case .joeIsTyping:
             guard let joeCell = tableView.dequeueReusableCell(withIdentifier: JoeIsTypingCell.reuseId, for: indexPath) as? JoeIsTypingCell else {
                 return cell

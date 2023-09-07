@@ -81,7 +81,7 @@ final class ChatController: _ViewController {
     }
 
     private func reloadTable() {
-        var newCells: [ChatCellModel] = mm.get().map { .message($0) }
+        var newCells = getCellModels()
 
         if isJoeTyping {
             newCells.append(.joeIsTyping)
@@ -89,6 +89,21 @@ final class ChatController: _ViewController {
             newCells.append(.tryAgainError)
         }
         chatView.model = .init(newCells: newCells.reversed())
+    }
+
+    private func getCellModels() -> [ChatCellModel] {
+        var models: [ChatCellModel] = []
+        var lastMessage: Message?
+
+        for message in mm.get() {
+            if let lastMessage, Calendar.current.isDate(lastMessage.date, inSameDayAs: message.date) {}
+            else {
+                models.append(.date(message.date))
+            }
+            models.append(.message(message))
+            lastMessage = message
+        }
+        return models
     }
 
     private func send(text: String, isNewMessage: Bool = true) async {
