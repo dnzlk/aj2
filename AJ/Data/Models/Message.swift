@@ -6,9 +6,10 @@
 //
 
 import Foundation
-//import SwiftData
+import SwiftData
 
-struct Message: Hashable {
+@Model
+class Message: Hashable {
 
     let id: String
     let text: String

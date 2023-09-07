@@ -30,14 +30,13 @@ final class ChatController: _ViewController {
     private let chatView = _ChatView()
 
     private let chatEndpoint = ChatEndpoint.shared
+    private let mm = MessagesManager.shared
     private let nm = NotificationsManager.shared
     private let ud = UserDefaultsManager.shared
 
     private var isJoeTyping = false
     private var isError = false
     private var usersLastMessage: String?
-
-    private var messages: [Message] = []
 
     // MARK: - Lifecycle
 
@@ -82,7 +81,7 @@ final class ChatController: _ViewController {
     }
 
     private func reloadTable() {
-        var newCells: [ChatCellModel] = messages.map { .message($0) }
+        var newCells: [ChatCellModel] = mm.get().map { .message($0) }
 
         if isJoeTyping {
             newCells.append(.joeIsTyping)
@@ -103,10 +102,10 @@ final class ChatController: _ViewController {
         chatView.clear()
 
         if isNewMessage {
-            messages.append(.init(id: UUID().uuidString,
-                                  text: text,
-                                  date: Date(),
-                                  isUserMessage: true))
+            mm.save(.init(id: UUID().uuidString,
+                          text: text,
+                          date: Date(),
+                          isUserMessage: true))
         }
 
         do {
@@ -117,11 +116,11 @@ final class ChatController: _ViewController {
                 isError = false
                 reloadTable()
             }
-            let response = try await chatEndpoint.ask(request: text, messages: messages)
-            messages.append(.init(id: UUID().uuidString,
-                                  text: response,
-                                  date: Date(),
-                                  isUserMessage: false))
+            let response = try await chatEndpoint.ask(request: text, messages: mm.get())
+            mm.save(.init(id: UUID().uuidString,
+                          text: response,
+                          date: Date(),
+                          isUserMessage: false))
             isJoeTyping = false
             reloadTable()
         } catch {
