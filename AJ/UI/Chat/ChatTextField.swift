@@ -162,3 +162,12 @@ extension ChatTextField: UITextViewDelegate {
         textView.isScrollEnabled = textView.contentSize.height >= Const.maxHeight
     }
 }
+
+extension UIView {
+
+    func roundCorners(_ radius: CGFloat) {
+        layer.masksToBounds = true
+        layer.cornerRadius = radius
+        layer.cornerCurve = .continuous
+    }
+}
