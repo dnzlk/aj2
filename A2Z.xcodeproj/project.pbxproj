@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E32EB62B2AA6F6D0001E16BE /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32EB62A2AA6F6D0001E16BE /* MenuView.swift */; };
+		E36008A42AA99D4800014191 /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A32AA99D4800014191 /* MessagesManager.swift */; };
 		E361BC4C2AA61550007956AD /* AJApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361BC4B2AA61550007956AD /* AJApp.swift */; };
 		E361BC4E2AA61550007956AD /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361BC4D2AA61550007956AD /* MainView.swift */; };
 		E361BC502AA61552007956AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E361BC4F2AA61552007956AD /* Assets.xcassets */; };
@@ -61,6 +62,7 @@
 		E3553F9929F96859004127A6 /* SecureStoreQueryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStoreQueryable.swift; sourceTree = "<group>"; };
 		E3553F9B29F96876004127A6 /* SecureStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStore.swift; sourceTree = "<group>"; };
 		E36008A02AA9907000014191 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E36008A32AA99D4800014191 /* MessagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesManager.swift; sourceTree = "<group>"; };
 		E361BC492AA61550007956AD /* AJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E361BC4B2AA61550007956AD /* AJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AJApp.swift; sourceTree = "<group>"; };
 		E361BC4D2AA61550007956AD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				E342442129A5299C006A2AF9 /* NotificationsManager.swift */,
 				E342442729A6380B006A2AF9 /* UserDefaultsManager.swift */,
 				E3AE5BB729D9CD9400AD411B /* SecurityManager.swift */,
+				E36008A32AA99D4800014191 /* MessagesManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				E361BC4C2AA61550007956AD /* AJApp.swift in Sources */,
 				E361BC5A2AA615B8007956AD /* TryAgainCell.swift in Sources */,
 				E361BC572AA615B8007956AD /* ChatTextField.swift in Sources */,
+				E36008A42AA99D4800014191 /* MessagesManager.swift in Sources */,
 				E32EB62B2AA6F6D0001E16BE /* MenuView.swift in Sources */,
 				E361BC7E2AA6247F007956AD /* ViewController.swift in Sources */,
 				E361BC7F2AA6247F007956AD /* Cell.swift in Sources */,
@@ -515,7 +519,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -553,7 +557,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
