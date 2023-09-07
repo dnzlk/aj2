@@ -60,6 +60,7 @@
 		E3553F9729F96840004127A6 /* SecureStoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStoreError.swift; sourceTree = "<group>"; };
 		E3553F9929F96859004127A6 /* SecureStoreQueryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStoreQueryable.swift; sourceTree = "<group>"; };
 		E3553F9B29F96876004127A6 /* SecureStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStore.swift; sourceTree = "<group>"; };
+		E36008A02AA9907000014191 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E361BC492AA61550007956AD /* AJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E361BC4B2AA61550007956AD /* AJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AJApp.swift; sourceTree = "<group>"; };
 		E361BC4D2AA61550007956AD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -165,6 +166,7 @@
 		E361BC4A2AA61550007956AD /* AJ */ = {
 			isa = PBXGroup;
 			children = (
+				E36008A02AA9907000014191 /* Info.plist */,
 				E361BC4B2AA61550007956AD /* AJApp.swift */,
 				E3C95E6C299BCF8E0099DC16 /* Assets.swift */,
 				E361BC4F2AA61552007956AD /* Assets.xcassets */,
@@ -505,6 +507,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AJ/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Teacher;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -542,6 +545,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AJ/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Teacher;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

@@ -26,19 +26,24 @@ final class ChatEndpoint: APIEndpoint {
     static let shared = ChatEndpoint()
 
     override var debugUrl: String? {
-        "https://chatbot-ios-backend-test.vercel.app/chat/chat"
+        "http://127.0.0.1:5000/ask"
     }
 
     override var prodUrl: String? {
-        "https://chatbot-ios-backend.vercel.app/chat/chat"
+        "http://127.0.0.1:5000/ask"
     }
+
+    // MARK: - Private Properties
+
+    private let systemRule = "Act as an English language teacher."
 
     // MARK: - Public Methods
 
     func ask(request: String, messages: [Message]) async throws -> String {
         guard let url else { throw E.wrongUrl }
 
-        var amMessages = messages.map {
+        var amMessages: [AMChatMessage] = [.init(role: "system", content: systemRule)]
+        amMessages += messages.map {
             AMChatMessage(role: $0.isUserMessage ? Role.user.rawValue : Role.assistant.rawValue,
                           content: $0.text)
         }
