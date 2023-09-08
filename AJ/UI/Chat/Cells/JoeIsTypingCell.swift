@@ -54,7 +54,7 @@ final class JoeIsTypingCell: Cell<EmptyModel, EmptyAction> {
     override func reloadData(animated: Bool) {
         startAnimating()
 
-        label.text = "AJ is typing"
+        label.text = "Teacher is typing"
 
         super.reloadData(animated: animated)
     }

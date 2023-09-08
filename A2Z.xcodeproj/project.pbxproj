@@ -211,19 +211,11 @@
 		E3BFCE5D29B1F16500154D87 /* Endpoints */ = {
 			isa = PBXGroup;
 			children = (
-				E3BFCE6029B1F19B00154D87 /* Chat */,
+				E3BFCE6129B1F19F00154D87 /* Models */,
+				E3BFCE5E29B1F17D00154D87 /* ChatEndpoint.swift */,
 				E3AE5BB529D9CAEC00AD411B /* APIEndpoint.swift */,
 			);
 			path = Endpoints;
-			sourceTree = "<group>";
-		};
-		E3BFCE6029B1F19B00154D87 /* Chat */ = {
-			isa = PBXGroup;
-			children = (
-				E3BFCE6129B1F19F00154D87 /* Models */,
-				E3BFCE5E29B1F17D00154D87 /* ChatEndpoint.swift */,
-			);
-			path = Chat;
 			sourceTree = "<group>";
 		};
 		E3BFCE6129B1F19F00154D87 /* Models */ = {

@@ -67,7 +67,7 @@ extension Date {
             return "Today"
         }
         if Calendar.current.isDateInYesterday((self)) {
-            return "Yestarday"
+            return "Yesterday"
         }
         return Self.dayFormatter.string(from: (self))
     }
