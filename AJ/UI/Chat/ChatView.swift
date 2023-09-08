@@ -31,6 +31,11 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
         case backButtonTapped
         case share(String)
         case sendButtonTapped(String)
+
+        case copyTap(Message)
+        case voiceTap(Message)
+        case favTap(Message)
+        case originalTextTap(Message)
     }
 
     private enum Const {
@@ -47,7 +52,6 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
         table.separatorStyle = .none
         table.transform = CGAffineTransformMakeScale(1, -1)
         table.register(MessageCell.self, forCellReuseIdentifier: MessageCell.reuseId)
-        table.register(TypingCell.self, forCellReuseIdentifier: TypingCell.reuseId)
         table.register(TryAgainCell.self, forCellReuseIdentifier: TryAgainCell.reuseId)
         table.showsVerticalScrollIndicator = false
         return table
@@ -163,7 +167,18 @@ extension _ChatView: UITableViewDataSource {
                 return cell
             }
             messageCell.model = .init(message: message)
-            messageCell.onAction = nil
+            messageCell.onAction = { [weak self] action in
+                switch action {
+                case .copyTap:
+                    self?.onAction?(.copyTap(message))
+                case .favTap:
+                    self?.onAction?(.favTap(message))
+                case .voiceTap:
+                    self?.onAction?(.voiceTap(message))
+                case .originalTextTap:
+                    self?.onAction?(.originalTextTap(message))
+                }
+            }
             cell = messageCell
         case .error:
             guard let tryAgainCell = tableView.dequeueReusableCell(withIdentifier: TryAgainCell.reuseId, for: indexPath) as? TryAgainCell else {
@@ -205,19 +220,12 @@ extension _ChatView: UITableViewDelegate {
 
         return .init(identifier: "\(indexPath.row)" as NSString,
                      previewProvider: nil) { _ in
-            let copyAction = UIAction(
-                title: "Copy",
-                image: UIImage(systemName: "doc.on.doc")) { _ in
-                    UIPasteboard.general.string = text
-                    FBAnalytics.log(.chat_copy_message_tap)
-                }
-
             let shareAction = UIAction(
                 title: "Share",
                 image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
                     self?.onAction?(.share(text))
                 }
-            return UIMenu(title: "", image: nil, children: [copyAction, shareAction])
+            return UIMenu(title: "", image: nil, children: [shareAction])
         }
     }
 

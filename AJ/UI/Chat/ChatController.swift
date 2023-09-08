@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import AVFoundation
 
 struct ChatView: UIViewControllerRepresentable {
 
@@ -34,6 +35,8 @@ final class ChatController: _ViewController {
     private let nm = NotificationsManager.shared
     private let ud = UserDefaultsManager.shared
 
+    private let synthesizer = AVSpeechSynthesizer()
+
     private var isError = false
 
     // MARK: - Lifecycle
@@ -60,6 +63,18 @@ final class ChatController: _ViewController {
                 Task {
                     await self?.send(text: text)
                 }
+
+            case let .copyTap(message):
+                UIPasteboard.general.string = message.translation
+            case let .favTap(message):
+                break
+            case let .voiceTap(message):
+                guard let text = message.translation else { return }
+
+                let utterance = AVSpeechUtterance(string: text)
+                self?.synthesizer.speak(utterance)
+            case let .originalTextTap(message):
+                break
             }
         }
         super.bind()

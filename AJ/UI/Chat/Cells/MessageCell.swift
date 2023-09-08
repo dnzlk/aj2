@@ -19,7 +19,10 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
     }
 
     enum Action {
-        case tap
+        case originalTextTap
+        case voiceTap
+        case copyTap
+        case favTap
     }
 
     // MARK: - Public Properties
@@ -34,13 +37,15 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
         view.numberOfLines = 0
         return view
     }()
-    
+
+    private let buttons = MessageButtons()
 
     private let originalTextLabel: UILabel = {
         let view = UILabel()
         view.font = .regular(14)
         view.textColor = Assets.Colors.dark
         view.numberOfLines = 3
+        view.isUserInteractionEnabled = true
         return view
     }()
 
@@ -49,8 +54,9 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
     override func make() {
         addSubview(container)
         container.addSubview(translationLabel)
+        addSubview(buttons)
         addSubview(originalTextLabel)
-        container.isUserInteractionEnabled = true
+        isUserInteractionEnabled = true
 
         backgroundColor = UIColor(Assets.Colors.white)
         selectionStyle = .none
@@ -63,14 +69,25 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
         }
         originalTextLabel.snp.remakeConstraints { make in
             make.left.right.equalTo(container)
-            make.top.equalTo(container.snp.bottom).offset(4)
+            make.top.equalTo(buttons.snp.bottom).offset(8)
             make.bottom.equalToSuperview().inset(24)
         }
     }
 
     override func bind() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(onTap))
-        addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onOriginalTextTap))
+        originalTextLabel.addGestureRecognizer(tap)
+
+        buttons.onAction = { [weak self] action in
+            switch action {
+            case .copyTap:
+                self?.onAction?(.copyTap)
+            case .favTap:
+                self?.onAction?(.favTap)
+            case .voiceTap:
+                self?.onAction?(.voiceTap)
+            }
+        }
     }
 
     override func reloadData(animated: Bool) {
@@ -91,6 +108,12 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
                 make.right.equalToSuperview()
                 make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
             }
+            buttons.snp.remakeConstraints { make in
+                make.top.equalTo(container.snp.bottom).offset(4)
+                make.right.equalToSuperview()
+                make.height.equalTo(30)
+            }
+            buttons.model = .init(alignment: .right)
             originalTextLabel.textAlignment = .right
             container.backgroundColor = UIColor(Assets.Colors.accentColor)
             translationLabel.textColor = Assets.Colors.textOnAccent
@@ -100,18 +123,23 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
                 make.top.equalToSuperview()
                 make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
             }
+            buttons.snp.remakeConstraints { make in
+                make.top.equalTo(container.snp.bottom).offset(4)
+                make.left.equalToSuperview()
+                make.height.equalTo(30)
+            }
+            buttons.model = .init(alignment: .left)
             originalTextLabel.textAlignment = .left
             container.backgroundColor = Assets.Colors.solidWhite
             translationLabel.textColor = Assets.Colors.black
         }
-
         super.reloadData(animated: animated)
     }
 
     // MARK: - Private Methods
 
     @objc
-    private func onTap() {
-        onAction?(.tap)
+    private func onOriginalTextTap() {
+        onAction?(.originalTextTap)
     }
 }

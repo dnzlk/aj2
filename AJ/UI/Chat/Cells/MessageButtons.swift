@@ -39,9 +39,11 @@ final class MessageButtons: _View<MessageButtons.Model, MessageButtons.Action> {
     override func make() {
         super.make()
 
+        isUserInteractionEnabled = true
+        
         backgroundColor = Assets.Colors.gray
 
-        roundCorners(4)
+        roundCorners(8)
 
         addSubview(favButton)
         addSubview(copyButton)
@@ -72,37 +74,38 @@ final class MessageButtons: _View<MessageButtons.Model, MessageButtons.Action> {
             return
         }
         favButton.model = .init(image: .init(systemName: model.isFav ? "star.fill" : "star"))
+        let buttonWidth: CGFloat = 60
 
         switch model.alignment {
         case .left:
             voiceButton.snp.remakeConstraints { make in
                 make.left.top.bottom.equalToSuperview()
-                make.height.equalTo(25)
+                make.width.equalTo(buttonWidth)
             }
             copyButton.snp.remakeConstraints { make in
-                make.left.equalTo(voiceButton.snp.right).inset(2)
+                make.left.equalTo(voiceButton.snp.right).offset(2)
                 make.top.bottom.equalToSuperview()
-                make.height.equalTo(25)
+                make.width.equalTo(buttonWidth)
             }
             favButton.snp.remakeConstraints { make in
-                make.left.equalTo(copyButton.snp.right).inset(2)
+                make.left.equalTo(copyButton.snp.right).offset(2)
                 make.top.bottom.right.equalToSuperview()
-                make.height.equalTo(25)
+                make.width.equalTo(buttonWidth)
             }
         case .right:
             favButton.snp.remakeConstraints { make in
                 make.left.top.bottom.equalToSuperview()
-                make.height.equalTo(25)
+                make.width.equalTo(buttonWidth)
             }
             copyButton.snp.remakeConstraints { make in
-                make.left.equalTo(favButton.snp.right).inset(2)
+                make.left.equalTo(favButton.snp.right).offset(2)
                 make.top.bottom.equalToSuperview()
-                make.height.equalTo(25)
+                make.width.equalTo(buttonWidth)
             }
             voiceButton.snp.remakeConstraints { make in
-                make.left.equalTo(copyButton.snp.right).inset(2)
+                make.left.equalTo(copyButton.snp.right).offset(2)
                 make.top.bottom.right.equalToSuperview()
-                make.height.equalTo(25)
+                make.width.equalTo(buttonWidth)
             }
         }
         super.reloadData(animated: animated)
@@ -129,6 +132,8 @@ private extension MessageButtons {
         override func make() {
             super.make()
 
+            isUserInteractionEnabled = true
+
             backgroundColor = Assets.Colors.lightGray
             addSubview(imageView)
         }
@@ -151,6 +156,7 @@ private extension MessageButtons {
                 return
             }
             imageView.image = model.image
+            imageView.tintColor = .black
 
             super.reloadData(animated: animated)
         }
