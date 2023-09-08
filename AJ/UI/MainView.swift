@@ -9,12 +9,14 @@ import SwiftUI
 
 struct MainView: View {
 
+    @State private var languages: Languages = (.english, .russian)
+
     var body: some View {
         NavigationStack {
             VStack {
                 navBar()
 
-                ChatView()
+                ChatView(languages: languages)
             }
             .background(Assets.Colors.white)
         }
@@ -34,7 +36,13 @@ private extension MainView {
             }
             Spacer()
 
-            Image(.a2Z)
+            HStack(spacing: 4) {
+                Text(languages.0.flag)
+                    .font(.title2)
+                Image(._2)
+                Text(languages.1.flag)
+                    .font(.title2)
+            }
             Spacer()
             NavigationLink(destination: {
                 MenuView()

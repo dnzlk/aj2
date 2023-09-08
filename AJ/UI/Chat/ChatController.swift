@@ -11,8 +11,10 @@ import AVFoundation
 
 struct ChatView: UIViewControllerRepresentable {
 
+    let languages: Languages
+
     func makeUIViewController(context: Context) ->ChatController {
-        ChatController()
+        ChatController(languages: languages)
     }
 
     func updateUIViewController(_ uiViewController: ChatController, context: Context) {
@@ -30,6 +32,8 @@ final class ChatController: _ViewController {
 
     private let chatView = _ChatView()
 
+    private var languages: Languages
+
     private let te = TranslateEndpoint.shared
     private let mm = MessagesManager.shared
     private let nm = NotificationsManager.shared
@@ -38,6 +42,18 @@ final class ChatController: _ViewController {
     private let synthesizer = AVSpeechSynthesizer()
 
     private var isError = false
+
+    // MARK: - Init
+
+    init(languages: Languages) {
+        self.languages = languages
+
+        super.init()
+    }
+
+    required init?(coder: NSCoder) {
+        return nil
+    }
 
     // MARK: - Lifecycle
 
@@ -95,7 +111,7 @@ final class ChatController: _ViewController {
         if isError {
             models.append(.error)
         }
-        chatView.model = .init(newCells: models.reversed())
+        chatView.model = .init(newCells: models.reversed(), textFieldPlaceholder: "\(languages.0.typeHereText) / \(languages.1.typeHereText)")
     }
 
     private func send(text: String) async {

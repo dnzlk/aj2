@@ -16,6 +16,7 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
     struct Model {
 
         var newCells: [ChatCellModel] = []
+        var textFieldPlaceholder: String = ""
 
         var hasMessages: Bool {
             newCells.contains(where: {
@@ -57,7 +58,7 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
         return table
     }()
 
-    private let textField = ChatTextField(model: .init(placeholder: "Send message"))
+    private let textField = ChatTextField(model: .init(placeholder: ""))
 
     private var cells: [ChatCellModel] = []
 
@@ -115,6 +116,8 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
             super.reloadData(animated: animated)
             return
         }
+        textField.model?.placeholder = model.textFieldPlaceholder
+
         let oldCells = cells
         cells = model.newCells
 

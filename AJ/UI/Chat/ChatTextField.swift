@@ -13,7 +13,7 @@ final class ChatTextField: _View<ChatTextField.Model, ChatTextField.Action> {
 
     struct Model {
 
-        let placeholder: String
+        var placeholder: String
     }
 
     enum Action {
