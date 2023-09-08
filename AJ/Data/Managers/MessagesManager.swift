@@ -37,4 +37,13 @@ final class MessagesManager {
     func save(_ message: Message) {
         modelContext?.insert(message)
     }
+
+    func update(message: Message, withTranslation translation: String) {
+        let newMessage = Message(originalText: message.originalText,
+                                 translation: translation,
+                                 date: message.date,
+                                 isUserMessage: message.isUserMessage)
+        modelContext?.delete(message)
+        save(newMessage)
+    }
 }

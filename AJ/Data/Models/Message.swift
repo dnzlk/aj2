@@ -11,14 +11,15 @@ import SwiftData
 @Model
 class Message: Hashable {
 
-    let id: String
-    let text: String
+    let id = UUID().uuidString
+    let originalText: String
+    var translation: String?
     let date: Date
     let isUserMessage: Bool
 
-    init(id: String, text: String, date: Date, isUserMessage: Bool) {
-        self.id = id
-        self.text = text
+    init(originalText: String, translation: String? = nil, date: Date, isUserMessage: Bool) {
+        self.originalText = originalText
+        self.translation = translation
         self.date = date
         self.isUserMessage = isUserMessage
     }

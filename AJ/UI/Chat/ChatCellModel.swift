@@ -9,10 +9,8 @@ import DifferenceKit
 import UIKit
 
 enum ChatCellModel: Differentiable, Hashable {
-    case date(Date)
     case message(Message)
-    case joeIsTyping
-    case tryAgainError
+    case error
 
     func isContentEqual(to source: ChatCellModel) -> Bool {
         differenceIdentifier == source.differenceIdentifier
@@ -20,14 +18,10 @@ enum ChatCellModel: Differentiable, Hashable {
 
     var differenceIdentifier: String {
         switch self {
-        case let .date(date):
-            return String(date.timeIntervalSince1970)
-        case .joeIsTyping:
-            return "joeIsTyping"
         case let .message(message):
-            return message.id
-        case .tryAgainError:
-            return "tryAgainError"
+            return message.id + (message.translation ?? "")
+        case .error:
+            return "error"
         }
     }
 }

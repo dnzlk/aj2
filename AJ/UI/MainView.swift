@@ -25,9 +25,13 @@ private extension MainView {
 
     func navBar() -> some View {
         HStack {
-            Image(systemName: "square.grid.2x2")
-                .imageScale(.large)
-                .hidden()
+            NavigationLink(destination: {
+                MenuView()
+            }) {
+                Image(systemName: "gear")
+                    .imageScale(.large)
+                    .foregroundStyle(Assets.Colors.accentColor)
+            }
             Spacer()
 
             Image(.a2Z)
@@ -35,7 +39,7 @@ private extension MainView {
             NavigationLink(destination: {
                 MenuView()
             }) {
-                Image(systemName: "square.grid.2x2")
+                Image(systemName: "plus.message")
                     .imageScale(.large)
                     .foregroundStyle(Assets.Colors.accentColor)
             }

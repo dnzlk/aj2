@@ -29,14 +29,12 @@ final class ChatController: _ViewController {
 
     private let chatView = _ChatView()
 
-    private let chatEndpoint = ChatEndpoint.shared
+    private let te = TranslateEndpoint.shared
     private let mm = MessagesManager.shared
     private let nm = NotificationsManager.shared
     private let ud = UserDefaultsManager.shared
 
-    private var isJoeTyping = false
     private var isError = false
-    private var usersLastMessage: String?
 
     // MARK: - Lifecycle
 
@@ -62,10 +60,6 @@ final class ChatController: _ViewController {
                 Task {
                     await self?.send(text: text)
                 }
-            case .tryAgainTapped:
-                Task {
-                    await self?.tryAgain()
-                }
             }
         }
         super.bind()
@@ -81,78 +75,41 @@ final class ChatController: _ViewController {
     }
 
     private func reloadTable() {
-        var newCells = getCellModels()
+        var models: [ChatCellModel] = mm.get().map { .message($0) }
 
-        if isJoeTyping {
-            newCells.append(.joeIsTyping)
-        } else if isError {
-            newCells.append(.tryAgainError)
+        if isError {
+            models.append(.error)
         }
-        chatView.model = .init(newCells: newCells.reversed())
+        chatView.model = .init(newCells: models.reversed())
     }
 
-    private func getCellModels() -> [ChatCellModel] {
-        var models: [ChatCellModel] = []
-        var lastMessage: Message?
-
-        for message in mm.get() {
-            if let lastMessage, Calendar.current.isDate(lastMessage.date, inSameDayAs: message.date) {}
-            else {
-                models.append(.date(message.date))
-            }
-            models.append(.message(message))
-            lastMessage = message
-        }
-        return models
-    }
-
-    private func send(text: String, isNewMessage: Bool = true) async {
+    private func send(text: String) async {
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        usersLastMessage = text
 
-        guard !text.isEmpty, !isJoeTyping else { return }
+        guard !text.isEmpty else { return }
 
         FBAnalytics.log(.chat_send_tap)
 
         chatView.clear()
 
-        if isNewMessage {
-            mm.save(.init(id: UUID().uuidString,
-                          text: text,
-                          date: Date(),
-                          isUserMessage: true))
-        }
+        let message = Message(originalText: text, date: Date(), isUserMessage: true)
+        mm.save(message)
 
         do {
-            isJoeTyping = true
             reloadTable()
 
             if isError {
                 isError = false
                 reloadTable()
             }
-            let response = try await chatEndpoint.ask(request: text, messages: mm.get())
-            mm.save(.init(id: UUID().uuidString,
-                          text: response,
-                          date: Date(),
-                          isUserMessage: false))
-            isJoeTyping = false
+            let translation = try await te.translate(text: text)
+            mm.update(message: message, withTranslation: translation)
             reloadTable()
         } catch {
             isError = true
-            isJoeTyping = false
             reloadTable()
             FBAnalytics.log(.chat_error)
         }
-    }
-
-    private func tryAgain() async {
-        guard let usersLastMessage else {
-            isError = false
-            reloadTable()
-            return
-        }
-        await send(text: usersLastMessage, isNewMessage: false)
     }
 
     private func share(text: String) {

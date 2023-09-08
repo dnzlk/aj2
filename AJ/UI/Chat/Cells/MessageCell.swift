@@ -15,15 +15,11 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
 
     struct Model {
 
-        let style: Style
+        let message: Message
     }
 
     enum Action {
         case tap
-    }
-
-    enum Style {
-        case message(Message)
     }
 
     // MARK: - Public Properties
@@ -32,10 +28,19 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
 
     // MARK: - Private Properties
 
-    private let label: UILabel = {
+    private let translationLabel: UILabel = {
+        let view = UILabel()
+        view.font = .medium(18)
+        view.numberOfLines = 0
+        return view
+    }()
+    
+
+    private let originalTextLabel: UILabel = {
         let view = UILabel()
         view.font = .regular(14)
-        view.numberOfLines = 0
+        view.textColor = Assets.Colors.dark
+        view.numberOfLines = 3
         return view
     }()
 
@@ -43,7 +48,8 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
 
     override func make() {
         addSubview(container)
-        container.addSubview(label)
+        container.addSubview(translationLabel)
+        addSubview(originalTextLabel)
         container.isUserInteractionEnabled = true
 
         backgroundColor = UIColor(Assets.Colors.white)
@@ -52,8 +58,13 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
     }
 
     override func setupConstraints() {
-        label.snp.makeConstraints { make in
+        translationLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(12)
+        }
+        originalTextLabel.snp.remakeConstraints { make in
+            make.left.right.equalTo(container)
+            make.top.equalTo(container.snp.bottom).offset(4)
+            make.bottom.equalToSuperview().inset(24)
         }
     }
 
@@ -69,30 +80,31 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
         }
         backgroundColor = UIColor(Assets.Colors.white)
 
-        switch model.style {
-        case let .message(message):
-            label.text = message.text
+        let message = model.message
 
-            if message.isUserMessage {
-                container.snp.remakeConstraints { make in
-                    make.top.equalToSuperview()
-                    make.right.equalToSuperview()
-                    make.bottom.equalToSuperview().inset(8)
-                    make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
-                }
-                container.backgroundColor = UIColor(Assets.Colors.accentColor)
-                label.textColor = Assets.Colors.textOnAccent
-            } else {
-                container.snp.remakeConstraints { make in
-                    make.left.equalToSuperview()
-                    make.top.equalToSuperview()
-                    make.bottom.equalToSuperview().inset(8)
-                    make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
-                }
-                container.backgroundColor = Assets.Colors.solidWhite
-                label.textColor = Assets.Colors.black
+        translationLabel.text = message.translation
+        originalTextLabel.text = message.originalText
+
+        if message.isUserMessage {
+            container.snp.remakeConstraints { make in
+                make.top.equalToSuperview()
+                make.right.equalToSuperview()
+                make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
             }
+            originalTextLabel.textAlignment = .right
+            container.backgroundColor = UIColor(Assets.Colors.accentColor)
+            translationLabel.textColor = Assets.Colors.textOnAccent
+        } else {
+            container.snp.remakeConstraints { make in
+                make.left.equalToSuperview()
+                make.top.equalToSuperview()
+                make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
+            }
+            originalTextLabel.textAlignment = .left
+            container.backgroundColor = Assets.Colors.solidWhite
+            translationLabel.textColor = Assets.Colors.black
         }
+
         super.reloadData(animated: animated)
     }
 

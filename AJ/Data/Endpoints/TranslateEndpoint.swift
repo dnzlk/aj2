@@ -1,29 +1,17 @@
 //
-//  ChatService.swift
-//  AskJoe
+//  TranslateEndpoint.swift
+//  AJ
 //
-//  Created by Денис on 03.03.2023.
+//  Created by Денис on 08.09.2023.
 //
 
 import Foundation
 
-struct AMChat: Codable {
-
-    let messages: [AMChatMessage]
-}
-
-final class ChatEndpoint: APIEndpoint {
-
-    // MARK: - Types
-
-    private enum Role: String {
-        case user
-        case assistant
-    }
+final class TranslateEndpoint: APIEndpoint {
 
     // MARK: - Public Properties
 
-    static let shared = ChatEndpoint()
+    static let shared = TranslateEndpoint()
 
     override var debugUrl: String? {
         "http://127.0.0.1:5000/ask"
@@ -39,15 +27,13 @@ final class ChatEndpoint: APIEndpoint {
 
     // MARK: - Public Methods
 
-    func ask(request: String, messages: [Message]) async throws -> String {
+    func translate(text: String) async throws -> String {
         guard let url else { throw E.wrongUrl }
 
-        var amMessages: [AMChatMessage] = []//[.init(role: "system", content: systemRule)]
-        amMessages += messages.map {
-            AMChatMessage(role: $0.isUserMessage ? Role.user.rawValue : Role.assistant.rawValue,
-                          content: $0.originalText)
-        }
-        amMessages.append(.init(role: Role.user.rawValue, content: request))
+        let amMessages: [AMChatMessage] = [
+            .init(role: "system", content: systemRule),
+            .init(role: "user", content: text)
+        ]
 
         let amChat = AMChat(messages: amMessages)
         let encodedAmChat = try JSONEncoder().encode(amChat)
