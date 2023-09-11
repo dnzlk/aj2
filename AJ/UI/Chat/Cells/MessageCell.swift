@@ -30,8 +30,8 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
     enum Style: Hashable {
         case loading
         case error
-        case right(Language)
-        case left(Language)
+        case right(language: Language, isPlaying: Bool)
+        case left(language: Language, isPlaying: Bool)
     }
 
     // MARK: - Public Properties
@@ -167,7 +167,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
             stackView.setCustomSpacing(8, after: originalTextLabel)
 
             originalTextLabel.textAlignment = .center
-        case let .right(language):
+        case let .right(language, isPlaying):
             stackView.alignment = .trailing
 
             buttons.isHidden = false
@@ -182,9 +182,9 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
             translationLabel.textColor = language.color?.textColor
             translationBgContainer.backgroundColor = language.color?.bgColor
 
-            buttons.model = .init(alignment: .right)
+            buttons.model = .init(alignment: .right, isPlaying: isPlaying)
             originalTextLabel.textAlignment = .right
-        case let .left(language):
+        case let .left(language, isPlaying):
             stackView.alignment = .leading
 
             buttons.isHidden = false
@@ -199,7 +199,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
             translationLabel.textColor = language.color?.textColor
             translationBgContainer.backgroundColor = language.color?.bgColor
 
-            buttons.model = .init(alignment: .left)
+            buttons.model = .init(alignment: .left, isPlaying: isPlaying)
             originalTextLabel.textAlignment = .left
         }
         super.reloadData(animated: animated)

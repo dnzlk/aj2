@@ -13,6 +13,7 @@
 		E36008AA2AAAE62200014191 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A92AAAE62200014191 /* Language.swift */; };
 		E36008AC2AAAF0F500014191 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AB2AAAF0F500014191 /* Chat.swift */; };
 		E36008AE2AAB0AC200014191 /* MessageButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AD2AAB0AC200014191 /* MessageButtons.swift */; };
+		E36008B02AAEF9AE00014191 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AF2AAEF9AE00014191 /* PlayerManager.swift */; };
 		E361BC4C2AA61550007956AD /* AJApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361BC4B2AA61550007956AD /* AJApp.swift */; };
 		E361BC4E2AA61550007956AD /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361BC4D2AA61550007956AD /* MainView.swift */; };
 		E361BC502AA61552007956AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E361BC4F2AA61552007956AD /* Assets.xcassets */; };
@@ -67,6 +68,7 @@
 		E36008A92AAAE62200014191 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		E36008AB2AAAF0F500014191 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		E36008AD2AAB0AC200014191 /* MessageButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtons.swift; sourceTree = "<group>"; };
+		E36008AF2AAEF9AE00014191 /* PlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
 		E361BC492AA61550007956AD /* AJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E361BC4B2AA61550007956AD /* AJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AJApp.swift; sourceTree = "<group>"; };
 		E361BC4D2AA61550007956AD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				E342442729A6380B006A2AF9 /* UserDefaultsManager.swift */,
 				E3AE5BB729D9CD9400AD411B /* SecurityManager.swift */,
 				E36008A32AA99D4800014191 /* MessagesManager.swift */,
+				E36008AF2AAEF9AE00014191 /* PlayerManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				E361BC732AA62463007956AD /* SecurityManager.swift in Sources */,
 				E361BC742AA62463007956AD /* NotificationsManager.swift in Sources */,
 				E36008AA2AAAE62200014191 /* Language.swift in Sources */,
+				E36008B02AAEF9AE00014191 /* PlayerManager.swift in Sources */,
 				E361BC712AA6245E007956AD /* FBAnalytics.swift in Sources */,
 				E361BC5B2AA615B8007956AD /* ChatCellModel.swift in Sources */,
 				E361BC5C2AA615B8007956AD /* ChatView.swift in Sources */,
@@ -429,7 +433,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -483,7 +487,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

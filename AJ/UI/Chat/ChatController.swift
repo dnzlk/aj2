@@ -43,13 +43,12 @@ final class ChatController: _ViewController {
 
     private let te = TranslateEndpoint.shared
     private let mm = MessagesManager.shared
-    private let nm = NotificationsManager.shared
     private let ud = UserDefaultsManager.shared
-
-    private let synthesizer = AVSpeechSynthesizer()
+    private let player = PlayerManager.shared
 
     private var pendingMessage: Message?
     private var failedMessage: Message?
+    private var playingMessage: Message?
 
     // MARK: - Init
 
@@ -70,8 +69,6 @@ final class ChatController: _ViewController {
 
         addChatView()
         reloadTable()
-
-        nm.addObserver(self)
     }
 
     override func bind() {
@@ -94,12 +91,9 @@ final class ChatController: _ViewController {
             case let .copyTap(message):
                 UIPasteboard.general.string = message.translation
             case let .favTap(message):
-                break
+                self?.addToFavourites(message: message)
             case let .voiceTap(message):
-                guard let text = message.translation else { return }
-
-                let utterance = AVSpeechUtterance(string: text)
-                self?.synthesizer.speak(utterance)
+                self?.play(message: message)
             case let .originalTextTap(message):
                 break
             }
@@ -120,15 +114,15 @@ final class ChatController: _ViewController {
         var models: [ChatCellModel] = mm.get().filter { $0.translation != nil }.map { message in
             let style: MessageCell.Style = {
                 guard let code = message.language else {
-                    return .right(.english)
+                    return .right(language: .english, isPlaying: message.id == playingMessage?.id)
                 }
                 if code == languages.0.rawValue {
-                    return .left(languages.0)
+                    return .left(language: languages.0, isPlaying: message.id == playingMessage?.id)
                 }
                 if code == languages.1.rawValue {
-                    return .right(languages.1)
+                    return .right(language: languages.1, isPlaying: message.id == playingMessage?.id)
                 }
-                return .right(.english)
+                return .right(language: .english, isPlaying: message.id == playingMessage?.id)
             }()
             return .message(message: message, style: style )
         }
@@ -179,21 +173,30 @@ final class ChatController: _ViewController {
         }
     }
 
+    private func play(message: Message) {
+        guard let text = message.translation else { return }
+
+        do {
+            try player.play(text: text, language: message.language) { [weak self] in
+                self?.playingMessage = nil
+                self?.reloadTable()
+            }
+            playingMessage = message
+            reloadTable()
+        } catch let e as PlayerManager.E {
+            print(e)
+        } catch {
+
+        }
+    }
+
+    private func addToFavourites(message: Message) {
+
+    }
+
     private func share(text: String) {
         chatView.endEditing(true)
 
         share(items: [text])
-    }
-}
-
-// MARK: - NotificationsObserver
-
-extension ChatController: NotificationsObserver {
-
-    func onEvent(_ event: NotificationsManager.Event) {
-        switch event {
-        case .subscriptionInfoUpdated:
-            break
-        }
     }
 }

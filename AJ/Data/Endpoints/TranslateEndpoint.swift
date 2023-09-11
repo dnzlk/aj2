@@ -25,11 +25,11 @@ final class TranslateEndpoint: APIEndpoint {
     static let shared = TranslateEndpoint()
 
     override var debugUrl: String? {
-        "http://127.0.0.1:5000/ask"
+        "https://tidy-dodos-invite.loca.lt/ask"//"http://127.0.0.1:5000/ask"
     }
 
     override var prodUrl: String? {
-        "http://127.0.0.1:5000/ask"
+        "https://tidy-dodos-invite.loca.lt/ask"//"http://127.0.0.1:5000/ask"
     }
 
     // MARK: - Public Methods
@@ -56,15 +56,17 @@ final class TranslateEndpoint: APIEndpoint {
         let decodedResponse = response.content.trimmingCharacters(in: .whitespacesAndNewlines)
         let parts = decodedResponse.components(separatedBy: ";")
         let code = parts.first
-
         return Translation(text: String(decodedResponse.dropFirst((code?.count ?? -1) + 1)), language: code?.lowercased())
     }
 
     // MARK: - Private Methods
 
     private func generateSystemRule(languages: Languages) -> String {
+        let _1 = languages.0
+        let _2 = languages.1
+
         return """
-                "You are a translator between \(languages.0) and \(languages.1). You will be given a message in one of them. You must detect the language of the message and translate it to the second language. At the beginning of the translation add the ISO 639-1 code of the message language and ; symbol. Do not respond anything else."
+                "You must translate the given request between \(_1) and \(_2) languages. Translate to \(_2) if the request is in \(_1), or translate to \(_1) if the request is in \(_2). At the beginning of your response add '\(_2.rawValue);' if the request is in \(_1), or '\(_1.rawValue);' if the request is in \(_2). Do not respond anything else."
             """
     }
 }

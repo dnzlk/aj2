@@ -14,6 +14,7 @@ final class MessageButtons: _View<MessageButtons.Model, MessageButtons.Action> {
     struct Model {
 
         let alignment: Alignment
+        var isPlaying = false
         var isFav = false
     }
 
@@ -108,6 +109,8 @@ final class MessageButtons: _View<MessageButtons.Model, MessageButtons.Action> {
                 make.width.equalTo(buttonWidth)
             }
         }
+        voiceButton.model?.color = model.isPlaying ? UIColor(Assets.Colors.accentColor) : .black
+
         super.reloadData(animated: animated)
     }
 }
@@ -121,6 +124,7 @@ private extension MessageButtons {
         struct Model {
 
             let image: UIImage?
+            var color: UIColor?
         }
 
         // MARK: - Private Properties
@@ -156,7 +160,7 @@ private extension MessageButtons {
                 return
             }
             imageView.image = model.image
-            imageView.tintColor = .black
+            imageView.tintColor = model.color ?? .black
 
             super.reloadData(animated: animated)
         }
