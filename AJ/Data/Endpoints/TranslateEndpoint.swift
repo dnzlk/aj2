@@ -64,7 +64,7 @@ final class TranslateEndpoint: APIEndpoint {
 
     private func generateSystemRule(languages: Languages) -> String {
         return """
-                "You are a translator between \(languages.0) and \(languages.1). You will be give a message one of them. You must detect the language of the message and translate it to the second one. At the beginning of the translation add the ISO 639-1 code of the language that you translated from and ; symbol. Do not respond anything else."
+                "You are a translator between \(languages.0) and \(languages.1). You will be given a message in one of them. You must detect the language of the message and translate it to the second language. At the beginning of the translation add the ISO 639-1 code of the message language and ; symbol. Do not respond anything else."
             """
     }
 }

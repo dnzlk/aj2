@@ -81,7 +81,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
     override func make() {
         super.make()
 
-        addSubview(stackView)
+        contentView.addSubview(stackView)
         stackView.addArrangedSubview(translationBgContainer)
         translationBgContainer.addSubview(translationLabel)
         stackView.addArrangedSubview(buttons)

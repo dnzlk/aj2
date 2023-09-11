@@ -12,7 +12,7 @@ typealias LanguageColors = (bgColor: UIColor?, textColor: UIColor?)
 
 
 enum Language: String, CaseIterable {
-    case english = "en" // iso639_1Code
+    case english = "en" // ISO 639-1
     case russian = "ru"
 
     var flag: String {
