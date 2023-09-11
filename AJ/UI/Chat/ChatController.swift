@@ -24,6 +24,13 @@ struct ChatView: UIViewControllerRepresentable {
 
 final class ChatController: _ViewController {
 
+    // MARK: - Types
+
+    private enum TranslationStatus: String {
+        case loading
+        case failed
+    }
+
     // MARK: - Public Properties
 
     var onBackPressed: (() -> Void)?
@@ -41,7 +48,8 @@ final class ChatController: _ViewController {
 
     private let synthesizer = AVSpeechSynthesizer()
 
-    private var isError = false
+    private var pendingMessage: Message?
+    private var failedMessage: Message?
 
     // MARK: - Init
 
@@ -69,6 +77,10 @@ final class ChatController: _ViewController {
     override func bind() {
         chatView.onAction = { [weak self] action in
             switch action {
+            case let .errorTap(message):
+                Task {
+                    await self?.send(text: message.originalText)
+                }
             case let .share(text):
                 self?.share(text: text)
                 FBAnalytics.log(.chat_share_message_tap)
@@ -79,7 +91,6 @@ final class ChatController: _ViewController {
                 Task {
                     await self?.send(text: text)
                 }
-
             case let .copyTap(message):
                 UIPasteboard.general.string = message.translation
             case let .favTap(message):
@@ -106,15 +117,34 @@ final class ChatController: _ViewController {
     }
 
     private func reloadTable() {
-        var models: [ChatCellModel] = mm.get().map { .message($0) }
-
-        if isError {
-            models.append(.error)
+        var models: [ChatCellModel] = mm.get().filter { $0.translation != nil }.map { message in
+            let style: MessageCell.Style = {
+                guard let code = message.language else {
+                    return .right(.english)
+                }
+                if code == languages.0.rawValue {
+                    return .left(languages.0)
+                }
+                if code == languages.1.rawValue {
+                    return .right(languages.1)
+                }
+                return .right(.english)
+            }()
+            return .message(message: message, style: style )
         }
-        chatView.model = .init(newCells: models.reversed(), textFieldPlaceholder: "\(languages.0.typeHereText) / \(languages.1.typeHereText)")
+
+        if let pendingMessage {
+            models.append(.message(message: pendingMessage, style: .loading))
+        } else if let failedMessage {
+            models.append(.message(message: failedMessage, style: .error))
+        }
+        chatView.model = .init(newCells: models.reversed(),
+                               textFieldPlaceholder: "\(languages.0.typeHereText) / \(languages.1.typeHereText)")
     }
 
     private func send(text: String) async {
+        failedMessage = nil
+
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !text.isEmpty else { return }
@@ -123,21 +153,27 @@ final class ChatController: _ViewController {
 
         chatView.clear()
 
-        let message = Message(originalText: text, date: Date(), isUserMessage: true)
-        mm.save(message)
+        let message = Message(originalText: text, date: Date(), additionalInfo: TranslationStatus.loading.rawValue)
+        pendingMessage = message
+
+        reloadTable()
 
         do {
-            reloadTable()
+            let translation = try await te.translate(text: text, languages: languages)
+            let translatedMessage = Message(originalText: text,
+                                            translation: translation.text,
+                                            date: message.date,
+                                            language: translation.language,
+                                            additionalInfo: nil)
+            mm.save(translatedMessage)
 
-            if isError {
-                isError = false
-                reloadTable()
-            }
-            let translation = try await te.translate(text: text)
-            mm.update(message: message, withTranslation: translation)
+            pendingMessage = nil
             reloadTable()
         } catch {
-            isError = true
+            failedMessage = Message(originalText: message.originalText,
+                                    date: message.date,
+                                    additionalInfo: TranslationStatus.failed.rawValue)
+            pendingMessage = nil
             reloadTable()
             FBAnalytics.log(.chat_error)
         }

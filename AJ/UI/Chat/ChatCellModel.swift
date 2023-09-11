@@ -9,8 +9,7 @@ import DifferenceKit
 import UIKit
 
 enum ChatCellModel: Differentiable, Hashable {
-    case message(Message)
-    case error
+    case message(message: Message, style: MessageCell.Style)
 
     func isContentEqual(to source: ChatCellModel) -> Bool {
         differenceIdentifier == source.differenceIdentifier
@@ -18,10 +17,8 @@ enum ChatCellModel: Differentiable, Hashable {
 
     var differenceIdentifier: String {
         switch self {
-        case let .message(message):
-            return message.id + (message.translation ?? "")
-        case .error:
-            return "error"
+        case let .message(message, _):
+            return message.id + (message.translation ?? "") + (message.additionalInfo ?? "")
         }
     }
 }

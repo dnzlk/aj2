@@ -15,12 +15,18 @@ class Message: Hashable {
     let originalText: String
     var translation: String?
     let date: Date
-    let isUserMessage: Bool
+    var language: String?
+    var additionalInfo: String?
 
-    init(originalText: String, translation: String? = nil, date: Date, isUserMessage: Bool) {
+    init(originalText: String,
+         translation: String? = nil,
+         date: Date,
+         language: String? = nil,
+         additionalInfo: String? = nil) {
         self.originalText = originalText
         self.translation = translation
         self.date = date
-        self.isUserMessage = isUserMessage
+        self.language = language
+        self.additionalInfo = additionalInfo
     }
 }

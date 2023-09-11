@@ -7,6 +7,17 @@
 
 import Foundation
 
+struct AMChat: Codable {
+
+    let messages: [AMChatMessage]
+}
+
+struct Translation {
+
+    let text: String
+    let language: String?
+}
+
 final class TranslateEndpoint: APIEndpoint {
 
     // MARK: - Public Properties
@@ -21,17 +32,13 @@ final class TranslateEndpoint: APIEndpoint {
         "http://127.0.0.1:5000/ask"
     }
 
-    // MARK: - Private Properties
-
-    private let systemRule = "You are a translator. Translate to english whatever user says. Do not respond him ever. Just translate messages"
-
     // MARK: - Public Methods
 
-    func translate(text: String) async throws -> String {
+    func translate(text: String, languages: Languages) async throws -> Translation {
         guard let url else { throw E.wrongUrl }
 
         let amMessages: [AMChatMessage] = [
-            .init(role: "system", content: systemRule),
+            .init(role: "system", content: generateSystemRule(languages: languages)),
             .init(role: "user", content: text)
         ]
 
@@ -46,6 +53,18 @@ final class TranslateEndpoint: APIEndpoint {
         let (data, _) = try await URLSession.shared.data(for: request)
         let response = try JSONDecoder().decode(AMChatResponse.self, from: data)
 
-        return response.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        let decodedResponse = response.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        let parts = decodedResponse.components(separatedBy: ";")
+        let code = parts.first
+
+        return Translation(text: String(decodedResponse.dropFirst((code?.count ?? -1) + 1)), language: code?.lowercased())
+    }
+
+    // MARK: - Private Methods
+
+    private func generateSystemRule(languages: Languages) -> String {
+        return """
+                "You are a translator between \(languages.0) and \(languages.1). You will be give a message one of them. You must detect the language of the message and translate it to the second one. At the beginning of the translation add the ISO 639-1 code of the language that you translated from and ; symbol. Do not respond anything else."
+            """
     }
 }

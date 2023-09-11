@@ -37,6 +37,8 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
         case voiceTap(Message)
         case favTap(Message)
         case originalTextTap(Message)
+
+        case errorTap(Message)
     }
 
     private enum Const {
@@ -53,7 +55,6 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
         table.separatorStyle = .none
         table.transform = CGAffineTransformMakeScale(1, -1)
         table.register(MessageCell.self, forCellReuseIdentifier: MessageCell.reuseId)
-        table.register(TryAgainCell.self, forCellReuseIdentifier: TryAgainCell.reuseId)
         table.showsVerticalScrollIndicator = false
         return table
     }()
@@ -164,14 +165,16 @@ extension _ChatView: UITableViewDataSource {
         let item = cells[indexPath.row]
 
         switch item {
-        case let .message(message):
+        case let .message(message, style):
             guard let messageCell = tableView.dequeueReusableCell(withIdentifier: MessageCell.reuseId, for: indexPath) as? MessageCell
             else {
                 return cell
             }
-            messageCell.model = .init(message: message)
+            messageCell.model = .init(message: message, style: style)
             messageCell.onAction = { [weak self] action in
                 switch action {
+                case .errorTap:
+                    self?.onAction?(.errorTap(message))
                 case .copyTap:
                     self?.onAction?(.copyTap(message))
                 case .favTap:
@@ -183,12 +186,6 @@ extension _ChatView: UITableViewDataSource {
                 }
             }
             cell = messageCell
-        case .error:
-            guard let tryAgainCell = tableView.dequeueReusableCell(withIdentifier: TryAgainCell.reuseId, for: indexPath) as? TryAgainCell else {
-                return cell
-            }
-            tryAgainCell.onAction = nil
-            cell = tryAgainCell
         }
         cell.transform = CGAffineTransformMakeScale(1, -1)
 
@@ -217,7 +214,7 @@ extension _ChatView: UITableViewDataSource {
 extension _ChatView: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard let model, case .message(let message) = model.newCells[indexPath.row] else { return nil }
+        guard let model, case .message(let message, _) = model.newCells[indexPath.row] else { return nil }
 
         guard let text = message.translation else { return nil }
 
@@ -239,7 +236,7 @@ extension _ChatView: UITableViewDelegate {
           let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? MessageCell else {
             return nil
         }
-        return UITargetedPreview(view: cell.container)
+        return UITargetedPreview(view: cell.translationBgContainer)
     }
 }
 
