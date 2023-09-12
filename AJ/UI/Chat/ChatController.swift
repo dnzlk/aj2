@@ -11,14 +11,16 @@ import AVFoundation
 
 struct ChatView: UIViewControllerRepresentable {
 
+    @Binding var voiceText: String
     let languages: Languages
+    let onVoicePressed: () -> Void
 
     func makeUIViewController(context: Context) ->ChatController {
-        ChatController(languages: languages)
+        ChatController(languages: languages, onVoicePressed: onVoicePressed)
     }
 
     func updateUIViewController(_ uiViewController: ChatController, context: Context) {
-        
+        uiViewController.voiceText = voiceText
     }
 }
 
@@ -33,7 +35,13 @@ final class ChatController: _ViewController {
 
     // MARK: - Public Properties
 
-    var onBackPressed: (() -> Void)?
+    var voiceText: String = "" {
+        didSet {
+            Task { await send(text: voiceText) }
+        }
+    }
+
+    let onVoicePressed: (() -> Void)
 
     // MARK: - Private Properties
 
@@ -52,8 +60,9 @@ final class ChatController: _ViewController {
 
     // MARK: - Init
 
-    init(languages: Languages) {
+    init(languages: Languages, onVoicePressed: @escaping (() -> Void)) {
         self.languages = languages
+        self.onVoicePressed = onVoicePressed
 
         super.init()
     }
@@ -81,15 +90,12 @@ final class ChatController: _ViewController {
             case let .share(text):
                 self?.share(text: text)
                 FBAnalytics.log(.chat_share_message_tap)
-            case .backButtonTapped:
-                self?.navigationController?.popViewController(animated: true)
-                self?.onBackPressed?()
             case let .sendButtonTapped(text):
                 Task {
                     await self?.send(text: text)
                 }
             case .micTap:
-                break
+                self?.onVoicePressed()
 
             case let .copyTap(message):
                 UIPasteboard.general.string = message.translation

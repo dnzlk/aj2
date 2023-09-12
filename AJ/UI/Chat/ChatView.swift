@@ -29,7 +29,6 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
     }
 
     enum Action {
-        case backButtonTapped
         case share(String)
         case sendButtonTapped(String)
         case micTap

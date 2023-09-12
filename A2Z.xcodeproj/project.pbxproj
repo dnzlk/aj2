@@ -14,6 +14,8 @@
 		E36008AC2AAAF0F500014191 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AB2AAAF0F500014191 /* Chat.swift */; };
 		E36008AE2AAB0AC200014191 /* MessageButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AD2AAB0AC200014191 /* MessageButtons.swift */; };
 		E36008B02AAEF9AE00014191 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AF2AAEF9AE00014191 /* PlayerManager.swift */; };
+		E36008D12AB0512300014191 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008D02AB0512300014191 /* RecordingView.swift */; };
+		E36008D42AB0592F00014191 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008D32AB0592F00014191 /* SpeechRecognizer.swift */; };
 		E361BC4C2AA61550007956AD /* AJApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361BC4B2AA61550007956AD /* AJApp.swift */; };
 		E361BC4E2AA61550007956AD /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361BC4D2AA61550007956AD /* MainView.swift */; };
 		E361BC502AA61552007956AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E361BC4F2AA61552007956AD /* Assets.xcassets */; };
@@ -69,6 +71,8 @@
 		E36008AB2AAAF0F500014191 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		E36008AD2AAB0AC200014191 /* MessageButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtons.swift; sourceTree = "<group>"; };
 		E36008AF2AAEF9AE00014191 /* PlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
+		E36008D02AB0512300014191 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
+		E36008D32AB0592F00014191 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		E361BC492AA61550007956AD /* AJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E361BC4B2AA61550007956AD /* AJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AJApp.swift; sourceTree = "<group>"; };
 		E361BC4D2AA61550007956AD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 				E32AC4E7299D307400F242CC /* ChatTextField.swift */,
 				E32AC50F29A4FB6F00F242CC /* ChatView.swift */,
 				E342442E29A66BA3006A2AF9 /* ChatCellModel.swift */,
+				E36008D02AB0512300014191 /* RecordingView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -131,6 +136,7 @@
 		E32AC50929A3C5B900F242CC /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				E36008D22AB0591C00014191 /* SpeechRecognizer */,
 				E3553F9629F96836004127A6 /* SecureStore */,
 				E3BFCE5D29B1F16500154D87 /* Endpoints */,
 				E342443F29A908EC006A2AF9 /* Analytics */,
@@ -169,6 +175,14 @@
 				E3553F9B29F96876004127A6 /* SecureStore.swift */,
 			);
 			path = SecureStore;
+			sourceTree = "<group>";
+		};
+		E36008D22AB0591C00014191 /* SpeechRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				E36008D32AB0592F00014191 /* SpeechRecognizer.swift */,
+			);
+			path = SpeechRecognizer;
 			sourceTree = "<group>";
 		};
 		E361BC4A2AA61550007956AD /* AJ */ = {
@@ -348,10 +362,12 @@
 			files = (
 				E361BC802AA6247F007956AD /* Header.swift in Sources */,
 				E361BC4E2AA61550007956AD /* MainView.swift in Sources */,
+				E36008D42AB0592F00014191 /* SpeechRecognizer.swift in Sources */,
 				E361BC702AA62459007956AD /* APIEndpoint.swift in Sources */,
 				E36008AE2AAB0AC200014191 /* MessageButtons.swift in Sources */,
 				E361BC662AA6241B007956AD /* Assets.swift in Sources */,
 				E361BC682AA6244B007956AD /* SecureStoreError.swift in Sources */,
+				E36008D12AB0512300014191 /* RecordingView.swift in Sources */,
 				E361BC5E2AA615B8007956AD /* ChatController.swift in Sources */,
 				E361BC7D2AA6247F007956AD /* View.swift in Sources */,
 				E361BC812AA6251D007956AD /* AMChatMessage.swift in Sources */,
@@ -514,6 +530,8 @@
 				INFOPLIST_FILE = AJ/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Translate;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone desc";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech desc";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -552,6 +570,8 @@
 				INFOPLIST_FILE = AJ/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Translate;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone desc";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech desc";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

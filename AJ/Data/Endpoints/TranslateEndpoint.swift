@@ -25,11 +25,11 @@ final class TranslateEndpoint: APIEndpoint {
     static let shared = TranslateEndpoint()
 
     override var debugUrl: String? {
-        "https://tidy-dodos-invite.loca.lt/ask"//"http://127.0.0.1:5000/ask"
+        "http://127.0.0.1:5000/ask"
     }
 
     override var prodUrl: String? {
-        "https://tidy-dodos-invite.loca.lt/ask"//"http://127.0.0.1:5000/ask"
+        "https://lucky-walls-invent.loca.lt/ask"//"http://127.0.0.1:5000/ask"
     }
 
     // MARK: - Public Methods

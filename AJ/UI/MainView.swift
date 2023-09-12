@@ -9,14 +9,22 @@ import SwiftUI
 
 struct MainView: View {
 
+    @State private var voiceText: String = ""
     @State private var languages: Languages = (.english, .russian)
+
+    @State private var isRecording = false
 
     var body: some View {
         NavigationStack {
             VStack {
                 navBar()
 
-                ChatView(languages: languages)
+                ChatView(voiceText: $voiceText, languages: languages) {
+                    isRecording = true
+                }
+                .fullScreenCover(isPresented: $isRecording) {
+                    RecordingView(languages: languages, transcription: $voiceText)
+                }
             }
             .background(Assets.Colors.white)
         }
@@ -30,7 +38,7 @@ private extension MainView {
             NavigationLink(destination: {
                 MenuView()
             }) {
-                Image(systemName: "gear")
+                Image(systemName: "square.grid.2x2")
                     .imageScale(.large)
                     .foregroundStyle(Assets.Colors.accentColor)
             }
@@ -47,9 +55,9 @@ private extension MainView {
             NavigationLink(destination: {
                 MenuView()
             }) {
-                Image(systemName: "plus.message")
+                Image(systemName: "heart.fill")
                     .imageScale(.large)
-                    .foregroundStyle(Assets.Colors.accentColor)
+                    .foregroundStyle(.red)
             }
         }
         .padding(.horizontal)
@@ -57,6 +65,6 @@ private extension MainView {
     }
 }
 
-#Preview {
-    MainView()
-}
+//#Preview {
+//    MainView()
+//}

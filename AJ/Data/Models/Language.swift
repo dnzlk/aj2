@@ -33,6 +33,15 @@ enum Language: String, CaseIterable {
         }
     }
 
+    var speakText: String {
+        switch self {
+        case .english:
+            return "Speak"
+        case .russian:
+            return "Говорите"
+        }
+    }
+
     var color: LanguageColors? {
         switch self {
         case .english:
