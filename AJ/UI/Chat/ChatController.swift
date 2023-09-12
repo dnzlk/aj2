@@ -88,6 +88,9 @@ final class ChatController: _ViewController {
                 Task {
                     await self?.send(text: text)
                 }
+            case .micTap:
+                break
+
             case let .copyTap(message):
                 UIPasteboard.general.string = message.translation
             case let .favTap(message):

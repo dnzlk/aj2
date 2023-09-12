@@ -20,6 +20,7 @@ final class ChatTextField: _View<ChatTextField.Model, ChatTextField.Action> {
         case onBecomeActive
         case onBecomeInactive
         case sendButtonTap(String)
+        case micTap
     }
 
     private enum Const {
@@ -52,6 +53,15 @@ final class ChatTextField: _View<ChatTextField.Model, ChatTextField.Action> {
         return view
     }()
 
+    private let recButton: UIButton = {
+        let view = UIButton()
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .medium)
+        let largeBoldRec = UIImage(systemName: "waveform", withConfiguration: largeConfig)
+        view.setImage(largeBoldRec, for: .normal)
+        view.tintColor = UIColor(Assets.Colors.accentColor)
+        return view
+    }()
+
     private let placeholder: UILabel = {
         let view = UILabel()
         view.font = .regular(14)
@@ -71,6 +81,7 @@ final class ChatTextField: _View<ChatTextField.Model, ChatTextField.Action> {
 
     override func make() {
         addSubview(container)
+        addSubview(recButton)
         container.addSubview(textView)
         container.addSubview(sendButton)
         container.addSubview(placeholder)
@@ -80,7 +91,14 @@ final class ChatTextField: _View<ChatTextField.Model, ChatTextField.Action> {
 
     override func setupConstraints() {
         container.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(8)
+            make.left.top.bottom.equalToSuperview().inset(8)
+        }
+        recButton.snp.makeConstraints { make in
+            make.left.equalTo(container.snp.right).offset(8)
+            make.right.equalToSuperview().inset(8)
+            make.bottom.equalTo(container.snp.bottom)
+            make.width.equalTo(48)
+            make.height.equalTo(48)
         }
         textView.snp.remakeConstraints { make in
             make.left.equalToSuperview().offset(16)
@@ -103,6 +121,7 @@ final class ChatTextField: _View<ChatTextField.Model, ChatTextField.Action> {
 
     override func bind() {
         sendButton.addTarget(self, action: #selector(onSendTap), for: .touchUpInside)
+        recButton.addTarget(self, action: #selector(onMicTap), for: .touchUpInside)
     }
 
     override func reloadData(animated: Bool) {
@@ -140,6 +159,11 @@ final class ChatTextField: _View<ChatTextField.Model, ChatTextField.Action> {
         guard !textView.text.isEmpty else { return }
 
         onAction?(.sendButtonTap(textView.text))
+    }
+
+    @objc
+    private func onMicTap() {
+        onAction?(.micTap)
     }
 }
 

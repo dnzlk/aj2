@@ -32,6 +32,7 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
         case backButtonTapped
         case share(String)
         case sendButtonTapped(String)
+        case micTap
 
         case copyTap(Message)
         case voiceTap(Message)
@@ -103,6 +104,8 @@ final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
             case let .sendButtonTap(text):
                 self?.onAction?(.sendButtonTapped(text))
                 self?.tableView.setContentOffset(.zero, animated: true)
+            case .micTap:
+                self?.onAction?(.micTap)
             }
         }
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(onChatTap))
