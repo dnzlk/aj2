@@ -36,7 +36,12 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
 
     // MARK: - Public Properties
 
-    let translationBgContainer = UIView()
+    let translationBgContainer: UIView = {
+        let view = UIView()
+        view.roundCorners(12)
+        view.clipsToBounds = false
+        return view
+    }()
 
     // MARK: - Private Properties
 
@@ -44,6 +49,13 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
         let stack = UIStackView()
         stack.axis = .vertical
         return stack
+    }()
+
+    private let favImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = .init(systemName: "heart.fill")
+        view.tintColor = .red
+        return view
     }()
 
     private let translationLabel: UILabel = {
@@ -84,6 +96,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(translationBgContainer)
         translationBgContainer.addSubview(translationLabel)
+        translationBgContainer.addSubview(favImageView)
         stackView.addArrangedSubview(buttons)
         stackView.addArrangedSubview(originalTextLabel)
         stackView.addArrangedSubview(errorLabel)
@@ -92,7 +105,6 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
 
         backgroundColor = UIColor(Assets.Colors.white)
         selectionStyle = .none
-        translationBgContainer.roundCorners(12)
     }
 
     override func setupConstraints() {
@@ -103,16 +115,26 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
         translationBgContainer.snp.makeConstraints { make in
             make.width.lessThanOrEqualToSuperview().multipliedBy(0.8)
         }
+        favImageView.snp.makeConstraints { make in
+            make.center.equalTo(0)
+        }
         buttons.snp.makeConstraints { make in
             make.height.equalTo(30)
         }
         translationLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(12)
         }
+        originalTextLabel.snp.makeConstraints { make in
+            make.width.equalTo(translationBgContainer)
+        }
         super.setupConstraints()
     }
 
     override func bind() {
+        let containerDoubleTap = UITapGestureRecognizer(target: self, action: #selector(onFavTap))
+        containerDoubleTap.numberOfTapsRequired = 2
+        translationBgContainer.addGestureRecognizer(containerDoubleTap)
+
         let originalTextTap = UITapGestureRecognizer(target: self, action: #selector(onOriginalTextTap))
         originalTextLabel.addGestureRecognizer(originalTextTap)
 
@@ -172,6 +194,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
 
             buttons.isHidden = false
             translationBgContainer.isHidden = false
+            favImageView.isHidden = !message.isFav
             errorLabel.isHidden = true
             activityIndicator.removeFromSuperview()
             activityIndicator.stopAnimating()
@@ -189,6 +212,7 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
 
             buttons.isHidden = false
             translationBgContainer.isHidden = false
+            favImageView.isHidden = !message.isFav
             errorLabel.isHidden = true
             activityIndicator.removeFromSuperview()
             activityIndicator.stopAnimating()
@@ -206,6 +230,11 @@ final class MessageCell: Cell<MessageCell.Model, MessageCell.Action> {
     }
 
     // MARK: - Private Methods
+
+    @objc
+    private func onFavTap() {
+        onAction?(.favTap)
+    }
 
     @objc
     private func onOriginalTextTap() {

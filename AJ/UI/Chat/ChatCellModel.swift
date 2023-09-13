@@ -18,7 +18,7 @@ enum ChatCellModel: Differentiable, Hashable {
     var differenceIdentifier: String {
         switch self {
         case let .message(message, style):
-            return message.id + (message.translation ?? "") + (message.additionalInfo ?? "") + String(style.hashValue)
+            return message.id + (message.translation ?? "") + String(message.isFav) + (message.additionalInfo ?? "") + String(style.hashValue)
         }
     }
 }

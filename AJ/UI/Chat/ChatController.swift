@@ -100,7 +100,7 @@ final class ChatController: _ViewController {
             case let .copyTap(message):
                 UIPasteboard.general.string = message.translation
             case let .favTap(message):
-                self?.addToFavourites(message: message)
+                self?.toggleIsFav(message: message)
             case let .voiceTap(message):
                 self?.play(message: message)
             case let .originalTextTap(message):
@@ -199,8 +199,9 @@ final class ChatController: _ViewController {
         }
     }
 
-    private func addToFavourites(message: Message) {
-
+    private func toggleIsFav(message: Message) {
+        mm.update(isFav: !message.isFav, message: message)
+        reloadTable()
     }
 
     private func share(text: String) {

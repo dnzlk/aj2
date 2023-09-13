@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+@MainActor
 final class MessagesManager {
 
     static let shared = MessagesManager()
@@ -36,5 +37,16 @@ final class MessagesManager {
 
     func save(_ message: Message) {
         modelContext?.insert(message)
+    }
+
+    func update(isFav: Bool, message: Message) {
+        let newMessage = Message(originalText: message.originalText,
+                                 translation: message.translation,
+                                 date: message.date,
+                                 language: message.language,
+                                 additionalInfo: message.additionalInfo,
+                                 isFav: message.isFav)
+        modelContext?.delete(message)
+        save(newMessage)
     }
 }

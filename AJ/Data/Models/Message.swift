@@ -17,16 +17,19 @@ class Message: Hashable {
     let date: Date
     var language: String?
     var additionalInfo: String?
+    var isFav: Bool
 
     init(originalText: String,
          translation: String? = nil,
          date: Date,
          language: String? = nil,
-         additionalInfo: String? = nil) {
+         additionalInfo: String? = nil,
+         isFav: Bool = false) {
         self.originalText = originalText
         self.translation = translation
         self.date = date
         self.language = language
         self.additionalInfo = additionalInfo
+        self.isFav = isFav
     }
 }
