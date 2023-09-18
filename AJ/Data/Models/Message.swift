@@ -11,25 +11,36 @@ import SwiftData
 @Model
 class Message: Hashable {
 
-    let id = UUID().uuidString
+    let id: String
     let originalText: String
     var translation: String?
-    let date: Date
+    let createdAt: Date
     var language: String?
-    var additionalInfo: String?
+    var state: State
+    var isSentByUser: Bool?
     var isFav: Bool
 
-    init(originalText: String,
+    init(id: String = UUID().uuidString,
+         originalText: String,
          translation: String? = nil,
-         date: Date,
+         createdAt: Date,
          language: String? = nil,
-         additionalInfo: String? = nil,
+         state: State = .loading,
+         isSentByUser: Bool? = nil,
          isFav: Bool = false) {
+        self.id = id
         self.originalText = originalText
         self.translation = translation
-        self.date = date
+        self.createdAt = createdAt
         self.language = language
-        self.additionalInfo = additionalInfo
+        self.state = state
+        self.isSentByUser = isSentByUser
         self.isFav = isFav
+    }
+
+    enum State: String {
+        case loading
+        case failed
+        case loaded
     }
 }

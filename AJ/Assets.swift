@@ -14,16 +14,16 @@ struct Assets {
 
     struct Colors {
 
-        static let white = Color(UIColor(named: "Colors/White") ?? .white)
-        static let black = UIColor(named: "Colors/Black")
-        static let accentColor = Color(UIColor(named: "Colors/AccentColor") ?? .blue)
-        static let solidBlack = UIColor(named: "Colors/SolidBlack")
-        static let solidWhite = UIColor(named: "Colors/SolidWhite")
-        static let mediumGray = UIColor(named: "Colors/MediumGray")
-        static let dark = UIColor(named: "Colors/Dark")
-        static let gray = UIColor(named: "Colors/Gray")
-        static let lightGray = UIColor(named: "Colors/LightGray")
-        static let textOnAccent = UIColor.white
+        static let white = Color("Colors/White")
+        static let black = Color("Colors/Black")
+        static let accentColor = Color("Colors/AccentColor")
+        static let solidBlack = Color("Colors/SolidBlack")
+        static let solidWhite = Color("Colors/SolidWhite")
+        static let mediumGray = Color("Colors/MediumGray")
+        static let dark = Color("Colors/Dark")
+        static let gray = Color("Colors/Gray")
+        static let lightGray = Color("Colors/LightGray")
+        static let textOnAccent = Color.white
     }
 }
 

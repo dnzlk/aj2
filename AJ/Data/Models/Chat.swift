@@ -12,10 +12,13 @@ import SwiftData
 class Chat: Hashable {
 
     var messages: [Message]
-    var languages: [String]
+    @Transient var pendingMessage: (message: Message, hasFailed: Bool)?
 
-    init(messages: [Message], languages: [String]) {
+    var allMessages: [Message] {
+        messages + (pendingMessage != nil ? [pendingMessage!.message] : [])
+    }
+
+    init(messages: [Message]) {
         self.messages = messages
-        self.languages = languages
     }
 }

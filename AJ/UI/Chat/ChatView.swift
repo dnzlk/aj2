@@ -1,264 +1,140 @@
 //
-//  ChatView.swift
-//  AskJoe
+//  NewChatView.swift
+//  AJ
 //
-//  Created by Денис on 21.02.2023.
+//  Created by Денис on 13.09.2023.
 //
 
-import SnapKit
-import DifferenceKit
-import UIKit
+import SwiftData
+import SwiftUI
+import Foundation
 
-final class _ChatView: _View<_ChatView.Model, _ChatView.Action> {
-
-    // MARK: - Types
-
-    struct Model {
-
-        var newCells: [ChatCellModel] = []
-        var textFieldPlaceholder: String = ""
-
-        var hasMessages: Bool {
-            newCells.contains(where: {
-                if case .message = $0 {
-                    return true
-                }
-                return false
-            })
-        }
-    }
-
-    enum Action {
-        case share(String)
-        case sendButtonTapped(String)
-        case micTap
-
-        case copyTap(Message)
-        case voiceTap(Message)
-        case favTap(Message)
-        case originalTextTap(Message)
-
-        case errorTap(Message)
-    }
-
-    private enum Const {
-        static let shouldHideKeyboardOffset: CGFloat = 100.0
-    }
+struct ChatView: View {
 
     // MARK: - Private Properties
 
-    private lazy var tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
-        table.backgroundColor = .clear
-        table.delegate = self
-        table.dataSource = self
-        table.separatorStyle = .none
-        table.transform = CGAffineTransformMakeScale(1, -1)
-        table.register(MessageCell.self, forCellReuseIdentifier: MessageCell.reuseId)
-        table.showsVerticalScrollIndicator = false
-        return table
-    }()
+    @Environment(\.modelContext) private var context
 
-    private let textField = ChatTextField(model: .init(placeholder: ""))
+    @Query(sort: \Message.createdAt, order: .reverse) private var messages: [Message]
 
-    private var cells: [ChatCellModel] = []
+    @State private var inputText = ""
 
-    private var lastScrollOffset: CGFloat = 0
-    private var lastTimeScrollWentDownOffset: CGFloat = 0
+    private let languages: Languages = (.english, .russian)
 
-    private var isTextFieldActive = false
+    private let te = TranslateEndpoint.shared
 
-    // MARK: - Lifecycle
+    // MARK: - View
 
-    override func make() {
-        super.make()
+    var body: some View {
+        VStack {
+            ChatNavBar(languages: languages)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
 
-        backgroundColor = .clear
+            ScrollViewReader { reader in
 
-        addSubview(tableView)
-        addSubview(textField)
-    }
+                list()
 
-    override func setupConstraints() {
-        tableView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(16)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top)
-        }
-        textField.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(tableView.snp.bottom)
-            make.bottom.equalTo(keyboardLayoutGuide.snp.top)
-        }
-        super.setupConstraints()
-    }
+                Spacer()
 
-    override func bind() {
-        textField.onAction = { [weak self] action in
-            switch action {
-            case .onBecomeActive:
-                self?.isTextFieldActive = true
-                self?.lastTimeScrollWentDownOffset = self?.tableView.contentOffset.y ?? 0
-            case .onBecomeInactive:
-                self?.isTextFieldActive = false
-            case let .sendButtonTap(text):
-                self?.onAction?(.sendButtonTapped(text))
-                self?.tableView.setContentOffset(.zero, animated: true)
-            case .micTap:
-                self?.onAction?(.micTap)
+                textField(scrollView: reader)
+                    .padding()
             }
         }
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(onChatTap))
-        tapRecognizer.cancelsTouchesInView = false
-        tableView.addGestureRecognizer(tapRecognizer)
-
-        super.bind()
     }
 
-    override func reloadData(animated: Bool) {
-        guard let model else {
-            super.reloadData(animated: animated)
-            return
+    @ViewBuilder
+    private func list() -> some View {
+        let _ = Self._printChanges()
+
+        List(messages.reversed(), id: \.id) { message in
+            ChatCell(message: message,
+                     style: getStyle(forMessage: message),
+                     isPlaying: false)
+            .flippedUpsideDown()
         }
-        textField.model?.placeholder = model.textFieldPlaceholder
+        .flippedUpsideDown()
+        .listStyle(.plain)
+        .background(.red)
+    }
 
-        let oldCells = cells
-        cells = model.newCells
+    private func textField(scrollView: ScrollViewProxy) -> some View {
+        HStack {
+            TextField("Type here", text: $inputText,  axis: .vertical)
+                .lineLimit(3)
 
-        let diff = StagedChangeset(source: oldCells, target: cells)
-        
-        tableView.reload(using: diff, with: .fade) { [weak self] data in
-            self?.cells = data
+            Button {
+                send(text: inputText)
+                scrollView.scrollTo(messages.first?.id)
+            } label: {
+                Text("Button")
+            }
         }
-
-        super.reloadData(animated: animated)
-    }
-
-    // MARK: - Public Methods
-
-    @discardableResult
-    override func becomeFirstResponder() -> Bool {
-        textField.becomeFirstResponder()
-
-        return true
-    }
-
-    func clear() {
-        textField.clear()
     }
 
     // MARK: - Private Methods
 
-    @objc
-    private func onChatTap() {
-        endEditing(true)
-    }
-}
+    private func send(text: String) {
+        if let message = messages.last, case .failed = message.state {
+            context.delete(message)
+        }
 
-// MARK: - UITableViewDataSource
+        let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
 
-extension _ChatView: UITableViewDataSource {
+        guard !text.isEmpty else { return }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cells.count
-    }
+        FBAnalytics.log(.chat_send_tap)
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
-        let item = cells[indexPath.row]
+        inputText = ""
 
-        switch item {
-        case let .message(message, style):
-            guard let messageCell = tableView.dequeueReusableCell(withIdentifier: MessageCell.reuseId, for: indexPath) as? MessageCell
-            else {
-                return cell
+        let message = Message(originalText: text, createdAt: Date())
+        context.insert(message)
+
+        Task {
+
+            do {
+                let translation = try await te.translate(text: text, languages: languages)
+
+                let translatedMessage = Message(id: message.id,
+                                                originalText: message.originalText,
+                                                translation: translation.text,
+                                                createdAt: message.createdAt,
+                                                language: translation.language,
+                                                isSentByUser: translation.language == languages.1.rawValue)
+
+                context.insert(translatedMessage)
+                pendingMessage = nil
+            } catch {
+                pendingMessage?.hasFailed = true
+                FBAnalytics.log(.chat_error)
             }
-            messageCell.model = .init(message: message, style: style)
-            messageCell.onAction = { [weak self] action in
-                switch action {
-                case .errorTap:
-                    self?.onAction?(.errorTap(message))
-                case .copyTap:
-                    self?.onAction?(.copyTap(message))
-                case .favTap:
-                    self?.onAction?(.favTap(message))
-                case .voiceTap:
-                    self?.onAction?(.voiceTap(message))
-                case .originalTextTap:
-                    self?.onAction?(.originalTextTap(message))
-                }
-            }
-            cell = messageCell
+
         }
-        cell.transform = CGAffineTransformMakeScale(1, -1)
-
-        return cell
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        nil
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        0
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        nil
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        0
+    private func getStyle(forMessage message: Message) -> ChatCell.Style {
+        if message === pendingMessage?.message {
+            return pendingMessage?.hasFailed == true ? .error : .loading
+        }
+        return message.isSentByUser == true ? .right : .left
     }
 }
 
-// MARK: - UITableViewDelegate
-
-extension _ChatView: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard let model, case .message(let message, _) = model.newCells[indexPath.row] else { return nil }
-
-        guard let text = message.translation else { return nil }
-
-        return .init(identifier: "\(indexPath.row)" as NSString,
-                     previewProvider: nil) { _ in
-            let shareAction = UIAction(
-                title: "Share",
-                image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
-                    self?.onAction?(.share(text))
-                }
-            return UIMenu(title: "", image: nil, children: [shareAction])
-        }
-    }
-
-    func tableView(_ tableView: UITableView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
-        guard
-          let identifier = configuration.identifier as? String,
-          let index = Int(identifier),
-          let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? MessageCell else {
-            return nil
-        }
-        return UITargetedPreview(view: cell.translationBgContainer)
+struct FlippedUpsideDown: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .rotationEffect(.degrees(180))
+            .scaleEffect(x: -1, y: 1, anchor: .center)
     }
 }
 
-// MARK: - UIScrollViewDelegate
-
-extension _ChatView: UIScrollViewDelegate {
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let newOffset = scrollView.contentOffset.y
-        let scrollWentUp = newOffset > lastScrollOffset
-
-        if scrollWentUp {
-            if newOffset - lastTimeScrollWentDownOffset > Const.shouldHideKeyboardOffset {
-                UIView.animate(withDuration: 0.25) {
-                    self.endEditing(true)
-                }
-            }
-        } else {
-            lastTimeScrollWentDownOffset = newOffset
-        }
-        lastScrollOffset = newOffset
+extension View{
+    func flippedUpsideDown() -> some View {
+        self.modifier(FlippedUpsideDown())
     }
 }
+
+//#Preview {
+//
+//    ChatView()
+//}

@@ -5,10 +5,10 @@
 //  Created by Денис on 08.09.2023.
 //
 
-import UIKit
+import SwiftUI
 
 typealias Languages = (Language, Language)
-typealias LanguageColors = (bgColor: UIColor?, textColor: UIColor?)
+typealias LanguageColors = (bgColor: Color, textColor: Color)
 
 
 enum Language: String, CaseIterable {
@@ -42,10 +42,10 @@ enum Language: String, CaseIterable {
         }
     }
 
-    var color: LanguageColors? {
+    var color: LanguageColors {
         switch self {
         case .english:
-            return (UIColor(Assets.Colors.accentColor), Assets.Colors.textOnAccent)
+            return (Assets.Colors.accentColor, Assets.Colors.textOnAccent)
         case .russian:
             return (Assets.Colors.solidWhite, Assets.Colors.black)
         }
