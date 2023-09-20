@@ -5,6 +5,7 @@
 //  Created by Денис on 15.09.2023.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ChatCell: View {
@@ -34,6 +35,14 @@ struct ChatCell: View {
         style == .right
     }
 
+    private var hasTranslation: Bool {
+        message.translation != nil
+    }
+
+    private var isError: Bool {
+        message.error != nil
+    }
+
     // MARK: - View
 
     var body: some View {
@@ -43,17 +52,8 @@ struct ChatCell: View {
                 Spacer()
             }
             VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center) {
-
-                switch style {
-                case .loading:
-                    ProgressView()
-                case .error:
-                    EmptyView()
-                case .right, .left:
-                    translation()
-                    voiceAndCopyButtons()
-                }
-
+                loadingView()
+                translation()
                 originalText()
             }
             if isLeft {
@@ -61,39 +61,46 @@ struct ChatCell: View {
                 Spacer()
             }
         }
-//        .padding()
+    }
+
+    private func loadingView() -> some View {
+        ProgressView()
+            .frame(height: hasTranslation || isError ? 0 : nil)
+            .opacity(hasTranslation || isError ? 0 : 1)
     }
 
     private func translation() -> some View {
-        Text(message.translation?.text ?? "")
-            .foregroundStyle(Assets.Colors.textOnAccent)
-            .font(.callout)
-            .padding(8)
-            .background(Assets.Colors.accentColor)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
+        VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center) {
+            Text(message.translation?.text ?? "")
+                .foregroundStyle(Assets.Colors.textOnAccent)
+                .font(.callout)
+                .padding(8)
+                .background(Assets.Colors.accentColor)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
 
-    private func voiceAndCopyButtons() -> some View {
-        HStack {
-            Button(action: {}, label: {
-                Text(isRight ? "📄" : "▶️")
-                    .font(.title2)
-                    .padding(isRight ? .horizontal : .init(rawValue: 0))
-            })
-            Button(action: {}, label: {
-                Text(isLeft ? "📄" : "▶️")
-                    .font(.title2)
-                    .padding(isLeft ? .horizontal : .init(rawValue: 0))
-            })
+            HStack {
+                Button(action: {}, label: {
+                    Text(isRight ? "📄" : "▶️")
+                        .font(.title2)
+                        .padding(isRight ? .horizontal : .init(rawValue: 0))
+                })
+                Button(action: {}, label: {
+                    Text(isLeft ? "📄" : "▶️")
+                        .font(.title2)
+                        .padding(isLeft ? .horizontal : .init(rawValue: 0))
+                })
+            }
         }
+        .frame(height: hasTranslation ? nil : 0)
+        .opacity(hasTranslation ? 1 : 0)
     }
 
     private func originalText() -> some View {
         Text(message.originalText)
-            .multilineTextAlignment(isRight ? .trailing : isLeft ? .leading : .center)
+            .lineLimit(3)
             .foregroundStyle(Assets.Colors.dark)
             .font(.caption)
-            .frame(maxWidth: .infinity)
             .padding(.vertical, 4)
+            .frame(maxWidth: .infinity, alignment: isRight ? .trailing : isLeft ? .leading : .center)
     }
 }
