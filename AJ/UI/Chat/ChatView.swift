@@ -53,6 +53,8 @@ struct ChatView: View {
                      style: getStyle(forMessage: message),
                      isPlaying: false)
             .flippedUpsideDown()
+            .listRowSeparator(.hidden)
+            .transition(.slide)
         }
         .flippedUpsideDown()
         .listStyle(.plain)
@@ -110,10 +112,12 @@ struct ChatView: View {
 
     @MainActor
     private func updateTranslation(message: Message, translation: Translation) {
-        message.translation = .init(text: translation.text,
-                                    language: translation.language ?? "english",
-                                    isSentByUser: translation.language == languages.1.rawValue)
-        try? context.save()
+        withAnimation {
+            message.translation = .init(text: translation.text,
+                                        language: translation.language ?? "english",
+                                        isSentByUser: translation.language == languages.1.rawValue)
+            try? context.save()
+        }
     }
 
     private func getStyle(forMessage message: Message) -> ChatCell.Style {

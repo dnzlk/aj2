@@ -25,7 +25,6 @@
 		E39C27DB2AB1729D004CC5F9 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C27DA2AB1729D004CC5F9 /* ChatView.swift */; };
 		E39C27DE2AB34354004CC5F9 /* ChatNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C27DD2AB34354004CC5F9 /* ChatNavBar.swift */; };
 		E39C27E02AB4111E004CC5F9 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C27DF2AB4111E004CC5F9 /* ChatCell.swift */; };
-		E39C27E52AB9863D004CC5F9 /* TranslateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C27E42AB9863D004CC5F9 /* TranslateUseCase.swift */; };
 		E39C27E82AB9EEB0004CC5F9 /* FlippedUpsideDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C27E72AB9EEB0004CC5F9 /* FlippedUpsideDown.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +45,6 @@
 		E39C27DA2AB1729D004CC5F9 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		E39C27DD2AB34354004CC5F9 /* ChatNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNavBar.swift; sourceTree = "<group>"; };
 		E39C27DF2AB4111E004CC5F9 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
-		E39C27E42AB9863D004CC5F9 /* TranslateUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateUseCase.swift; sourceTree = "<group>"; };
 		E39C27E72AB9EEB0004CC5F9 /* FlippedUpsideDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippedUpsideDown.swift; sourceTree = "<group>"; };
 		E3AE5BB529D9CAEC00AD411B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		E3BFCE6429B1F99100154D87 /* AMChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMChatResponse.swift; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 				E342442329A52A68006A2AF9 /* Message.swift */,
 				E39C27E12AB984C3004CC5F9 /* Subviews */,
 				E39C27DA2AB1729D004CC5F9 /* ChatView.swift */,
-				E39C27E42AB9863D004CC5F9 /* TranslateUseCase.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -270,7 +267,6 @@
 				E361BC832AA6251D007956AD /* AMChatResponse.swift in Sources */,
 				E36008AA2AAAE62200014191 /* Language.swift in Sources */,
 				E36008B02AAEF9AE00014191 /* PlayerManager.swift in Sources */,
-				E39C27E52AB9863D004CC5F9 /* TranslateUseCase.swift in Sources */,
 				E39C27E82AB9EEB0004CC5F9 /* FlippedUpsideDown.swift in Sources */,
 				E36008A82AAAE4AB00014191 /* TranslateEndpoint.swift in Sources */,
 				E361BC5F2AA615CE007956AD /* Message.swift in Sources */,
