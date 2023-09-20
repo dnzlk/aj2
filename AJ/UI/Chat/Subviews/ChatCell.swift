@@ -70,28 +70,25 @@ struct ChatCell: View {
     }
 
     private func translation() -> some View {
-        VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center) {
+        HStack {
+            if isRight {
+                speaker()
+            }
             Text(message.translation?.text ?? "")
                 .foregroundStyle(Assets.Colors.textOnAccent)
                 .font(.callout)
                 .padding(8)
                 .background(Assets.Colors.accentColor)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                .frame(height: hasTranslation ? nil : 0, alignment: isRight ? .trailing : isLeft ? .leading : .center)
+                .onTapGesture {
+                    copy()
+                }
 
-            HStack {
-                Button(action: {}, label: {
-                    Text(isRight ? "📄" : "▶️")
-                        .font(.title2)
-                        .padding(isRight ? .horizontal : .init(rawValue: 0))
-                })
-                Button(action: {}, label: {
-                    Text(isLeft ? "📄" : "▶️")
-                        .font(.title2)
-                        .padding(isLeft ? .horizontal : .init(rawValue: 0))
-                })
+            if isLeft {
+                speaker()
             }
         }
-        .frame(height: hasTranslation ? nil : 0)
         .opacity(hasTranslation ? 1 : 0)
     }
 
@@ -102,5 +99,23 @@ struct ChatCell: View {
             .font(.caption)
             .padding(.vertical, 4)
             .frame(maxWidth: .infinity, alignment: isRight ? .trailing : isLeft ? .leading : .center)
+    }
+
+    private func speaker() -> some View {
+        Button(action: play, label: {
+            Image(systemName: "speaker.wave.2.fill")
+                .imageScale(.small)
+                .foregroundStyle(isPlaying ? Assets.Colors.accentColor : Assets.Colors.gray)
+        })
+    }
+
+    // MARK: - Actions
+
+    private func copy() {
+        UIPasteboard.general.string = message.translation?.text
+    }
+
+    private func play() {
+        
     }
 }

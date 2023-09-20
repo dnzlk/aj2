@@ -18,7 +18,7 @@ struct ChatView: View {
 
     @State private var inputText = ""
 
-    @State private var isLoading = false
+    @State private var isTranslating = false
 
     private let te = TranslateEndpoint.shared
 
@@ -80,7 +80,7 @@ struct ChatView: View {
 
     private func send() {
 
-        guard !isLoading else { return }
+        guard !isTranslating else { return }
 
         if let message = messages.last, case .failed = message.state {
             context.delete(message)
@@ -97,7 +97,7 @@ struct ChatView: View {
 
         Task {
             do {
-                isLoading = true
+                isTranslating = true
 
                 let translation = try await te.translate(text: text, languages: languages)
 
@@ -106,7 +106,7 @@ struct ChatView: View {
                 message.error = error.localizedDescription
             }
 
-            isLoading = false
+            isTranslating = false
         }
     }
 
