@@ -13,32 +13,43 @@ class Message: Hashable {
 
     let id: String
     let originalText: String
-    var translation: String?
+    var translation: Translation?
     let createdAt: Date
-    var language: String?
-    var state: State
-    var isSentByUser: Bool?
     var isFav: Bool
+    var error: String?
+
+    var state: State {
+        if error != nil {
+            return .failed
+        }
+        if translation == nil {
+            return .loading
+        }
+        return .loaded
+    }
 
     init(id: String = UUID().uuidString,
          originalText: String,
-         translation: String? = nil,
+         translation: Translation? = nil,
          createdAt: Date,
-         language: String? = nil,
-         state: State = .loading,
-         isSentByUser: Bool? = nil,
-         isFav: Bool = false) {
+         isFav: Bool = false,
+         error: String? = nil) {
         self.id = id
         self.originalText = originalText
         self.translation = translation
         self.createdAt = createdAt
-        self.language = language
-        self.state = state
-        self.isSentByUser = isSentByUser
         self.isFav = isFav
+        self.error = error
     }
 
-    enum State: String {
+    struct Translation: Codable {
+
+        var text: String
+        var language: String
+        var isSentByUser: Bool
+    }
+
+    enum State: Codable {
         case loading
         case failed
         case loaded

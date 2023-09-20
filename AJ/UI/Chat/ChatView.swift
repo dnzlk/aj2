@@ -7,7 +7,6 @@
 
 import SwiftData
 import SwiftUI
-import Foundation
 
 struct ChatView: View {
 
@@ -19,9 +18,11 @@ struct ChatView: View {
 
     @State private var inputText = ""
 
-    private let languages: Languages = (.english, .russian)
+    @State private var isLoading = false
 
     private let te = TranslateEndpoint.shared
+
+    private var languages: Languages = (.english, .russian)
 
     // MARK: - View
 
@@ -47,7 +48,7 @@ struct ChatView: View {
     private func list() -> some View {
         let _ = Self._printChanges()
 
-        List(messages.reversed(), id: \.id) { message in
+        List(messages, id: \.id) { message in
             ChatCell(message: message,
                      style: getStyle(forMessage: message),
                      isPlaying: false)
@@ -58,32 +59,34 @@ struct ChatView: View {
         .background(.red)
     }
 
+    @ViewBuilder
     private func textField(scrollView: ScrollViewProxy) -> some View {
         HStack {
             TextField("Type here", text: $inputText,  axis: .vertical)
                 .lineLimit(3)
 
             Button {
-                send(text: inputText)
+                send()
                 scrollView.scrollTo(messages.first?.id)
             } label: {
-                Text("Button")
+                Text("Send")
             }
         }
     }
 
     // MARK: - Private Methods
 
-    private func send(text: String) {
+    private func send() {
+
+        guard !isLoading else { return }
+
         if let message = messages.last, case .failed = message.state {
             context.delete(message)
         }
 
-        let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let text = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !text.isEmpty else { return }
-
-        FBAnalytics.log(.chat_send_tap)
 
         inputText = ""
 
@@ -91,50 +94,35 @@ struct ChatView: View {
         context.insert(message)
 
         Task {
-
             do {
+                isLoading = true
+
                 let translation = try await te.translate(text: text, languages: languages)
 
-                let translatedMessage = Message(id: message.id,
-                                                originalText: message.originalText,
-                                                translation: translation.text,
-                                                createdAt: message.createdAt,
-                                                language: translation.language,
-                                                isSentByUser: translation.language == languages.1.rawValue)
-
-                context.insert(translatedMessage)
-                pendingMessage = nil
+                await updateTranslation(message: message, translation: translation)
             } catch {
-                pendingMessage?.hasFailed = true
-                FBAnalytics.log(.chat_error)
+                message.error = error.localizedDescription
             }
 
+            isLoading = false
         }
+    }
+
+    @MainActor
+    private func updateTranslation(message: Message, translation: Translation) {
+        message.translation = .init(text: translation.text,
+                                    language: translation.language ?? "english",
+                                    isSentByUser: translation.language == languages.1.rawValue)
+        try? context.save()
     }
 
     private func getStyle(forMessage message: Message) -> ChatCell.Style {
-        if message === pendingMessage?.message {
-            return pendingMessage?.hasFailed == true ? .error : .loading
+        if message.state == .loading {
+            return .loading
         }
-        return message.isSentByUser == true ? .right : .left
+        if message.state == .failed {
+            return .error
+        }
+        return message.translation?.isSentByUser == true ? .right : .left
     }
 }
-
-struct FlippedUpsideDown: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .rotationEffect(.degrees(180))
-            .scaleEffect(x: -1, y: 1, anchor: .center)
-    }
-}
-
-extension View{
-    func flippedUpsideDown() -> some View {
-        self.modifier(FlippedUpsideDown())
-    }
-}
-
-//#Preview {
-//
-//    ChatView()
-//}

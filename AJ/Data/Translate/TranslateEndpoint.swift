@@ -53,10 +53,10 @@ final class TranslateEndpoint: APIEndpoint {
         let (data, _) = try await URLSession.shared.data(for: request)
         let response = try JSONDecoder().decode(AMChatResponse.self, from: data)
 
-        let decodedResponse = response.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        let decodedResponse = response.content.trmd()
         let parts = decodedResponse.components(separatedBy: ";")
         let code = parts.first
-        return Translation(text: String(decodedResponse.dropFirst((code?.count ?? -1) + 1)), language: code?.lowercased())
+        return Translation(text: String(decodedResponse.dropFirst((code?.count ?? -1) + 1)).trmd(), language: code?.lowercased())
     }
 
     // MARK: - Private Methods
@@ -68,5 +68,12 @@ final class TranslateEndpoint: APIEndpoint {
         return """
                 "You must translate the given request between \(_1) and \(_2) languages. Translate to \(_2) if the request is in \(_1), or translate to \(_1) if the request is in \(_2). At the beginning of your response add '\(_2.rawValue);' if the request is in \(_1), or '\(_1.rawValue);' if the request is in \(_2). Do not respond anything else."
             """
+    }
+}
+
+extension String {
+
+    func trmd() -> String {
+        trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

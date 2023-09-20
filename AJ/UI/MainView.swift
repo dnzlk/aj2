@@ -5,6 +5,7 @@
 //  Created by Денис on 04.09.2023.
 //
 
+import SwiftData
 import SwiftUI
 
 struct MainView: View {
@@ -26,9 +27,39 @@ struct MainView: View {
             }
             .background(Assets.Colors.white)
         }
+        .onViewDidLoad {
+            let fetchDescriptor = FetchDescriptor(sortBy: [SortDescriptor(\Message.createdAt)])
+
+            let messages = (try? context.fetch(fetchDescriptor)) ?? []
+
+            for message in messages where message.translation == nil {
+                context.delete(message)
+            }
+        }
     }
 }
 
 //#Preview {
 //    MainView()
 //}
+
+struct ViewDidLoadModifier: ViewModifier {
+    @State private var viewDidLoad = false
+    let action: (() -> Void)?
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                if viewDidLoad == false {
+                    viewDidLoad = true
+                    action?()
+                }
+            }
+    }
+}
+
+extension View {
+    func onViewDidLoad(perform action: (() -> Void)? = nil) -> some View {
+        self.modifier(ViewDidLoadModifier(action: action))
+    }
+}

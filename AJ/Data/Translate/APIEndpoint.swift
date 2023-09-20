@@ -22,7 +22,7 @@ class APIEndpoint {
 
     var url: URL? {
         let stringURL: String
-        let isDebugMode = UserDefaultsManager.shared.isDebugMode()
+        let isDebugMode = false//UserDefaultsManager.shared.isDebugMode()
 
         if isDebugMode, let debugUrl {
             stringURL = debugUrl

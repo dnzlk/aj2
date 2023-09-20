@@ -69,7 +69,7 @@ struct ChatCell: View {
     }
 
     private func translation() -> some View {
-        Text(message.translation ?? "")
+        Text(message.translation?.text ?? "")
             .foregroundStyle(Assets.Colors.textOnAccent)
             .font(.callout)
             .padding(8)
