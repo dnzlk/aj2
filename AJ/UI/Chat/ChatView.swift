@@ -39,7 +39,6 @@ struct ChatView: View {
                 Spacer()
 
                 textField(scrollView: reader)
-                    .padding()
             }
         }
     }
@@ -49,16 +48,13 @@ struct ChatView: View {
         let _ = Self._printChanges()
 
         List(messages, id: \.id) { message in
-            ChatCell(message: message,
-                     style: getStyle(forMessage: message),
-                     isPlaying: false)
-            .flippedUpsideDown()
-            .listRowSeparator(.hidden)
-            .transition(.slide)
+            ChatCell(message: message, style: getStyle(forMessage: message))
+                .flippedUpsideDown()
+                .listRowSeparator(.hidden)
+                .transition(.slide)
         }
         .flippedUpsideDown()
         .listStyle(.plain)
-        .background(.red)
     }
 
     @ViewBuilder
@@ -71,9 +67,19 @@ struct ChatView: View {
                 send()
                 scrollView.scrollTo(messages.first?.id)
             } label: {
-                Text("Send")
+                Image(systemName: inputText.isEmpty ? "mic.circle.fill" : "arrow.up.circle.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundStyle(Assets.Colors.accentColor)
             }
+            .contentTransition(.symbolEffect(.replace))
         }
+        .padding(.vertical, 8)
+        .padding(.horizontal)
+        .background(Assets.Colors.solidWhite)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(8)
+        .background(Assets.Colors.white)
     }
 
     // MARK: - Private Methods
@@ -114,7 +120,7 @@ struct ChatView: View {
     private func updateTranslation(message: Message, translation: Translation) {
         withAnimation {
             message.translation = .init(text: translation.text,
-                                        language: translation.language ?? "english",
+                                        language: translation.language ?? "en",
                                         isSentByUser: translation.language == languages.1.rawValue)
             try? context.save()
         }

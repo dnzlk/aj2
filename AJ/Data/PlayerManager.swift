@@ -41,6 +41,7 @@ final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
     }
 
     func stop() {
+        onFinish?()
         synthesizer.stopSpeaking(at: .immediate)
     }
 

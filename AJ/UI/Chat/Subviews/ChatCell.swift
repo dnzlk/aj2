@@ -23,9 +23,10 @@ struct ChatCell: View {
 
     var message: Message
     var style: Style
-    var isPlaying: Bool
 
     // MARK: - Private Properties
+
+    @State private var isPlaying = false
 
     private var isLeft: Bool {
         style == .left
@@ -95,6 +96,7 @@ struct ChatCell: View {
     private func originalText() -> some View {
         Text(message.originalText)
             .lineLimit(3)
+            .multilineTextAlignment(isRight ? .trailing : isLeft ? .leading : .center)
             .foregroundStyle(Assets.Colors.dark)
             .font(.caption)
             .padding(.vertical, 4)
@@ -104,9 +106,11 @@ struct ChatCell: View {
     private func speaker() -> some View {
         Button(action: play, label: {
             Image(systemName: "speaker.wave.2.fill")
-                .imageScale(.small)
+                .imageScale(.medium)
                 .foregroundStyle(isPlaying ? Assets.Colors.accentColor : Assets.Colors.gray)
         })
+        .background(Color.clear)
+        .contentShape(Rectangle())
     }
 
     // MARK: - Actions
@@ -116,6 +120,17 @@ struct ChatCell: View {
     }
 
     private func play() {
+        guard let translation = message.translation else { return }
+
+        let manager = PlayerManager.shared
         
+        isPlaying = true
+        do {
+            try manager.play(text: translation.text, language: translation.language) {
+                isPlaying = false
+            }
+        } catch {
+            isPlaying = false
+        }
     }
 }

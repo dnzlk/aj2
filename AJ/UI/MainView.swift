@@ -25,7 +25,6 @@ struct MainView: View {
                     RecordingView(languages: languages, transcription: $voiceText)
                 }
             }
-            .background(Assets.Colors.white)
         }
         .onViewDidLoad {
             let fetchDescriptor = FetchDescriptor(sortBy: [SortDescriptor(\Message.createdAt)])
@@ -38,10 +37,6 @@ struct MainView: View {
         }
     }
 }
-
-//#Preview {
-//    MainView()
-//}
 
 struct ViewDidLoadModifier: ViewModifier {
     @State private var viewDidLoad = false
