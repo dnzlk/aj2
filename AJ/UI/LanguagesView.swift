@@ -156,6 +156,5 @@ struct LanguagesView: View {
             LanguagesView(languages: $languages)
         }
     }
-
     return ContentView()
 }

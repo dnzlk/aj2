@@ -96,10 +96,13 @@ struct ChatCell: View {
                 .background(bgColor)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .frame(height: hasTranslation ? nil : 0, alignment: isRight ? .trailing : isLeft ? .leading : .center)
-                .onTapGesture {
-                    copy()
-                }
-
+                .gesture(
+                    TapGesture(count: 2).onEnded {
+                        message.isFav.toggle()
+                    }.exclusively(before: TapGesture(count: 1).onEnded {
+                        copy()
+                    })
+                )
             if isLeft {
                 speaker()
             }
@@ -128,8 +131,7 @@ struct ChatCell: View {
                 .imageScale(.medium)
                 .foregroundStyle(message.isPlaying ? bgColor : Assets.Colors.gray)
         })
-        .background(Color.clear)
-        .contentShape(Rectangle())
+        .buttonStyle(.borderless)
     }
 
     // MARK: - Actions
