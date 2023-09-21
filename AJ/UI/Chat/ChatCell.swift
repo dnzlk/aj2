@@ -21,12 +21,11 @@ struct ChatCell: View {
 
     // MARK: - Public Properties
 
-    var message: Message
+    @Bindable var message: Message
     var style: Style
+    var onPlay: () -> Void
 
     // MARK: - Private Properties
-
-    @State private var isPlaying = false
 
     private var isLeft: Bool {
         style == .left
@@ -104,11 +103,16 @@ struct ChatCell: View {
             .frame(maxWidth: .infinity, alignment: isRight ? .trailing : isLeft ? .leading : .center)
     }
 
+    @ViewBuilder
     private func speaker() -> some View {
-        Button(action: play, label: {
+        let _ = Self._printChanges()
+
+        Button(action: {
+            onPlay()
+        }, label: {
             Image(systemName: "speaker.wave.2.fill")
                 .imageScale(.medium)
-                .foregroundStyle(isPlaying ? Assets.Colors.accentColor : Assets.Colors.gray)
+                .foregroundStyle(message.isPlaying ? Assets.Colors.accentColor : Assets.Colors.gray)
         })
         .background(Color.clear)
         .contentShape(Rectangle())
@@ -118,20 +122,5 @@ struct ChatCell: View {
 
     private func copy() {
         UIPasteboard.general.string = message.translation?.text
-    }
-
-    private func play() {
-        guard let translation = message.translation else { return }
-
-        let manager = PlayerManager.shared
-        
-        isPlaying = true
-        do {
-            try manager.play(text: translation.text, language: translation.language) {
-                isPlaying = false
-            }
-        } catch {
-            isPlaying = false
-        }
     }
 }

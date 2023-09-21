@@ -20,7 +20,8 @@ struct ChatView: View {
 
     @State private var isTranslating = false
 
-    private let te = TranslateEndpoint.shared
+    private let translateEndpoint = TranslateEndpoint.shared
+    private let audioPlayer = PlayerManager()
 
     private var languages: Languages = (.english, .russian)
 
@@ -48,7 +49,10 @@ struct ChatView: View {
         let _ = Self._printChanges()
 
         List(messages, id: \.id) { message in
-            ChatCell(message: message, style: getStyle(forMessage: message))
+//            Section(header: Text(department.name))
+            ChatCell(message: message,
+                     style: getStyle(forMessage: message),
+                     onPlay: { audioPlayer.play(message: message, context: context) })
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
                 .transition(.slide)
@@ -78,9 +82,9 @@ struct ChatView: View {
         .padding(.vertical, 8)
         .padding(.horizontal)
         .background(Assets.Colors.solidWhite)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding(8)
-        .background(Assets.Colors.white)
+        .background(.ultraThinMaterial)
     }
 
     // MARK: - Private Methods
@@ -106,7 +110,7 @@ struct ChatView: View {
             do {
                 isTranslating = true
 
-                let translation = try await te.translate(text: text, languages: languages)
+                let translation = try await translateEndpoint.translate(text: text, languages: languages)
 
                 await updateTranslation(message: message, translation: translation)
             } catch {

@@ -6,7 +6,8 @@
 //
 
 import AVFoundation
-import Foundation
+import SwiftData
+import SwiftUI
 
 final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
 
@@ -14,9 +15,7 @@ final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
         case noAvailableVoices
     }
 
-    static let shared = PlayerManager()
-
-    private override init() {
+    override init() {
         super.init()
         synthesizer.delegate = self
     }
@@ -25,27 +24,48 @@ final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
 
     private let synthesizer = AVSpeechSynthesizer()
 
-    private var onFinish: (() -> Void)?
+    private var playingMessage: Message?
+
+    private var context: ModelContext?
 
     // MARK: - Public Methods
 
-    func play(text: String, language: String? = "en", onFinish: (() -> Void)? = nil) throws {
+    func play(message: Message, context: ModelContext) {
+        guard let translation = message.translation else { return }
+
         stop()
 
-        let utterance = AVSpeechUtterance(string: text)
+        let utterance = AVSpeechUtterance(string: translation.text)
 
-        utterance.voice = AVSpeechSynthesisVoice(language: language)
+        utterance.voice = AVSpeechSynthesisVoice(language: translation.language)
         synthesizer.speak(utterance)
 
-        self.onFinish = onFinish
+        playingMessage = message
+
+        withAnimation {
+            message.isPlaying = true
+
+            try? context.save()
+        }
+
+        self.context = context
     }
 
     func stop() {
-        onFinish?()
         synthesizer.stopSpeaking(at: .immediate)
+        clear()
+    }
+
+    private func clear() {
+        playingMessage?.isPlaying = false
+        playingMessage = nil
     }
 
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        onFinish?()
+        withAnimation {
+            clear()
+            try? context?.save()
+        }
+        context = nil
     }
 }
