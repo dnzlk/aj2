@@ -62,6 +62,7 @@ struct ChatCell: View {
                 Spacer()
             }
         }
+        .listRowBackground(Color.clear)
     }
 
     private func loadingView() -> some View {

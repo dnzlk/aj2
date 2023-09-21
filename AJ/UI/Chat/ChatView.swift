@@ -55,6 +55,7 @@ struct ChatView: View {
         }
         .flippedUpsideDown()
         .listStyle(.plain)
+        .scrollDismissesKeyboard(.immediately)
     }
 
     @ViewBuilder
@@ -72,7 +73,7 @@ struct ChatView: View {
                     .frame(width: 30, height: 30)
                     .foregroundStyle(Assets.Colors.accentColor)
             }
-            .contentTransition(.symbolEffect(.replace))
+            .contentTransition(.symbolEffect(.replace, options: .speed(2.2)))
         }
         .padding(.vertical, 8)
         .padding(.horizontal)
