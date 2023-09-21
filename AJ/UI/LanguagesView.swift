@@ -121,20 +121,22 @@ struct LanguagesView: View {
     // MARK: - Actions
 
     private func select(language: Language) {
-        guard canSelect(language: language) else { return }
-
         withAnimation(.spring(duration: 0.4)) {
-            if languages.from == editingLanguage {
-                languages.from = language
-            } else if languages.to == editingLanguage {
+            if language == languages.from && editingLanguage == languages.to {
+                languages.from = languages.to
                 languages.to = language
+            } else if language == languages.to && editingLanguage == languages.from {
+                languages.to = languages.from
+                languages.from = language
+            } else {
+                if languages.from == editingLanguage {
+                    languages.from = language
+                } else if languages.to == editingLanguage {
+                    languages.to = language
+                }
             }
             editingLanguage = language
         }
-    }
-
-    private func canSelect(language: Language) -> Bool {
-        language != languages.from && language != languages.to
     }
 
     private func toggleSelection() {

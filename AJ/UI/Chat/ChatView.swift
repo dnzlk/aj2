@@ -61,7 +61,6 @@ struct ChatView: View {
         let _ = Self._printChanges()
 
         List(messages, id: \.id) { message in
-//            Section(header: Text(department.name))
             ChatCell(message: message,
                      style: getStyle(forMessage: message),
                      onPlay: { audioPlayer.play(message: message, context: context) })

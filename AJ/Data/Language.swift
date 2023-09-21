@@ -17,6 +17,7 @@ typealias LanguageColors = (bgColor: Color, textColor: Color)
 
 enum Language: String, CaseIterable, Equatable {
     case english = "en" // BCP-47
+    #warning("cannot be parsed")
     case chineseSimplified = "zh-Hans"
     case spanish = "es"
     case arabic = "ar"
