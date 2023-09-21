@@ -43,6 +43,20 @@ struct ChatCell: View {
         message.error != nil
     }
 
+    private var bgColor: Color {
+        let accentColor = Assets.Colors.accentColor
+
+        guard let translation = message.translation else { return accentColor }
+
+        return Language(rawValue: translation.language)?.color.bgColor ?? accentColor
+    }
+
+    private var textColor: Color {
+        guard let translation = message.translation else { return .white }
+
+        return Language(rawValue: translation.language)?.color.textColor ?? .white
+    }
+
     // MARK: - View
 
     var body: some View {
@@ -76,10 +90,10 @@ struct ChatCell: View {
                 speaker()
             }
             Text(message.translation?.text ?? "")
-                .foregroundStyle(Assets.Colors.textOnAccent)
+                .foregroundStyle(textColor)
                 .font(.callout)
                 .padding(8)
-                .background(Assets.Colors.accentColor)
+                .background(bgColor)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .frame(height: hasTranslation ? nil : 0, alignment: isRight ? .trailing : isLeft ? .leading : .center)
                 .onTapGesture {
@@ -112,7 +126,7 @@ struct ChatCell: View {
         }, label: {
             Image(systemName: "speaker.wave.2.fill")
                 .imageScale(.medium)
-                .foregroundStyle(message.isPlaying ? Assets.Colors.accentColor : Assets.Colors.gray)
+                .foregroundStyle(message.isPlaying ? bgColor : Assets.Colors.gray)
         })
         .background(Color.clear)
         .contentShape(Rectangle())

@@ -29,7 +29,7 @@ final class TranslateEndpoint: APIEndpoint {
     }
 
     override var prodUrl: String? {
-        "https://afraid-pianos-love.loca.lt/ask"//"http://127.0.0.1:5000/ask"
+        "https://polite-sloths-float.loca.lt/ask"//"http://127.0.0.1:5000/ask"
     }
 
     // MARK: - Public Methods
@@ -62,8 +62,8 @@ final class TranslateEndpoint: APIEndpoint {
     // MARK: - Private Methods
 
     private func generateSystemRule(languages: Languages) -> String {
-        let _1 = languages.0
-        let _2 = languages.1
+        let _1 = languages.from
+        let _2 = languages.to
 
         return """
                 "You must translate the given request between \(_1) and \(_2) languages. Translate to \(_2) if the request is in \(_1), or translate to \(_1) if the request is in \(_2). At the beginning of your response add '\(_2.rawValue);' if the request is in \(_1), or '\(_1.rawValue);' if the request is in \(_2). Do not respond anything else."

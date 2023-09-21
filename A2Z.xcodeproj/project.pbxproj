@@ -22,6 +22,8 @@
 		E361BC702AA62459007956AD /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE5BB529D9CAEC00AD411B /* APIEndpoint.swift */; };
 		E361BC812AA6251D007956AD /* AMChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BFCE6629B1F99A00154D87 /* AMChatMessage.swift */; };
 		E361BC832AA6251D007956AD /* AMChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BFCE6429B1F99100154D87 /* AMChatResponse.swift */; };
+		E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */; };
+		E37D06AE2ABC5F20005FE0F1 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */; };
 		E39C27DB2AB1729D004CC5F9 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C27DA2AB1729D004CC5F9 /* ChatView.swift */; };
 		E39C27DE2AB34354004CC5F9 /* ChatNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C27DD2AB34354004CC5F9 /* ChatNavBar.swift */; };
 		E39C27E02AB4111E004CC5F9 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C27DF2AB4111E004CC5F9 /* ChatCell.swift */; };
@@ -42,6 +44,8 @@
 		E361BC4D2AA61550007956AD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E361BC4F2AA61552007956AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E361BC522AA61552007956AD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesView.swift; sourceTree = "<group>"; };
+		E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		E39C27DA2AB1729D004CC5F9 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		E39C27DD2AB34354004CC5F9 /* ChatNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNavBar.swift; sourceTree = "<group>"; };
 		E39C27DF2AB4111E004CC5F9 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 		E32AC50929A3C5B900F242CC /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */,
 				E36008AF2AAEF9AE00014191 /* PlayerManager.swift */,
 				E36008D32AB0592F00014191 /* SpeechRecognizer.swift */,
 				E36008A92AAAE62200014191 /* Language.swift */,
@@ -154,10 +159,11 @@
 			isa = PBXGroup;
 			children = (
 				E39C27E62AB9EEA9004CC5F9 /* Modifiers */,
-				E36008D02AB0512300014191 /* RecordingView.swift */,
 				E39C27DC2AB1730E004CC5F9 /* Chat */,
 				E361BC4D2AA61550007956AD /* MainView.swift */,
 				E32EB62A2AA6F6D0001E16BE /* MenuView.swift */,
+				E36008D02AB0512300014191 /* RecordingView.swift */,
+				E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -245,6 +251,7 @@
 				E36008D42AB0592F00014191 /* SpeechRecognizer.swift in Sources */,
 				E361BC702AA62459007956AD /* APIEndpoint.swift in Sources */,
 				E361BC662AA6241B007956AD /* Assets.swift in Sources */,
+				E37D06AE2ABC5F20005FE0F1 /* UserDefaultsManager.swift in Sources */,
 				E36008D12AB0512300014191 /* RecordingView.swift in Sources */,
 				E39C27DB2AB1729D004CC5F9 /* ChatView.swift in Sources */,
 				E361BC812AA6251D007956AD /* AMChatMessage.swift in Sources */,
@@ -252,6 +259,7 @@
 				E36008AA2AAAE62200014191 /* Language.swift in Sources */,
 				E36008B02AAEF9AE00014191 /* PlayerManager.swift in Sources */,
 				E39C27E82AB9EEB0004CC5F9 /* FlippedUpsideDown.swift in Sources */,
+				E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */,
 				E36008A82AAAE4AB00014191 /* TranslateEndpoint.swift in Sources */,
 				E361BC5F2AA615CE007956AD /* Message.swift in Sources */,
 				E361BC4C2AA61550007956AD /* AJApp.swift in Sources */,

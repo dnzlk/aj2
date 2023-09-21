@@ -26,7 +26,7 @@ struct RecordingView: View {
     init(languages: Languages, transcription: Binding<String>) {
         self.languages = languages
         self._transcription = transcription
-        self._currentLanguage = State(initialValue: languages.0)
+        self._currentLanguage = State(initialValue: languages.from)
     }
 
     // MARK: - View
@@ -49,7 +49,7 @@ struct RecordingView: View {
                 .foregroundStyle(.white)
                 .onAppear {
                     withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
-                        currentLanguage = languages.1
+                        currentLanguage = languages.to
                     }
                 }
 
@@ -90,10 +90,4 @@ struct RecordingView: View {
         speechRecognizer.stopTranscribing()
         dismiss()
     }
-}
-
-#Preview {
-    @State var str = ""
-
-    return RecordingView(languages: (.russian, .english), transcription: $str)
 }

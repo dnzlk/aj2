@@ -20,18 +20,24 @@ struct ChatView: View {
 
     @State private var isTranslating = false
 
-    private let translateEndpoint = TranslateEndpoint.shared
-    private let audioPlayer = PlayerManager()
+    @State private var isLanguagesPresented = false
 
-    private var languages: Languages = (.english, .russian)
+    @State var languages: Languages = .init(from: .english, to: .russian)
+
+    private let translateEndpoint = TranslateEndpoint.shared
+    private let ud = UserDefaultsManager.shared
+    private let audioPlayer = PlayerManager()
 
     // MARK: - View
 
     var body: some View {
         VStack {
-            ChatNavBar(languages: languages)
+            ChatNavBar(isLanguagesPresented: $isLanguagesPresented, languages: languages)
                 .padding(.horizontal)
                 .padding(.vertical, 8)
+                .fullScreenCover(isPresented: $isLanguagesPresented) {
+                    LanguagesView(languages: $languages)
+                }
 
             ScrollViewReader { reader in
 
@@ -41,6 +47,12 @@ struct ChatView: View {
 
                 textField(scrollView: reader)
             }
+        }
+        .onViewDidLoad {
+            languages = ud.languages()
+        }
+        .onChange(of: languages) { _, newValue in
+            ud.saveLanguages(languages: newValue)
         }
     }
 
@@ -126,7 +138,7 @@ struct ChatView: View {
         withAnimation {
             message.translation = .init(text: translation.text,
                                         language: translation.language ?? "en",
-                                        isSentByUser: translation.language == languages.1.rawValue)
+                                        isSentByUser: translation.language == languages.to.rawValue)
             try? context.save()
         }
     }

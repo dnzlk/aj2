@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ChatNavBar: View {
 
+    @Binding var isLanguagesPresented: Bool
+
     var languages: Languages
 
     var body: some View {
@@ -23,12 +25,16 @@ struct ChatNavBar: View {
             Spacer()
 
             HStack(spacing: 4) {
-                Text(languages.0.flag)
+                Text(languages.from.flag)
                     .font(.title2)
                 Image(._2)
-                Text(languages.1.flag)
+                Text(languages.to.flag)
                     .font(.title2)
             }
+            .onTapGesture {
+                isLanguagesPresented = true
+            }
+
             Spacer()
             NavigationLink(destination: {
                 MenuView()
@@ -39,10 +45,4 @@ struct ChatNavBar: View {
             }
         }
     }
-}
-
-#Preview {
-    let lan: Languages = (.english, .russian)
-
-    return ChatNavBar(languages: lan)
 }

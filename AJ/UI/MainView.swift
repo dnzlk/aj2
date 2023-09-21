@@ -13,7 +13,7 @@ struct MainView: View {
     @Environment(\.modelContext) private var context
 
     @State private var voiceText: String = ""
-    @State private var languages: Languages = (.english, .russian)
+    @State private var languages: Languages = .init(from: .russian, to: .english)
 
     @State private var isRecording = false
 
