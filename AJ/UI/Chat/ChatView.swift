@@ -62,7 +62,6 @@ struct ChatView: View {
 
         List(messages, id: \.id) { message in
             ChatCell(message: message,
-                     style: getStyle(forMessage: message),
                      onPlay: { audioPlayer.play(message: message, context: context) })
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
@@ -140,15 +139,5 @@ struct ChatView: View {
                                         isSentByUser: translation.language == languages.to.rawValue)
             try? context.save()
         }
-    }
-
-    private func getStyle(forMessage message: Message) -> ChatCell.Style {
-        if message.state == .loading {
-            return .loading
-        }
-        if message.state == .failed {
-            return .error
-        }
-        return message.translation?.isSentByUser == true ? .right : .left
     }
 }

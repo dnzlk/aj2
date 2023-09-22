@@ -37,11 +37,10 @@ struct ChatNavBar: View {
 
             Spacer()
             NavigationLink(destination: {
-                MenuView()
+                FavouritesView()
             }) {
-                Image(systemName: "heart.fill")
-                    .imageScale(.large)
-                    .foregroundStyle(.red)
+                Text("⭐")
+                    .font(.title2)
             }
         }
     }

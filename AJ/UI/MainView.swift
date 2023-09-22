@@ -25,6 +25,7 @@ struct MainView: View {
                     RecordingView(languages: languages, transcription: $voiceText)
                 }
             }
+            .background(Assets.Colors.solidWhite)
         }
         .onViewDidLoad {
             let fetchDescriptor = FetchDescriptor(sortBy: [SortDescriptor(\Message.createdAt)])

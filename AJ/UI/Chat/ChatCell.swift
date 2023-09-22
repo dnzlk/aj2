@@ -12,7 +12,7 @@ struct ChatCell: View {
 
     // MARK: - Types
 
-    enum Style: Hashable {
+    private enum Style: Hashable {
         case loading
         case error
         case right
@@ -22,10 +22,19 @@ struct ChatCell: View {
     // MARK: - Public Properties
 
     @Bindable var message: Message
-    var style: Style
     var onPlay: () -> Void
 
     // MARK: - Private Properties
+
+    private var style: Style {
+        if message.state == .loading {
+            return .loading
+        }
+        if message.state == .failed {
+            return .error
+        }
+        return message.translation?.isSentByUser == true ? .right : .left
+    }
 
     private var isLeft: Bool {
         style == .left
@@ -65,7 +74,7 @@ struct ChatCell: View {
                 Spacer()
                 Spacer()
             }
-            VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center) {
+            VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center, spacing: 4) {
                 loadingView()
                 translation()
                 originalText()
@@ -89,20 +98,28 @@ struct ChatCell: View {
             if isRight {
                 speaker()
             }
-            Text(message.translation?.text ?? "")
-                .foregroundStyle(textColor)
-                .font(.callout)
-                .padding(8)
-                .background(bgColor)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .frame(height: hasTranslation ? nil : 0, alignment: isRight ? .trailing : isLeft ? .leading : .center)
-                .gesture(
-                    TapGesture(count: 2).onEnded {
-                        message.isFav.toggle()
-                    }.exclusively(before: TapGesture(count: 1).onEnded {
-                        copy()
-                    })
-                )
+            VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center, spacing: 4) {
+                Text(message.translation?.text ?? "")
+                    .foregroundStyle(textColor)
+                    .font(.callout)
+                    .padding(8)
+                    .background(bgColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .frame(height: hasTranslation ? nil : 0, alignment: isRight ? .trailing : isLeft ? .leading : .center)
+                    .gesture(
+                        TapGesture(count: 2).onEnded {
+                            withAnimation {
+                                message.isFav.toggle()
+                            }
+                        }.exclusively(before: TapGesture(count: 1).onEnded {
+                            copy()
+                        })
+                    )
+
+                if message.isFav {
+                    star()
+                }
+            }
             if isLeft {
                 speaker()
             }
@@ -132,6 +149,20 @@ struct ChatCell: View {
                 .foregroundStyle(message.isPlaying ? bgColor : Assets.Colors.gray)
         })
         .buttonStyle(.borderless)
+    }
+
+    private func star() -> some View {
+        Text("⭐")
+            .font(.system(size: 12))
+            .padding(4)
+            .background(bgColor)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Assets.Colors.solidWhite, lineWidth: 1)
+            )
+            .offset(x: isRight ? -2 : 2, y: -8)
+            .transition(.scale)
     }
 
     // MARK: - Actions
