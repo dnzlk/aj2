@@ -29,7 +29,7 @@ final class TranslateEndpoint: APIEndpoint {
     }
 
     override var prodUrl: String? {
-        "http://127.0.0.1:5000/ask"
+        "https://weak-insects-carry.loca.lt/ask"
     }
 
     // MARK: - Public Methods

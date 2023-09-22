@@ -75,9 +75,13 @@ struct ChatCell: View {
                 Spacer()
             }
             VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center, spacing: 4) {
-                loadingView()
-                translation()
-                originalText()
+                if !hasTranslation && !isError {
+                    loader()
+                }
+                if hasTranslation {
+                    translation()
+                    originalText()
+                }
             }
             if isLeft {
                 Spacer()
@@ -87,10 +91,12 @@ struct ChatCell: View {
         .listRowBackground(Color.clear)
     }
 
-    private func loadingView() -> some View {
-        Loader()
-            .frame(height: hasTranslation || isError ? 0 : nil)
-            .opacity(hasTranslation || isError ? 0 : 1)
+    private func loader() -> some View {
+        HStack {
+            Spacer()
+            Loader()
+            Spacer()
+        }
     }
 
     private func translation() -> some View {
@@ -105,7 +111,7 @@ struct ChatCell: View {
                     .padding(8)
                     .background(bgColor)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .frame(height: hasTranslation ? nil : 0, alignment: isRight ? .trailing : isLeft ? .leading : .center)
+                    .frame(alignment: isRight ? .trailing : isLeft ? .leading : .center)
                     .gesture(
                         TapGesture(count: 2).onEnded {
                             withAnimation {
@@ -124,7 +130,6 @@ struct ChatCell: View {
                 speaker()
             }
         }
-        .opacity(hasTranslation ? 1 : 0)
     }
 
     private func originalText() -> some View {

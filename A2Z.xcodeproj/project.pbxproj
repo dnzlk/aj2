@@ -97,7 +97,8 @@
 				E36008AF2AAEF9AE00014191 /* PlayerManager.swift */,
 				E36008D32AB0592F00014191 /* SpeechRecognizer.swift */,
 				E36008A92AAAE62200014191 /* Language.swift */,
-				E3BFCE5D29B1F16500154D87 /* Translate */,
+				E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */,
+				E3BFCE5D29B1F16500154D87 /* API */,
 				E37D06B32ABD6D8C005FE0F1 /* GlobalConst.swift */,
 			);
 			path = Data;
@@ -151,15 +152,14 @@
 			path = Modifiers;
 			sourceTree = "<group>";
 		};
-		E3BFCE5D29B1F16500154D87 /* Translate */ = {
+		E3BFCE5D29B1F16500154D87 /* API */ = {
 			isa = PBXGroup;
 			children = (
 				E3BFCE6429B1F99100154D87 /* AMChatResponse.swift */,
 				E3BFCE6629B1F99A00154D87 /* AMChatMessage.swift */,
 				E3AE5BB529D9CAEC00AD411B /* APIEndpoint.swift */,
-				E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */,
 			);
-			path = Translate;
+			path = API;
 			sourceTree = "<group>";
 		};
 		E3C95E4D299BB9710099DC16 /* UI */ = {
