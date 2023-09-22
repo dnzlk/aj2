@@ -26,11 +26,9 @@ final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
 
     private var playingMessage: Message?
 
-    private var context: ModelContext?
-
     // MARK: - Public Methods
 
-    func play(message: Message, context: ModelContext) {
+    func play(message: Message) {
         guard let translation = message.translation else { return }
 
         stop()
@@ -42,13 +40,7 @@ final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
 
         playingMessage = message
 
-        withAnimation {
-            message.isPlaying = true
-
-            try? context.save()
-        }
-
-        self.context = context
+        message.isPlaying = true
     }
 
     func stop() {
@@ -62,10 +54,6 @@ final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
     }
 
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        withAnimation {
-            clear()
-            try? context?.save()
-        }
-        context = nil
+        clear()
     }
 }

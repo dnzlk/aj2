@@ -64,7 +64,7 @@ struct ChatView: View {
 
         List(messages, id: \.id) { message in
             ChatCell(message: message,
-                     onPlay: { audioPlayer.play(message: message, context: context) })
+                     onPlay: { audioPlayer.play(message: message) })
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
                 .transition(.slide)

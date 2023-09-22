@@ -114,9 +114,9 @@ struct ChatCell: View {
                     .frame(alignment: isRight ? .trailing : isLeft ? .leading : .center)
                     .gesture(
                         TapGesture(count: 2).onEnded {
-                            withAnimation {
+//                            withAnimation {
                                 message.isFav.toggle()
-                            }
+//                            }
                         }.exclusively(before: TapGesture(count: 1).onEnded {
                             copy()
                         })

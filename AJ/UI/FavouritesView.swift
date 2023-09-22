@@ -12,7 +12,7 @@ struct FavouritesView: View {
 
     // MARK: - Private Properties
 
-    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
 
     @Query(filter: #Predicate<Message> { $0.isFav },
            sort: \Message.createdAt, order: .reverse)
@@ -23,14 +23,42 @@ struct FavouritesView: View {
     // MARK: - View
 
     var body: some View {
-        List(messages, id: \.id) { message in
-            ChatCell(message: message,
-                     onPlay: { audioPlayer.play(message: message, context: context) })
+        VStack {
+            navBar()
+            List(messages, id: \.id) { message in
+                ChatCell(message: message,
+                         onPlay: { audioPlayer.play(message: message) })
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
+            }
+            .flippedUpsideDown()
+            .listStyle(.plain)
         }
-        .flippedUpsideDown()
-        .listStyle(.plain)
-        .navigationTitle("Favourites ⭐")
+        .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private func navBar() -> some View {
+        HStack {
+            Button(action: { dismiss() }) {
+                Image(systemName: "chevron.backward")
+                    .foregroundStyle(Assets.Colors.accentColor)
+                    .imageScale(.large)
+                    .fontWeight(.semibold)
+                    .padding()
+            }
+            Spacer()
+
+            Text("Favourites ⭐")
+                .fontWeight(.semibold)
+
+            Spacer()
+
+            Button(action: {}) {
+                Image(systemName: "chevron.backward")
+                    .foregroundStyle(Assets.Colors.accentColor)
+                    .padding()
+            }
+            .opacity(0)
+        }
     }
 }
