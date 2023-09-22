@@ -93,12 +93,12 @@
 		E32AC50929A3C5B900F242CC /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				E3BFCE5D29B1F16500154D87 /* API */,
 				E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */,
 				E36008AF2AAEF9AE00014191 /* PlayerManager.swift */,
 				E36008D32AB0592F00014191 /* SpeechRecognizer.swift */,
 				E36008A92AAAE62200014191 /* Language.swift */,
 				E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */,
-				E3BFCE5D29B1F16500154D87 /* API */,
 				E37D06B32ABD6D8C005FE0F1 /* GlobalConst.swift */,
 			);
 			path = Data;
@@ -133,25 +133,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E39C27DC2AB1730E004CC5F9 /* Chat */ = {
-			isa = PBXGroup;
-			children = (
-				E39C27DD2AB34354004CC5F9 /* ChatNavBar.swift */,
-				E39C27DF2AB4111E004CC5F9 /* ChatCell.swift */,
-				E342442329A52A68006A2AF9 /* Message.swift */,
-				E39C27DA2AB1729D004CC5F9 /* ChatView.swift */,
-			);
-			path = Chat;
-			sourceTree = "<group>";
-		};
-		E39C27E62AB9EEA9004CC5F9 /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-				E39C27E72AB9EEB0004CC5F9 /* FlippedUpsideDown.swift */,
-			);
-			path = Modifiers;
-			sourceTree = "<group>";
-		};
 		E3BFCE5D29B1F16500154D87 /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,8 +146,11 @@
 		E3C95E4D299BB9710099DC16 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				E39C27E62AB9EEA9004CC5F9 /* Modifiers */,
-				E39C27DC2AB1730E004CC5F9 /* Chat */,
+				E39C27DD2AB34354004CC5F9 /* ChatNavBar.swift */,
+				E39C27DF2AB4111E004CC5F9 /* ChatCell.swift */,
+				E342442329A52A68006A2AF9 /* Message.swift */,
+				E39C27DA2AB1729D004CC5F9 /* ChatView.swift */,
+				E39C27E72AB9EEB0004CC5F9 /* FlippedUpsideDown.swift */,
 				E361BC4D2AA61550007956AD /* MainView.swift */,
 				E32EB62A2AA6F6D0001E16BE /* MenuView.swift */,
 				E36008D02AB0512300014191 /* RecordingView.swift */,

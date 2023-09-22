@@ -74,7 +74,7 @@ struct ChatCell: View {
                 Spacer()
                 Spacer()
             }
-            VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center, spacing: 4) {
+            VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center, spacing: 0) {
                 if !hasTranslation && !isError {
                     loader()
                 }
@@ -100,36 +100,33 @@ struct ChatCell: View {
     }
 
     private func translation() -> some View {
-        HStack {
-            if isRight {
-                speaker()
-            }
-            VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center, spacing: 4) {
+        VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center, spacing: 0) {
+            HStack {
+                if isRight {
+                    speaker()
+                }
                 Text(message.translation?.text ?? "")
                     .foregroundStyle(textColor)
                     .font(.callout)
                     .padding(8)
                     .background(bgColor)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .frame(alignment: isRight ? .trailing : isLeft ? .leading : .center)
                     .gesture(
                         TapGesture(count: 2).onEnded {
-//                            withAnimation {
+                            withAnimation {
                                 message.isFav.toggle()
-//                            }
+                            }
                         }.exclusively(before: TapGesture(count: 1).onEnded {
                             copy()
                         })
                     )
-
-                if message.isFav {
-                    star()
+                if isLeft {
+                    speaker()
                 }
             }
-            if isLeft {
-                speaker()
-            }
+            star()
         }
+
     }
 
     private func originalText() -> some View {
@@ -138,7 +135,9 @@ struct ChatCell: View {
             .multilineTextAlignment(isRight ? .trailing : isLeft ? .leading : .center)
             .foregroundStyle(Assets.Colors.dark)
             .font(.caption)
-            .padding(.vertical, 4)
+            .padding(.bottom, 4)
+            .padding(isLeft ? .leading : .trailing, 4)
+            .offset(y: -8)
             .frame(maxWidth: .infinity, alignment: isRight ? .trailing : isLeft ? .leading : .center)
     }
 
@@ -166,8 +165,8 @@ struct ChatCell: View {
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Assets.Colors.solidWhite, lineWidth: 1)
             )
-            .offset(x: isRight ? -2 : 2, y: -8)
-            .transition(.scale)
+            .offset(x: isRight ? -2 : 2, y: message.isFav ? -8 : 0)
+            .opacity(message.isFav ? 1 : 0)
     }
 
     // MARK: - Actions

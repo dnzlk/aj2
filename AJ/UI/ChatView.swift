@@ -139,7 +139,6 @@ struct ChatView: View {
             message.translation = .init(text: translation.text,
                                         language: translation.language ?? "en",
                                         isSentByUser: translation.language == languages.to.rawValue)
-            try? context.save()
         }
     }
 }
