@@ -88,7 +88,7 @@ struct ChatCell: View {
     }
 
     private func loadingView() -> some View {
-        ProgressView()
+        Loader()
             .frame(height: hasTranslation || isError ? 0 : nil)
             .opacity(hasTranslation || isError ? 0 : 1)
     }

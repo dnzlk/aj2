@@ -29,7 +29,7 @@ final class TranslateEndpoint: APIEndpoint {
     }
 
     override var prodUrl: String? {
-        "https://polite-sloths-float.loca.lt/ask"//"http://127.0.0.1:5000/ask"
+        "http://127.0.0.1:5000/ask"
     }
 
     // MARK: - Public Methods

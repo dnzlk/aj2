@@ -22,7 +22,9 @@ struct ChatView: View {
 
     @State private var isLanguagesPresented = false
 
-    @State var languages: Languages = .init(from: .english, to: .russian)
+    @State private var languages: Languages = .init(from: .english, to: .russian)
+
+    @State private var isRecording = false
 
     private let translateEndpoint = TranslateEndpoint.shared
     private let ud = UserDefaultsManager.shared
