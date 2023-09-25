@@ -117,8 +117,3 @@ struct RecordingView: View {
         }
     }
 }
-
-#Preview {
-    @State var text = ""
-    return RecordingView(languages: .init(from: .french, to: .english), transcription: $text)
-}

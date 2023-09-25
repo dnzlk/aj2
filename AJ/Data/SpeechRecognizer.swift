@@ -45,6 +45,7 @@ final actor SpeechRecognizer: ObservableObject {
         guard await AVAudioSession.sharedInstance().hasPermissionToRecord() else {
             throw E.notPermittedToRecord
         }
+        transcript = ""
         try await transcribe(locale: locale)
     }
 

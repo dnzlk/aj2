@@ -24,11 +24,21 @@ struct ChatView: View {
 
     @State private var languages: Languages = .init(from: .english, to: .russian)
 
-    @State private var isRecording = false
-
     @State private var isShowingCopiedToast = false
 
+    // Speech
+
+    @State private var isRecording = false
+
+    @State private var selectedSpeakLanguage: Language?
+
+    @State private var isMicInput = false
+
+    // Services
+
     @StateObject private var audioPlayer = AudioPlayer()
+
+    @StateObject private var speechRecognizer = SpeechRecognizer()
 
     private let translateEndpoint = TranslateEndpoint.shared
 
@@ -51,7 +61,35 @@ struct ChatView: View {
 
                 Spacer()
 
-                textField(scrollView: reader)
+                if isMicInput {
+                    ChatVoicesBottomBar(languages: languages,
+                                        selectedLanguage: selectedSpeakLanguage,
+                                        isRecording: isRecording,
+                                        isMicInput: $isMicInput,
+                                        onStartRecording: { language in
+                        Task { await startRecording(language:language) }
+                    },
+                                        onSend: {
+                        Task { await speechRecognizer.stopTranscribing() }
+                        isRecording = false
+                        selectedSpeakLanguage = nil
+                        send(text: speechRecognizer.transcript)
+                    },
+                                        onCancel: {
+                        Task { await speechRecognizer.stopTranscribing() }
+                        isRecording = false
+                        selectedSpeakLanguage = nil
+                    })
+                } else {
+                    ChatTextField(inputText: $inputText, isMicInput: $isMicInput) {
+                        inputText.isEmpty ?
+                        withAnimation {
+                            isMicInput = true
+                        }
+                        : send(text: inputText)
+                        reader.scrollTo(messages.first?.id)
+                    }
+                }
             }
         }
 //        .toast(text: "Copied", icon: .init(systemName: "doc.on.doc"), isShowing: $isShowingCopiedToast)
@@ -87,34 +125,9 @@ struct ChatView: View {
         .scrollDismissesKeyboard(.immediately)
     }
 
-    @ViewBuilder
-    private func textField(scrollView: ScrollViewProxy) -> some View {
-        HStack {
-            TextField("Type here", text: $inputText,  axis: .vertical)
-                .lineLimit(3)
-
-            Button {
-                inputText.isEmpty ? isRecording = true : send()
-                scrollView.scrollTo(messages.first?.id)
-            } label: {
-                Image(systemName: inputText.isEmpty ? "mic.circle.fill" : "arrow.up.circle.fill")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundStyle(Assets.Colors.accentColor)
-            }
-            .contentTransition(.symbolEffect(.replace, options: .speed(2.2)))
-        }
-        .padding(.vertical, 8)
-        .padding(.horizontal)
-        .background(Assets.Colors.solidWhite)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .padding(8)
-        .background(.ultraThinMaterial)
-    }
-
     // MARK: - Private Methods
 
-    private func send() {
+    private func send(text: String) {
 
         guard !isTranslating else { return }
 
@@ -122,7 +135,7 @@ struct ChatView: View {
             context.delete(message)
         }
 
-        let text = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !text.isEmpty else { return }
 
@@ -152,6 +165,19 @@ struct ChatView: View {
             message.translation = .init(text: translation.text,
                                         language: translation.language ?? "en",
                                         isSentByUser: translation.language == languages.to.rawValue)
+        }
+    }
+
+    private func startRecording(language: Language) async {
+        do {
+            await speechRecognizer.resetTranscript()
+            try await speechRecognizer.startTranscribing(locale: language.locale)
+            isRecording = true
+            selectedSpeakLanguage = language
+        } catch let e as SpeechRecognizer.E {
+//            self.error = e
+        } catch {
+//            self.error = .unknown
         }
     }
 

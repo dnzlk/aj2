@@ -235,36 +235,36 @@ enum Language: String, CaseIterable, Equatable {
         }
     }
 
-    var tapOnFlagToStopRecording: String {
+    var selectLanguage: String {
         switch self {
         case .english:
-            return "Tap on flag to stop"
+            return "Select language"
         case .chineseSimplified:
-            return "点击旗帜停止录音"
+            return "选择语言"
         case .spanish:
-            return "Toque la bandera para detener la grabación"
+            return "Seleccionar idioma"
         case .arabic:
-            return "اضغط على العلم لإيقاف التسجيل"
+            return "اختر اللغة"
         case .hindi:
-            return "रिकॉर्डिंग बंद करने के लिए झंडा पर टैप करें"
+            return "भाषा चुनें"
         case .french:
-            return "Appuyez sur le drapeau pour arrêter l'enregistrement"
+            return "Sélectionnez la langue"
         case .bengali:
-            return "রেকর্ডিং বন্ধ করতে ফ্ল্যাগে ট্যাপ করুন"
+            return "ভাষা নির্বাচন করুন"
         case .russian:
-            return "Нажмите на флаг, чтобы остановить запись"
+            return "Выберите язык"
         case .portuguese:
-            return "Toque na bandeira para parar a gravação"
+            return "Selecionar idioma"
         case .indonesian:
-            return "Ketuk bendera untuk menghentikan rekaman"
+            return "Pilih bahasa"
         case .turkish:
-            return "Kaydı durdurmak için bayrağa dokunun"
+            return "Dil seçin"
         case .armenian:
-            return "Կտտացրեք դրոշը դիմացնելու համար"
+            return "Ընտրեք լեզվը"
         case .georgian:
-            return "ჩვენებაზე დაჭერეთ ჩაწერას შეწყვიტებას"
+            return "აირჩიეთ ენა"
         case .kazakh:
-            return "Тіркеу үшін жайына түсіріңіз"
+            return "Тілді таңдау"
         }
     }
 }
