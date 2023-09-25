@@ -17,7 +17,7 @@ typealias LanguageColors = (bgColor: Color, textColor: Color)
 
 enum Language: String, CaseIterable, Equatable {
     case english = "en" // BCP-47
-    #warning("cannot be parsed")
+#warning("cannot be parsed")
     case chineseSimplified = "zh-Hans"
     case spanish = "es"
     case arabic = "ar"
@@ -199,6 +199,72 @@ enum Language: String, CaseIterable, Equatable {
             return LanguageColors(bgColor: .blue, textColor: .white)
         case .kazakh:
             return LanguageColors(bgColor: .blue, textColor: .white)
+        }
+    }
+
+    var locale: String {
+        switch self {
+        case .english:
+            return "en_US"
+        case .chineseSimplified:
+            return "zh_Hans_CN"
+        case .spanish:
+            return "es_ES"
+        case .arabic:
+            return "ar_SA"
+        case .hindi:
+            return "hi_IN"
+        case .french:
+            return "fr_FR"
+        case .bengali:
+            return "bn_BD"
+        case .russian:
+            return "ru_RU"
+        case .portuguese:
+            return "pt_PT"
+        case .indonesian:
+            return "id_ID"
+        case .turkish:
+            return "tr_TR"
+        case .armenian:
+            return "hy_AM"
+        case .georgian:
+            return "ka_GE"
+        case .kazakh:
+            return "kk_KZ"
+        }
+    }
+
+    var tapOnFlagToStopRecording: String {
+        switch self {
+        case .english:
+            return "Tap on flag to stop"
+        case .chineseSimplified:
+            return "点击旗帜停止录音"
+        case .spanish:
+            return "Toque la bandera para detener la grabación"
+        case .arabic:
+            return "اضغط على العلم لإيقاف التسجيل"
+        case .hindi:
+            return "रिकॉर्डिंग बंद करने के लिए झंडा पर टैप करें"
+        case .french:
+            return "Appuyez sur le drapeau pour arrêter l'enregistrement"
+        case .bengali:
+            return "রেকর্ডিং বন্ধ করতে ফ্ল্যাগে ট্যাপ করুন"
+        case .russian:
+            return "Нажмите на флаг, чтобы остановить запись"
+        case .portuguese:
+            return "Toque na bandeira para parar a gravação"
+        case .indonesian:
+            return "Ketuk bendera untuk menghentikan rekaman"
+        case .turkish:
+            return "Kaydı durdurmak için bayrağa dokunun"
+        case .armenian:
+            return "Կտտացրեք դրոշը դիմացնելու համար"
+        case .georgian:
+            return "ჩვენებაზე დაჭერეთ ჩაწერას შეწყვიტებას"
+        case .kazakh:
+            return "Тіркеу үшін жайына түсіріңіз"
         }
     }
 }

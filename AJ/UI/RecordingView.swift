@@ -12,83 +12,109 @@ struct RecordingView: View {
     // MARK: - Public Properties
 
     let languages: Languages
-    @State private var currentLanguage: Language
-    @Environment(\.dismiss) private var dismiss
+
+    @Binding var transcription: String
 
     // MARK: - Private Properties
 
-    @Binding private var transcription: String
+    @State private var error: SpeechRecognizer.E?
+
+    @State private var selectedLanguage: Language?
+
+    @Environment(\.dismiss) private var dismiss
 
     @StateObject private var speechRecognizer = SpeechRecognizer()
-
-    // MARK: - Init
-
-    init(languages: Languages, transcription: Binding<String>) {
-        self.languages = languages
-        self._transcription = transcription
-        self._currentLanguage = State(initialValue: languages.from)
-    }
 
     // MARK: - View
 
     var body: some View {
         VStack {
-            HStack {
-                Spacer()
-                Button(action: cancel) {
-                    Text("Cancel")
+            HStack(spacing: 24) {
+                if !(selectedLanguage == languages.to) {
+                    flag(language: languages.from)
+                }
+                if !(selectedLanguage == languages.from) {
+                    flag(language: languages.to)
                 }
             }
-            .padding(.horizontal)
-            .foregroundStyle(Assets.Colors.accentColor)
-
-            Spacer()
-
-            Text("\(currentLanguage.speakText)")
-                .font(Font(UIFont.medium(28)))
-                .foregroundStyle(.white)
-                .onAppear {
-                    withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
-                        currentLanguage = languages.to
-                    }
-                }
-
-            Spacer()
-
-            Image(systemName: "waveform")
-                .symbolEffect(.pulse.wholeSymbol,
-                              options: .repeating)
-                .foregroundStyle(Assets.Colors.accentColor)
-                .font(.system(size: 90))
-
-            Spacer()
-
-            Button(action: stop) {
-                Image(systemName: "stop.circle")
-                    .foregroundStyle(.red)
-                    .font(.system(size: 60))
+            if let error {
+                errorBlock(error: error)
+            } else if let selectedLanguage {
+                Text(selectedLanguage.speakText)
+                    .font(.title2)
             }
-
-            Spacer()
         }
-        .background(Color.black.opacity(0.8))
-//        .onAppear {
-//            speechRecognizer.resetTranscript()
-//            speechRecognizer.startTranscribing()
-//        }
+    }
+
+    private func flag(language: Language) -> some View {
+        Button(action: {Task { await selectLanguage(language: language) }}) {
+            Text(language.flag)
+                .font(.system(size: 60))
+        }
+        .transition(.slide.combined(with: .opacity))
+    }
+
+    @ViewBuilder
+    private func errorBlock(error: SpeechRecognizer.E) -> some View {
+        VStack {
+            Text(textForError(error: error))
+                .font(.title2)
+
+            if error == .notAuthorizedToRecognize {
+                Button(action: {
+                    // open recognition settings
+                    self.error = nil
+                }, label: {
+                    Text("Open settings")
+                })
+            } else if error == .notPermittedToRecord {
+                Button(action: {
+                    // open audio permittion settings
+                    self.error = nil
+                }, label: {
+                    Text("Open settings")
+                })
+            }
+        }
     }
 
     // MARK: - Private Methods
 
-    private func stop() {
-//        speechRecognizer.stopTranscribing()
-//        transcription = speechRecognizer.transcript
-//        dismiss()
+    private func selectLanguage(language: Language) async {
+        withAnimation(.linear(duration: 0.2)) {
+            selectedLanguage = language
+        }
+
+        do {
+            await speechRecognizer.resetTranscript()
+            try await speechRecognizer.startTranscribing(locale: language.locale)
+        } catch let e as SpeechRecognizer.E {
+            self.error = e
+        } catch {
+            self.error = .unknown
+        }
     }
 
-    private func cancel() {
-//        speechRecognizer.stopTranscribing()
-//        dismiss()
+    private func stop() async {
+        await speechRecognizer.stopTranscribing()
+        transcription = speechRecognizer.transcript
+        dismiss()
+    }
+
+    private func cancel() async {
+        await speechRecognizer.stopTranscribing()
+        dismiss()
+    }
+
+    private func textForError(error: SpeechRecognizer.E) -> String {
+        switch error {
+        case .unknown, .recognizerIsUnavailable:
+            return "Language is not supported"
+        case .notAuthorizedToRecognize:
+            return "Allow Speech Recognition in Settings"
+        case .notPermittedToRecord:
+            return "Allow Recording in Settings"
+        }
     }
 }
 
