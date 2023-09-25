@@ -135,3 +135,14 @@ struct ChatVoicesBottomBar: View {
         .transition(.slide.combined(with: .opacity))
     }
 }
+//
+//private func textForError(error: SpeechRecognizer.E) -> String {
+//    switch error {
+//    case .unknown, .recognizerIsUnavailable:
+//        return "Language is not supported"
+//    case .notAuthorizedToRecognize:
+//        return "Allow Speech Recognition in Settings"
+//    case .notPermittedToRecord:
+//        return "Allow Recording in Settings"
+//    }
+//}
