@@ -26,9 +26,12 @@ struct ChatView: View {
 
     @State private var isRecording = false
 
+    @State private var isShowingCopiedToast = false
+
+    @StateObject private var audioPlayer = PlayerManager()
+
     private let translateEndpoint = TranslateEndpoint.shared
     private let ud = UserDefaultsManager.shared
-    private let audioPlayer = PlayerManager()
 
     // MARK: - View
 
@@ -50,11 +53,19 @@ struct ChatView: View {
                 textField(scrollView: reader)
             }
         }
+//        .toast(text: "Copied", icon: .init(systemName: "doc.on.doc"), isShowing: $isShowingCopiedToast)
         .onViewDidLoad {
             languages = ud.languages()
         }
         .onChange(of: languages) { _, newValue in
             ud.saveLanguages(languages: newValue)
+        }
+        .onChange(of: isShowingCopiedToast) { _, newValue in
+            guard newValue else { return }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                isShowingCopiedToast = false
+            }
         }
     }
 
@@ -64,7 +75,8 @@ struct ChatView: View {
 
         List(messages, id: \.id) { message in
             ChatCell(message: message,
-                     onPlay: { audioPlayer.play(message: message) })
+                     onPlay: { play(message: message) },
+                     onCopy: { copy(message: message) })
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
                 .transition(.slide)
@@ -139,6 +151,18 @@ struct ChatView: View {
             message.translation = .init(text: translation.text,
                                         language: translation.language ?? "en",
                                         isSentByUser: translation.language == languages.to.rawValue)
+        }
+    }
+
+    private func play(message: Message) {
+        audioPlayer.play(message: message)
+    }
+
+    private func copy(message: Message) {
+        UIPasteboard.general.string = message.translation?.text
+
+        withAnimation {
+            isShowingCopiedToast = true
         }
     }
 }

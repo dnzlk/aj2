@@ -6,10 +6,9 @@
 //
 
 import AVFoundation
-import SwiftData
 import SwiftUI
 
-final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
+final class PlayerManager: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
 
     enum E: Error {
         case noAvailableVoices
@@ -24,7 +23,7 @@ final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
 
     private let synthesizer = AVSpeechSynthesizer()
 
-    private var playingMessage: Message?
+    @Published private var playingMessage: Message?
 
     // MARK: - Public Methods
 
@@ -38,9 +37,9 @@ final class PlayerManager: NSObject, AVSpeechSynthesizerDelegate {
         utterance.voice = AVSpeechSynthesisVoice(language: translation.language)
         synthesizer.speak(utterance)
 
-        playingMessage = message
-
         message.isPlaying = true
+
+        _playingMessage = Published(initialValue: message)
     }
 
     func stop() {

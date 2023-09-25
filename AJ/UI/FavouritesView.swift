@@ -14,8 +14,7 @@ struct FavouritesView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    @Query(filter: #Predicate<Message> { $0.isFav },
-           sort: \Message.createdAt, order: .reverse)
+    @Query(filter: #Predicate<Message> { $0.isFav }, sort: \Message.createdAt, order: .reverse)
     private var messages: [Message]
 
     private let audioPlayer = PlayerManager()
@@ -27,7 +26,8 @@ struct FavouritesView: View {
             navBar()
             List(messages, id: \.id) { message in
                 ChatCell(message: message,
-                         onPlay: { audioPlayer.play(message: message) })
+                         onPlay: { audioPlayer.play(message: message) },
+                         onCopy: { UIPasteboard.general.string = message.translation?.text })
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
             }
@@ -44,7 +44,8 @@ struct FavouritesView: View {
                     .foregroundStyle(Assets.Colors.accentColor)
                     .imageScale(.large)
                     .fontWeight(.semibold)
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
             }
             Spacer()
 
@@ -56,9 +57,20 @@ struct FavouritesView: View {
             Button(action: {}) {
                 Image(systemName: "chevron.backward")
                     .foregroundStyle(Assets.Colors.accentColor)
-                    .padding()
+                    .padding(.horizontal)
             }
             .opacity(0)
         }
+    }
+}
+
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
     }
 }

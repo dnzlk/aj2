@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FlippedUpsideDown: ViewModifier {
+    
     func body(content: Content) -> some View {
         content
             .rotationEffect(.degrees(180))
@@ -16,6 +17,7 @@ struct FlippedUpsideDown: ViewModifier {
 }
 
 extension View{
+
     func flippedUpsideDown() -> some View {
         self.modifier(FlippedUpsideDown())
     }

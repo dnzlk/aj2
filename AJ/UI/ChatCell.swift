@@ -23,6 +23,7 @@ struct ChatCell: View {
 
     @Bindable var message: Message
     var onPlay: () -> Void
+    var onCopy: () -> Void
 
     // MARK: - Private Properties
 
@@ -113,11 +114,12 @@ struct ChatCell: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .gesture(
                         TapGesture(count: 2).onEnded {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
                             withAnimation {
                                 message.isFav.toggle()
                             }
                         }.exclusively(before: TapGesture(count: 1).onEnded {
-                            copy()
+                            onCopy()
                         })
                     )
                 if isLeft {
@@ -167,11 +169,5 @@ struct ChatCell: View {
             )
             .offset(x: isRight ? -2 : 2, y: message.isFav ? -8 : 0)
             .opacity(message.isFav ? 1 : 0)
-    }
-
-    // MARK: - Actions
-
-    private func copy() {
-        UIPasteboard.general.string = message.translation?.text
     }
 }
