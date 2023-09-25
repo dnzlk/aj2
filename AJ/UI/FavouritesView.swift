@@ -17,7 +17,7 @@ struct FavouritesView: View {
     @Query(filter: #Predicate<Message> { $0.isFav }, sort: \Message.createdAt, order: .reverse)
     private var messages: [Message]
 
-    private let audioPlayer = PlayerManager()
+    @StateObject private var audioPlayer = AudioPlayer()
 
     // MARK: - View
 

@@ -28,9 +28,10 @@ struct ChatView: View {
 
     @State private var isShowingCopiedToast = false
 
-    @StateObject private var audioPlayer = PlayerManager()
+    @StateObject private var audioPlayer = AudioPlayer()
 
     private let translateEndpoint = TranslateEndpoint.shared
+
     private let ud = UserDefaultsManager.shared
 
     // MARK: - View
@@ -93,7 +94,7 @@ struct ChatView: View {
                 .lineLimit(3)
 
             Button {
-                send()
+                inputText.isEmpty ? isRecording = true : send()
                 scrollView.scrollTo(messages.first?.id)
             } label: {
                 Image(systemName: inputText.isEmpty ? "mic.circle.fill" : "arrow.up.circle.fill")
@@ -136,7 +137,7 @@ struct ChatView: View {
 
                 let translation = try await translateEndpoint.translate(text: text, languages: languages)
 
-                await updateTranslation(message: message, translation: translation)
+                updateTranslation(message: message, translation: translation)
             } catch {
                 message.error = error.localizedDescription
             }

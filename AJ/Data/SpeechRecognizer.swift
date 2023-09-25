@@ -13,9 +13,11 @@ import SwiftUI
 
 /// https://developer.apple.com/tutorials/app-dev-training/transcribing-speech-to-text
 
-/// A helper for transcribing speech to text using SFSpeechRecognizer and AVAudioEngine.
-actor SpeechRecognizer: ObservableObject {
-    enum RecognizerError: Error {
+final actor SpeechRecognizer: ObservableObject {
+
+    // MARK: - Types
+
+    enum E: Error {
         case nilRecognizer
         case notAuthorizedToRecognize
         case notPermittedToRecord
@@ -23,87 +25,66 @@ actor SpeechRecognizer: ObservableObject {
 
         var message: String {
             switch self {
-            case .nilRecognizer: return "Can't initialize speech recognizer"
-            case .notAuthorizedToRecognize: return "Not authorized to recognize speech"
-            case .notPermittedToRecord: return "Not permitted to record audio"
-            case .recognizerIsUnavailable: return "Recognizer is unavailable"
+            case .nilRecognizer:
+                return "Can't initialize speech recognizer"
+            case .notAuthorizedToRecognize:
+                return "Not authorized to recognize speech"
+            case .notPermittedToRecord:
+                return "Not permitted to record audio"
+            case .recognizerIsUnavailable:
+                return "Recognizer is unavailable"
             }
         }
     }
 
+    // MARK: - Public Properties
+
     @MainActor var transcript: String = ""
+
+    // MARK: - Private Properties
 
     private var audioEngine: AVAudioEngine?
     private var request: SFSpeechAudioBufferRecognitionRequest?
     private var task: SFSpeechRecognitionTask?
-    private let recognizer: SFSpeechRecognizer?
 
-    /**
-     Initializes a new speech recognizer. If this is the first time you've used the class, it
-     requests access to the speech recognizer and the microphone.
-     */
-    init() {
-        recognizer = SFSpeechRecognizer(locale: .init(identifier: "ru_RU"))
-        guard recognizer != nil else {
-            transcribe(RecognizerError.nilRecognizer)
-            return
+
+    // MARK: - Public Methods
+
+    @MainActor
+    func startTranscribing(locale: String) async throws {
+        guard await SFSpeechRecognizer.hasAuthorizationToRecognize() else {
+            throw E.notAuthorizedToRecognize
         }
+        guard await AVAudioSession.sharedInstance().hasPermissionToRecord() else {
+            throw E.notPermittedToRecord
+        }
+        try await transcribe(locale: locale)
     }
 
-    @MainActor func startTranscribing() {
-        Task {
-            do {
-                guard await SFSpeechRecognizer.hasAuthorizationToRecognize() else {
-                    throw RecognizerError.notAuthorizedToRecognize
-                }
-                guard await AVAudioSession.sharedInstance().hasPermissionToRecord() else {
-                    throw RecognizerError.notPermittedToRecord
-                }
-                await transcribe()
-            } catch {
-                transcribe(error)
-            }
-        }
+    @MainActor
+    func resetTranscript() async {
+        await reset()
     }
 
-    @MainActor func resetTranscript() {
-        Task {
-            await reset()
-        }
+    @MainActor
+    func stopTranscribing() async {
+        await reset()
     }
 
-    @MainActor func stopTranscribing() {
-        Task {
-            await reset()
+    // MARK: - Private Methods
+    
+    private func transcribe(locale: String) throws {
+        guard let recognizer = SFSpeechRecognizer(locale: .init(identifier: locale)), recognizer.isAvailable else {
+            throw E.recognizerIsUnavailable
         }
+        let (audioEngine, request) = try Self.prepareEngine()
+        self.audioEngine = audioEngine
+        self.request = request
+        self.task = recognizer.recognitionTask(with: request, resultHandler: { [weak self] result, error in
+            self?.recognitionHandler(audioEngine: audioEngine, result: result, error: error)
+        })
     }
 
-    /**
-     Begin transcribing audio.
-
-     Creates a `SFSpeechRecognitionTask` that transcribes speech to text until you call `stopTranscribing()`.
-     The resulting transcription is continuously written to the published `transcript` property.
-     */
-    private func transcribe() {
-        guard let recognizer, recognizer.isAvailable else {
-            self.transcribe(RecognizerError.recognizerIsUnavailable)
-            return
-        }
-
-        do {
-            let (audioEngine, request) = try Self.prepareEngine()
-            self.audioEngine = audioEngine
-            self.request = request
-            self.task = recognizer.recognitionTask(with: request, resultHandler: { [weak self] result, error in
-                self?.recognitionHandler(audioEngine: audioEngine, result: result, error: error)
-            })
-        } catch {
-            self.reset()
-            self.transcribe(error)
-        }
-    }
-
-    /// Reset the speech recognizer.
     private func reset() {
         task?.cancel()
         audioEngine?.stop()
@@ -147,27 +128,16 @@ actor SpeechRecognizer: ObservableObject {
         }
     }
 
-
     nonisolated private func transcribe(_ message: String) {
         Task { @MainActor in
             transcript = message
-        }
-    }
-    nonisolated private func transcribe(_ error: Error) {
-        var errorMessage = ""
-        if let error = error as? RecognizerError {
-            errorMessage += error.message
-        } else {
-            errorMessage += error.localizedDescription
-        }
-        Task { @MainActor [errorMessage] in
-            transcript = "<< \(errorMessage) >>"
         }
     }
 }
 
 
 extension SFSpeechRecognizer {
+
     static func hasAuthorizationToRecognize() async -> Bool {
         await withCheckedContinuation { continuation in
             requestAuthorization { status in
@@ -179,6 +149,7 @@ extension SFSpeechRecognizer {
 
 
 extension AVAudioSession {
+
     func hasPermissionToRecord() async -> Bool {
         await withCheckedContinuation { continuation in
             AVAudioApplication.requestRecordPermission { authorized in

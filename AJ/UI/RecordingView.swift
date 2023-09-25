@@ -72,22 +72,27 @@ struct RecordingView: View {
             Spacer()
         }
         .background(Color.black.opacity(0.8))
-        .onAppear {
-            speechRecognizer.resetTranscript()
-            speechRecognizer.startTranscribing()
-        }
+//        .onAppear {
+//            speechRecognizer.resetTranscript()
+//            speechRecognizer.startTranscribing()
+//        }
     }
 
     // MARK: - Private Methods
 
     private func stop() {
-        speechRecognizer.stopTranscribing()
-        transcription = speechRecognizer.transcript
-        dismiss()
+//        speechRecognizer.stopTranscribing()
+//        transcription = speechRecognizer.transcript
+//        dismiss()
     }
 
     private func cancel() {
-        speechRecognizer.stopTranscribing()
-        dismiss()
+//        speechRecognizer.stopTranscribing()
+//        dismiss()
     }
+}
+
+#Preview {
+    @State var text = ""
+    return RecordingView(languages: .init(from: .french, to: .english), transcription: $text)
 }

@@ -1,5 +1,5 @@
 //
-//  Player.swift
+//  AudioPlayer.swift
 //  AJ
 //
 //  Created by Денис on 11.09.2023.
@@ -8,7 +8,7 @@
 import AVFoundation
 import SwiftUI
 
-final class PlayerManager: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
+final class AudioPlayer: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
 
     enum E: Error {
         case noAvailableVoices
@@ -23,7 +23,11 @@ final class PlayerManager: NSObject, ObservableObject, AVSpeechSynthesizerDelega
 
     private let synthesizer = AVSpeechSynthesizer()
 
-    @Published private var playingMessage: Message?
+    private var playingMessage: Message? {
+        willSet {
+            objectWillChange.send()
+        }
+    }
 
     // MARK: - Public Methods
 
@@ -39,10 +43,12 @@ final class PlayerManager: NSObject, ObservableObject, AVSpeechSynthesizerDelega
 
         message.isPlaying = true
 
-        _playingMessage = Published(initialValue: message)
+        playingMessage = message
     }
 
-    func stop() {
+    // MARK: - Private Methods
+
+    private func stop() {
         synthesizer.stopSpeaking(at: .immediate)
         clear()
     }

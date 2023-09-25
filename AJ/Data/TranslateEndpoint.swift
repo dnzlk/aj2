@@ -29,7 +29,7 @@ final class TranslateEndpoint: APIEndpoint {
     }
 
     override var prodUrl: String? {
-        "https://cold-swans-cheer.loca.lt/ask"
+        "https://modern-parks-post.loca.lt/ask"
     }
 
     // MARK: - Public Methods
