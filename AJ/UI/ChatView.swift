@@ -24,7 +24,7 @@ struct ChatView: View {
 
     @State private var languages: Languages = .init(from: .english, to: .russian)
 
-    @State private var isShowingCopiedToast = false
+    @State private var isShowCopiedToast = false
 
     // Speech
 
@@ -69,18 +69,12 @@ struct ChatView: View {
                 bottomBar()
             }
         )
+        .toast(isShow: $isShowCopiedToast)
         .onViewDidLoad {
             languages = ud.languages()
         }
         .onChange(of: languages) { _, newValue in
             ud.saveLanguages(languages: newValue)
-        }
-        .onChange(of: isShowingCopiedToast) { _, newValue in
-            guard newValue else { return }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                isShowingCopiedToast = false
-            }
         }
     }
 
@@ -200,10 +194,9 @@ struct ChatView: View {
     }
 
     private func copy(message: Message) {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
         UIPasteboard.general.string = message.translation?.text
 
-        withAnimation {
-            isShowingCopiedToast = true
-        }
+        isShowCopiedToast = true
     }
 }
