@@ -106,7 +106,7 @@ struct ChatCell: View {
                 if isRight {
                     speaker()
                 }
-                Text(message.translation?.text ?? "")
+                Text(message.isShowOriginalText ? message.originalText : message.translation?.text ?? "")
                     .foregroundStyle(textColor)
                     .font(.callout)
                     .padding(8)
@@ -133,7 +133,7 @@ struct ChatCell: View {
     }
 
     private func originalText() -> some View {
-        Text(message.originalText)
+        Text(message.isShowOriginalText ? message.translation?.text ?? "" : message.originalText)
             .lineLimit(3)
             .multilineTextAlignment(isRight ? .trailing : isLeft ? .leading : .center)
             .foregroundStyle(Assets.Colors.dark)
@@ -142,6 +142,9 @@ struct ChatCell: View {
             .padding(isLeft ? .leading : .trailing, 4)
             .offset(y: -8)
             .frame(maxWidth: .infinity, alignment: isRight ? .trailing : isLeft ? .leading : .center)
+            .onTapGesture {
+                message.isShowOriginalText.toggle()
+            }
     }
 
     @ViewBuilder
