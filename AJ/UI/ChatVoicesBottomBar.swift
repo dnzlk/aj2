@@ -31,7 +31,7 @@ struct ChatVoicesBottomBar: View {
 
     var body: some View {
         VStack {
-            HStack {
+            HStack(alignment: .center) {
                 cancelButton()
                     .opacity(isRecording ? 1 : 0)
 
@@ -58,6 +58,7 @@ struct ChatVoicesBottomBar: View {
                 .foregroundStyle(Assets.Colors.dark)
                 .opacity(isRecording ? speakTextOpacity : 1)
                 .transition(.opacity)
+                .padding(.bottom, 4)
         }
         .padding(.horizontal)
         .background(.regularMaterial)

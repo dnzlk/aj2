@@ -44,6 +44,8 @@ struct ChatView: View {
 
     private let ud = UserDefaultsManager.shared
 
+    private let bottomSpacerID = UUID().uuidString
+
     // MARK: - View
 
     var body: some View {
@@ -58,41 +60,15 @@ struct ChatView: View {
             ScrollViewReader { reader in
 
                 list()
-
-                Spacer()
-
-                if isMicInput {
-                    ChatVoicesBottomBar(languages: languages,
-                                        selectedLanguage: selectedSpeakLanguage,
-                                        isRecording: isRecording,
-                                        isMicInput: $isMicInput,
-                                        onStartRecording: { language in
-                        Task { await startRecording(language:language) }
-                    },
-                                        onSend: {
-                        Task { await speechRecognizer.stopTranscribing() }
-                        isRecording = false
-                        selectedSpeakLanguage = nil
-                        send(text: speechRecognizer.transcript)
-                    },
-                                        onCancel: {
-                        Task { await speechRecognizer.stopTranscribing() }
-                        isRecording = false
-                        selectedSpeakLanguage = nil
-                    })
-                } else {
-                    ChatTextField(inputText: $inputText, isMicInput: $isMicInput) {
-                        inputText.isEmpty ?
-                        withAnimation {
-                            isMicInput = true
-                        }
-                        : send(text: inputText)
-                        reader.scrollTo(messages.first?.id)
-                    }
-                }
             }
         }
-//        .toast(text: "Copied", icon: .init(systemName: "doc.on.doc"), isShowing: $isShowingCopiedToast)
+        .overlay(
+            VStack {
+                Spacer()
+                
+                bottomBar()
+            }
+        )
         .onViewDidLoad {
             languages = ud.languages()
         }
@@ -110,19 +86,57 @@ struct ChatView: View {
 
     @ViewBuilder
     private func list() -> some View {
-        let _ = Self._printChanges()
+        List {
+            Spacer()
+                .frame(height: 100)
+                .id(bottomSpacerID)
 
-        List(messages, id: \.id) { message in
-            ChatCell(message: message,
-                     onPlay: { play(message: message) },
-                     onCopy: { copy(message: message) })
+            ForEach(messages, id: \.id) { message in
+                ChatCell(message: message,
+                         onPlay: { play(message: message) },
+                         onCopy: { copy(message: message) })
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
                 .transition(.slide)
+            }
         }
         .flippedUpsideDown()
         .listStyle(.plain)
         .scrollDismissesKeyboard(.immediately)
+    }
+
+    @ViewBuilder
+    private func bottomBar() -> some View {
+        if isMicInput {
+            ChatVoicesBottomBar(languages: languages,
+                                selectedLanguage: selectedSpeakLanguage,
+                                isRecording: isRecording,
+                                isMicInput: $isMicInput,
+
+                                onStartRecording: { language in
+                Task { await startRecording(language:language) }
+            },
+                                onSend: {
+                Task { await speechRecognizer.stopTranscribing() }
+                isRecording = false
+                selectedSpeakLanguage = nil
+                send(text: speechRecognizer.transcript)
+            },
+                                onCancel: {
+                Task { await speechRecognizer.stopTranscribing() }
+                isRecording = false
+                selectedSpeakLanguage = nil
+            })
+        } else {
+            ChatTextField(inputText: $inputText, isMicInput: $isMicInput) {
+                inputText.isEmpty ?
+                withAnimation {
+                    isMicInput = true
+                }
+                : send(text: inputText)
+//                reader.scrollTo(messages.first?.id)
+            }
+        }
     }
 
     // MARK: - Private Methods

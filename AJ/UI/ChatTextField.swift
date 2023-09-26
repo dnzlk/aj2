@@ -16,7 +16,10 @@ struct ChatTextField: View {
 
     var body: some View {
         HStack {
-            TextField("Type here", text: $inputText,  axis: .vertical)
+            TextField("Type here",
+                      text: $inputText,
+                      axis: .vertical)
+            .font(.subheadline)
                 .lineLimit(3)
 
             Button {
@@ -32,8 +35,13 @@ struct ChatTextField: View {
         .padding(.vertical, 8)
         .padding(.horizontal)
         .background(Assets.Colors.solidWhite)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .padding(8)
-        .background(.ultraThinMaterial)
+    }
+}
+
+#Preview {
+    @State var input = ""
+    @State var isMic = false
+    return ChatTextField(inputText: $input, isMicInput: $isMic) {
+
     }
 }

@@ -12,18 +12,10 @@ struct MainView: View {
 
     @Environment(\.modelContext) private var context
 
-    @State private var voiceText: String = ""
-    @State private var languages: Languages = .init(from: .russian, to: .english)
-
-    @State private var isRecording = false
-
     var body: some View {
         NavigationStack {
             VStack {
                 ChatView()
-                .fullScreenCover(isPresented: $isRecording) {
-                    RecordingView(languages: languages, transcription: $voiceText)
-                }
             }
             .background(Assets.Colors.solidWhite)
         }
@@ -36,26 +28,5 @@ struct MainView: View {
                 context.delete(message)
             }
         }
-    }
-}
-
-struct ViewDidLoadModifier: ViewModifier {
-    @State private var viewDidLoad = false
-    let action: (() -> Void)?
-
-    func body(content: Content) -> some View {
-        content
-            .onAppear {
-                if viewDidLoad == false {
-                    viewDidLoad = true
-                    action?()
-                }
-            }
-    }
-}
-
-extension View {
-    func onViewDidLoad(perform action: (() -> Void)? = nil) -> some View {
-        self.modifier(ViewDidLoadModifier(action: action))
     }
 }
