@@ -115,7 +115,7 @@ struct ChatCell: View {
                     .gesture(
                         TapGesture(count: 2).onEnded {
                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                            withAnimation {
+                            withAnimation(.spring(duration: 0.25)) {
                                 message.isFav.toggle()
                             }
                         }.exclusively(before: TapGesture(count: 1).onEnded {
@@ -128,6 +128,7 @@ struct ChatCell: View {
             }
             star()
         }
+        .offset(y: message.isFav ? -8 : 0)
 
     }
 
@@ -167,7 +168,7 @@ struct ChatCell: View {
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Assets.Colors.solidWhite, lineWidth: 1)
             )
-            .offset(x: isRight ? -2 : 2, y: message.isFav ? -8 : 0)
+            .offset(x: isRight ? -2 : 2, y: -8)
             .opacity(message.isFav ? 1 : 0)
     }
 }
