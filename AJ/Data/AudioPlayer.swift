@@ -23,11 +23,9 @@ final class AudioPlayer: NSObject, ObservableObject, AVSpeechSynthesizerDelegate
 
     private let synthesizer = AVSpeechSynthesizer()
 
-    private var playingMessage: Message? {
-        willSet {
-            objectWillChange.send()
-        }
-    }
+    @Published private(set) var playingMessageId: String?
+
+    private var currentUtterance: AVSpeechUtterance?
 
     // MARK: - Public Methods
 
@@ -40,25 +38,23 @@ final class AudioPlayer: NSObject, ObservableObject, AVSpeechSynthesizerDelegate
 
         utterance.voice = AVSpeechSynthesisVoice(language: translation.language)
         synthesizer.speak(utterance)
+        currentUtterance = utterance
 
-        message.isPlaying = true
-
-        playingMessage = message
+        playingMessageId = message.id
     }
 
     // MARK: - Private Methods
 
     private func stop() {
+        playingMessageId = nil
+        currentUtterance = nil
         synthesizer.stopSpeaking(at: .immediate)
-        clear()
-    }
-
-    private func clear() {
-        playingMessage?.isPlaying = false
-        playingMessage = nil
     }
 
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        clear()
+        guard currentUtterance == utterance else { return }
+
+        currentUtterance = nil
+        playingMessageId = nil
     }
 }

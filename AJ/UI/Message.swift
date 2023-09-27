@@ -17,7 +17,6 @@ class Message: Hashable {
     let createdAt: Date
     var isFav: Bool
     var error: String?
-    @Transient var isPlaying = false
     var isShowOriginalText = false
 
     var state: State {

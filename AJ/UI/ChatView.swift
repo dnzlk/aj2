@@ -87,6 +87,7 @@ struct ChatView: View {
 
             ForEach(messages, id: \.id) { message in
                 ChatCell(message: message,
+                         isPlaying: message.id == audioPlayer.playingMessageId,
                          onPlay: { play(message: message) },
                          onCopy: { copy(message: message) })
                 .flippedUpsideDown()

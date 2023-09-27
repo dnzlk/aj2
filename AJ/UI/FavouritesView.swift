@@ -26,6 +26,7 @@ struct FavouritesView: View {
             navBar()
             List(messages, id: \.id) { message in
                 ChatCell(message: message,
+                         isPlaying: message.id == audioPlayer.playingMessageId,
                          onPlay: { audioPlayer.play(message: message) },
                          onCopy: { UIPasteboard.general.string = message.translation?.text })
                 .flippedUpsideDown()

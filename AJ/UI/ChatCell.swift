@@ -22,6 +22,7 @@ struct ChatCell: View {
     // MARK: - Public Properties
 
     @Bindable var message: Message
+    var isPlaying: Bool
     var onPlay: () -> Void
     var onCopy: () -> Void
 
@@ -156,7 +157,7 @@ struct ChatCell: View {
         }, label: {
             Image(systemName: "speaker.wave.2.fill")
                 .imageScale(.medium)
-                .foregroundStyle(message.isPlaying ? bgColor : Assets.Colors.gray)
+                .foregroundStyle(isPlaying ? bgColor : Assets.Colors.gray)
         })
         .buttonStyle(.borderless)
     }
