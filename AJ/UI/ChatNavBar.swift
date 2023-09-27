@@ -43,5 +43,7 @@ struct ChatNavBar: View {
                     .font(.title2)
             }
         }
+        .padding(.horizontal)
+        .padding(.vertical, 8)
     }
 }

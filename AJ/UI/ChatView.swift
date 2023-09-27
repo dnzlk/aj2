@@ -51,14 +51,11 @@ struct ChatView: View {
     var body: some View {
         VStack {
             ChatNavBar(isLanguagesPresented: $isLanguagesPresented, languages: languages)
-                .padding(.horizontal)
-                .padding(.vertical, 8)
                 .fullScreenCover(isPresented: $isLanguagesPresented) {
                     LanguagesView(languages: $languages)
                 }
 
             ScrollViewReader { reader in
-
                 list()
             }
         }
@@ -82,7 +79,7 @@ struct ChatView: View {
     private func list() -> some View {
         List {
             Spacer()
-                .frame(height: 100)
+                .frame(height: isMicInput ? 100 : 50)
                 .id(bottomSpacerID)
 
             ForEach(messages, id: \.id) { message in
@@ -103,7 +100,7 @@ struct ChatView: View {
     @ViewBuilder
     private func bottomBar() -> some View {
         if isMicInput {
-            ChatVoicesBottomBar(languages: languages,
+            ChatRecordBottomBar(languages: languages,
                                 selectedLanguage: selectedSpeakLanguage,
                                 isRecording: isRecording,
                                 isMicInput: $isMicInput,

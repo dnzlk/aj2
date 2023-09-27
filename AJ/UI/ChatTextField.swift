@@ -19,8 +19,9 @@ struct ChatTextField: View {
             TextField("Type here",
                       text: $inputText,
                       axis: .vertical)
-            .font(.subheadline)
-                .lineLimit(3)
+            .font(.body)
+            .lineLimit(3)
+            .padding(8)
 
             Button {
                 inputText.isEmpty ? isMicInput = true : onSend()
@@ -34,7 +35,7 @@ struct ChatTextField: View {
         }
         .padding(.vertical, 8)
         .padding(.horizontal)
-        .background(Assets.Colors.solidWhite)
+        .background(.ultraThickMaterial)
     }
 }
 

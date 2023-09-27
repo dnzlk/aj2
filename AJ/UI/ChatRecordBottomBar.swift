@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatVoicesBottomBar: View {
+struct ChatRecordBottomBar: View {
 
     let languages: Languages
 
