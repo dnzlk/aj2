@@ -267,4 +267,40 @@ enum Language: String, CaseIterable, Equatable {
             return "Тілді таңдау"
         }
     }
+
+    var appIcon: String {
+        let name: String
+
+        switch self {
+        case .english:
+            name = "ICEn"
+        case .chineseSimplified:
+            name = "ICCh"
+        case .spanish:
+            name = "ICSp"
+        case .arabic:
+            name = "ICAr"
+        case .hindi:
+            name = "ICHi"
+        case .french:
+            name = "ICFr"
+        case .bengali:
+            name = "ICBe"
+        case .russian:
+            name = "ICRu"
+        case .portuguese:
+            name = "ICPo"
+        case .indonesian:
+            name = "ICIn"
+        case .turkish:
+            name = "ICTu"
+        case .armenian:
+            name = "ICArm"
+        case .georgian:
+            name = "ICGe"
+        case .kazakh:
+            name = "ICKz"
+        }
+        return name
+    }
 }

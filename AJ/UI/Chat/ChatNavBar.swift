@@ -16,7 +16,7 @@ struct ChatNavBar: View {
     var body: some View {
         HStack {
             NavigationLink(destination: {
-                MenuView()
+                SettingsView()
             }) {
                 Image(systemName: "square.grid.2x2")
                     .imageScale(.large)
