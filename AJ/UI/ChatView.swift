@@ -34,11 +34,15 @@ struct ChatView: View {
 
     @State private var isMicInput = false
 
+    @StateObject private var speechRecognizer = SpeechRecognizer()
+
+    @State private var isShowingSpeechErrorAlert = false
+
+    @State private var speechError: SpeechRecognizer.E?
+
     // Services
 
     @StateObject private var audioPlayer = AudioPlayer()
-
-    @StateObject private var speechRecognizer = SpeechRecognizer()
 
     private let translateEndpoint = TranslateEndpoint.shared
 
@@ -66,6 +70,33 @@ struct ChatView: View {
                 bottomBar()
             }
         )
+        .alert(speechError?.text ?? "", isPresented: $isShowingSpeechErrorAlert) {
+            VStack {
+                if let speechError {
+                    switch speechError {
+                    case .unknown, .recognizerIsUnavailable:
+                        EmptyView()
+                    case .notAuthorizedToRecognize:
+                        Button("Open settings", role: .none) {
+                            isShowingSpeechErrorAlert = false
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    case .notPermittedToRecord:
+                        Button("Open settings", role: .none) {
+                            isShowingSpeechErrorAlert = false
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    }
+                }
+                Button("Cancel", role: .cancel) {
+                    isShowingSpeechErrorAlert = false
+                }
+            }
+        }
         .toast(isShow: $isShowCopiedToast)
         .onViewDidLoad {
             languages = ud.languages()
@@ -180,10 +211,9 @@ struct ChatView: View {
             try await speechRecognizer.startTranscribing(locale: language.locale)
             isRecording = true
             selectedSpeakLanguage = language
-        } catch let e as SpeechRecognizer.E {
-//            self.error = e
         } catch {
-//            self.error = .unknown
+            speechError = (error as? SpeechRecognizer.E) ?? .unknown
+            isShowingSpeechErrorAlert = true
         }
     }
 
