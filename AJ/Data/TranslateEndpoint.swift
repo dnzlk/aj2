@@ -20,26 +20,43 @@ struct Translation {
 
 final class TranslateEndpoint: APIEndpoint {
 
+    // MARK: - Types
+
+    enum E: Error {
+        case wrongUrl
+        case unknownLanguage
+    }
+
     // MARK: - Public Properties
 
     static let shared = TranslateEndpoint()
 
     override var debugUrl: String? {
-        "http://127.0.0.1:5000/ask"
+        "http://127.0.0.1:3000/ask"
     }
 
     override var prodUrl: String? {
-        "https://chatty-ads-cough.loca.lt/ask"
+        "http://165.232.91.100:80/ask"
     }
+
+    // MARK: - Private Properties
+
+    private let detector = LanguageDetector.shared
 
     // MARK: - Public Methods
 
-    func translate(text: String, languages: Languages) async throws -> Translation {
+    func translate(text: String, languages: Languages, textLanguage: Language? = nil) async throws -> Translation {
         guard let url else { throw E.wrongUrl }
 
+        guard
+            let originalLanguage = textLanguage ?? detector.detectedLanguage(for: text, languages: languages),
+            let translateToLanguage = [languages.from, languages.to].first(where: { $0.code != originalLanguage.code} )
+        else {
+            throw E.unknownLanguage
+        }
+
         let amMessages: [AMChatMessage] = [
-            .init(role: "system", content: generateSystemRule(languages: languages)),
-            .init(role: "user", content: text)
+            .init(role: "user", content: "Translate from \(originalLanguage.englishName) to \(translateToLanguage.englishName): \(text)")
         ]
 
         let amChat = AMChat(messages: amMessages)
@@ -53,21 +70,7 @@ final class TranslateEndpoint: APIEndpoint {
         let (data, _) = try await URLSession.shared.data(for: request)
         let response = try JSONDecoder().decode(AMChatResponse.self, from: data)
 
-        let decodedResponse = response.content.trmd()
-        let parts = decodedResponse.components(separatedBy: ";")
-        let code = parts.first
-        return Translation(text: String(decodedResponse.dropFirst((code?.count ?? -1) + 1)).trmd(), language: code?.lowercased())
-    }
-
-    // MARK: - Private Methods
-
-    private func generateSystemRule(languages: Languages) -> String {
-        let _1 = languages.from
-        let _2 = languages.to
-
-        return """
-                "You must translate the given request between \(_1) and \(_2) languages. Translate to \(_2) if the request is in \(_1), or translate to \(_1) if the request is in \(_2). At the beginning of your response add '\(_2.rawValue);' if the request is in \(_1), or '\(_1.rawValue);' if the request is in \(_2). Do not respond anything else."
-            """
+        return Translation(text: response.content.trmd(), language: translateToLanguage.code)
     }
 }
 

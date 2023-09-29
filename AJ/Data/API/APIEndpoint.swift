@@ -9,11 +9,6 @@ import Foundation
 
 class APIEndpoint {
 
-    // MARK: - Types
-
-    enum E: Error {
-        case wrongUrl
-    }
 
     // MARK: - Public Properties
 

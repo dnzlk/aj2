@@ -16,8 +16,13 @@ typealias LanguageColors = (bgColor: Color, textColor: Color)
 
 
 enum Language: String, CaseIterable, Equatable {
+
+    struct LanguageColors {
+        var bgColor: Color
+        var textColor: Color
+    }
+    
     case english = "en" // BCP-47
-#warning("cannot be parsed")
     case chineseSimplified = "zh-Hans"
     case spanish = "es"
     case arabic = "ar"
@@ -32,10 +37,42 @@ enum Language: String, CaseIterable, Equatable {
     case georgian = "ka"
     case kazakh = "kk"
 
-    struct LanguageColors {
-        var bgColor: Color
-        var textColor: Color
+    var code: String {
+        rawValue
     }
+
+    var englishName: String {
+            switch self {
+            case .english:
+                return "English"
+            case .chineseSimplified:
+                return "Chinese (Simplified)"
+            case .spanish:
+                return "Spanish"
+            case .arabic:
+                return "Arabic"
+            case .hindi:
+                return "Hindi"
+            case .french:
+                return "French"
+            case .bengali:
+                return "Bengali"
+            case .russian:
+                return "Russian"
+            case .portuguese:
+                return "Portuguese"
+            case .indonesian:
+                return "Indonesian"
+            case .turkish:
+                return "Turkish"
+            case .armenian:
+                return "Armenian"
+            case .georgian:
+                return "Georgian"
+            case .kazakh:
+                return "Kazakh"
+            }
+        }
 
     var localizedName: String {
         switch self {

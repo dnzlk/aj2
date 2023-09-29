@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E31540902AC43FA900D5A36C /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E315408F2AC43FA900D5A36C /* AppIconView.swift */; };
 		E32EB62B2AA6F6D0001E16BE /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32EB62A2AA6F6D0001E16BE /* MenuView.swift */; };
+		E33221A82AC6DAA400964402 /* LanguageDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33221A72AC6DAA400964402 /* LanguageDetector.swift */; };
 		E36008A82AAAE4AB00014191 /* TranslateEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */; };
 		E36008AA2AAAE62200014191 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A92AAAE62200014191 /* Language.swift */; };
 		E36008B02AAEF9AE00014191 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AF2AAEF9AE00014191 /* AudioPlayer.swift */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		E315408F2AC43FA900D5A36C /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
 		E32EB62A2AA6F6D0001E16BE /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		E33221A72AC6DAA400964402 /* LanguageDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageDetector.swift; sourceTree = "<group>"; };
 		E342442329A52A68006A2AF9 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		E36008A02AA9907000014191 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateEndpoint.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */,
 				E37D06B32ABD6D8C005FE0F1 /* GlobalConst.swift */,
 				E3D21F6A2AC42E4A002B3F75 /* Bundle+AppIcon.swift */,
+				E33221A72AC6DAA400964402 /* LanguageDetector.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				E39C27E82AB9EEB0004CC5F9 /* FlippedUpsideDown.swift in Sources */,
 				E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */,
 				E36008A82AAAE4AB00014191 /* TranslateEndpoint.swift in Sources */,
+				E33221A82AC6DAA400964402 /* LanguageDetector.swift in Sources */,
 				E3D21F652AC1C322002B3F75 /* ChatRecordBottomBar.swift in Sources */,
 				E361BC5F2AA615CE007956AD /* Message.swift in Sources */,
 				E361BC4C2AA61550007956AD /* AJApp.swift in Sources */,
