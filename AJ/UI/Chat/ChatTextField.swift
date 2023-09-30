@@ -16,12 +16,7 @@ struct ChatTextField: View {
 
     var body: some View {
         HStack {
-            TextField("Type here",
-                      text: $inputText,
-                      axis: .vertical)
-            .font(.body)
-            .lineLimit(3)
-            .padding(8)
+            textField()
 
             Button {
                 inputText.isEmpty ? isMicInput = true : onSend()
@@ -37,12 +32,41 @@ struct ChatTextField: View {
         .padding(.horizontal)
         .background(.ultraThickMaterial)
     }
+
+    @ViewBuilder
+    private func textField() -> some View {
+        HStack {
+            TextField("Type here",
+                      text: $inputText,
+                      axis: .vertical)
+            .font(.body)
+            .lineLimit(3)
+            .padding(.vertical, 10)
+            .padding(.horizontal, 12)
+
+            if inputText.isEmpty && !isMicInput {
+                Button {
+                    inputText = UIPasteboard.general.string ?? ""
+                } label: {
+                    Image(systemName: "doc.on.clipboard")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 25)
+                        .foregroundStyle(Assets.Colors.mediumGray.opacity(0.5))
+                }
+                .padding(.horizontal)
+            }
+        }
+        .overlay(
+            RoundedRectangle(cornerRadius: 25)
+                .stroke(Assets.Colors.mediumGray.opacity(0.5), lineWidth: 1)
+        )
+    }
 }
 
 #Preview {
     @State var input = ""
     @State var isMic = false
     return ChatTextField(inputText: $input, isMicInput: $isMic) {
-
     }
 }
