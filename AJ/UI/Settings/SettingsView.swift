@@ -9,6 +9,10 @@ import SwiftUI
 
 struct SettingsView: View {
 
+    @Environment(\.dismiss) private var dismiss
+
+    // MARK: - Types
+
     private enum Row: String {
         case favourites
 
@@ -27,33 +31,60 @@ struct SettingsView: View {
         }
     }
 
+    // MARK: - Private Properties
+
+    @State private var isFavouritesOpen = false
+
+    // MARK: - View
+
     var body: some View {
-        List {
-            Section {
-                row(.favourites)
-            } header: {
-                AppIconView()
+        NavigationStack {
+            List {
+                Section {
+                    row(.favourites)
+
+                } header: {
+                    VStack {
+                        navBar()
+                        AppIconView()
+                    }
                     .listRowInsets(.init(top: 8, leading: -16, bottom: 16, trailing: -16))
-            } footer: {
-                version()
+                } footer: {
+                    version()
+                }
             }
         }
     }
 
-    private func row(_ row: Row) -> some View {
+    private func navBar() -> some View {
         HStack {
-            Text(row.icon)
-            Text(row.title)
-                .fontWeight(.regular)
             Spacer()
-            Image(systemName: "chevron.forward")
-                .foregroundStyle(.gray)
+            Button(action: { dismiss() }, label: {
+                Image(systemName: "xmark.circle.fill")
+                    .imageScale(.large)
+                    .foregroundStyle(.gray)
+            })
         }
-        .contentShape(Rectangle())
+        .foregroundStyle(.red)
+        .padding(.horizontal)
+    }
+
+    private func row(_ row: Row) -> some View {
+        NavigationLink {
+            switch row {
+            case .favourites:
+                return FavouritesView()
+            }
+        } label: {
+            HStack {
+                Text(row.icon)
+                Text(row.title)
+                    .fontWeight(.regular)
+                Spacer()
+            }
+            .contentShape(Rectangle())
+        }
         .id(row.rawValue)
-        .onTapGesture {
-            handleTap(row: row)
-        }
     }
 
     @ViewBuilder
@@ -69,12 +100,6 @@ struct SettingsView: View {
             Spacer()
         }
         .padding()
-    }
-
-    // MARK: - Private Methods
-
-    private func handleTap(row: Row) {
-
     }
 }
 

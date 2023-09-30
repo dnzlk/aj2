@@ -9,19 +9,19 @@ import SwiftUI
 
 struct ChatNavBar: View {
 
+    @Binding var isMenuPresented: Bool
+    @Binding var isEditMode: Bool
     @Binding var isLanguagesPresented: Bool
 
     var languages: Languages
 
     var body: some View {
         HStack {
-            NavigationLink(destination: {
-                SettingsView()
-            }) {
-                Image(systemName: "square.grid.2x2")
-                    .imageScale(.large)
-                    .foregroundStyle(Assets.Colors.accentColor)
-            }
+            Text("🗿")
+                .font(.title2)
+                .onTapGesture {
+                    isMenuPresented = true
+                }
             Spacer()
 
             HStack(spacing: 4) {
@@ -36,12 +36,11 @@ struct ChatNavBar: View {
             }
 
             Spacer()
-            NavigationLink(destination: {
-                FavouritesView()
-            }) {
-                Text("⭐")
-                    .font(.title2)
-            }
+            Text(isEditMode ? "✅" : "✏️")
+                .font(.title2)
+                .onTapGesture {
+                    isEditMode.toggle()
+                }
         }
         .padding(.horizontal)
         .padding(.vertical, 8)

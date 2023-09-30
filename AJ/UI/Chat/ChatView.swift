@@ -22,6 +22,10 @@ struct ChatView: View {
 
     @State private var isLanguagesPresented = false
 
+    @State private var isEditMode = false
+
+    @State private var isMenuPresented = false
+
     @State private var languages: Languages = .init(from: .english, to: .russian)
 
     @State private var isShowCopiedToast = false
@@ -54,9 +58,15 @@ struct ChatView: View {
 
     var body: some View {
         VStack {
-            ChatNavBar(isLanguagesPresented: $isLanguagesPresented, languages: languages)
+            ChatNavBar(isMenuPresented: $isMenuPresented,
+                       isEditMode: $isEditMode,
+                       isLanguagesPresented: $isLanguagesPresented,
+                       languages: languages)
                 .fullScreenCover(isPresented: $isLanguagesPresented) {
                     LanguagesView(languages: $languages)
+                }
+                .fullScreenCover(isPresented: $isMenuPresented) {
+                    SettingsView()
                 }
 
             ScrollViewReader { reader in

@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		E31540902AC43FA900D5A36C /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E315408F2AC43FA900D5A36C /* AppIconView.swift */; };
-		E32EB62B2AA6F6D0001E16BE /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32EB62A2AA6F6D0001E16BE /* MenuView.swift */; };
 		E33221A82AC6DAA400964402 /* LanguageDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33221A72AC6DAA400964402 /* LanguageDetector.swift */; };
+		E33221AA2AC8039500964402 /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33221A92AC8039500964402 /* NavBar.swift */; };
 		E36008A82AAAE4AB00014191 /* TranslateEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */; };
 		E36008AA2AAAE62200014191 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A92AAAE62200014191 /* Language.swift */; };
 		E36008B02AAEF9AE00014191 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AF2AAEF9AE00014191 /* AudioPlayer.swift */; };
@@ -42,8 +42,8 @@
 
 /* Begin PBXFileReference section */
 		E315408F2AC43FA900D5A36C /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
-		E32EB62A2AA6F6D0001E16BE /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		E33221A72AC6DAA400964402 /* LanguageDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageDetector.swift; sourceTree = "<group>"; };
+		E33221A92AC8039500964402 /* NavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBar.swift; sourceTree = "<group>"; };
 		E342442329A52A68006A2AF9 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		E36008A02AA9907000014191 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateEndpoint.swift; sourceTree = "<group>"; };
@@ -126,15 +126,16 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		E315408E2AC43F2F00D5A36C /* _Common */ = {
+		E315408E2AC43F2F00D5A36C /* UICommon */ = {
 			isa = PBXGroup;
 			children = (
 				E39C27E72AB9EEB0004CC5F9 /* FlippedUpsideDown.swift */,
 				E37D06B12ABD68D5005FE0F1 /* Loader.swift */,
 				E3D21F602ABDBFBF002B3F75 /* Toast.swift */,
 				E3D21F662AC28CD4002B3F75 /* ViewDidLoadModifier.swift */,
+				E33221A92AC8039500964402 /* NavBar.swift */,
 			);
-			path = _Common;
+			path = UICommon;
 			sourceTree = "<group>";
 		};
 		E32AC50929A3C5B900F242CC /* Data */ = {
@@ -195,12 +196,11 @@
 		E3C95E4D299BB9710099DC16 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				E315408E2AC43F2F00D5A36C /* _Common */,
+				E315408E2AC43F2F00D5A36C /* UICommon */,
 				E315408D2AC43F1900D5A36C /* Settings */,
 				E315408C2AC43F0400D5A36C /* Chat */,
 				E342442329A52A68006A2AF9 /* Message.swift */,
 				E361BC4D2AA61550007956AD /* MainView.swift */,
-				E32EB62A2AA6F6D0001E16BE /* MenuView.swift */,
 				E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */,
 			);
 			path = UI;
@@ -295,6 +295,7 @@
 				E39C27DB2AB1729D004CC5F9 /* ChatView.swift in Sources */,
 				E361BC812AA6251D007956AD /* AMChatMessage.swift in Sources */,
 				E3D21F6B2AC42E4A002B3F75 /* Bundle+AppIcon.swift in Sources */,
+				E33221AA2AC8039500964402 /* NavBar.swift in Sources */,
 				E37D06B42ABD6D8C005FE0F1 /* GlobalConst.swift in Sources */,
 				E361BC832AA6251D007956AD /* AMChatResponse.swift in Sources */,
 				E36008AA2AAAE62200014191 /* Language.swift in Sources */,
@@ -307,7 +308,6 @@
 				E361BC5F2AA615CE007956AD /* Message.swift in Sources */,
 				E361BC4C2AA61550007956AD /* AJApp.swift in Sources */,
 				E31540902AC43FA900D5A36C /* AppIconView.swift in Sources */,
-				E32EB62B2AA6F6D0001E16BE /* MenuView.swift in Sources */,
 				E37D06B02ABD51C1005FE0F1 /* FavouritesView.swift in Sources */,
 				E3D21F612ABDBFBF002B3F75 /* Toast.swift in Sources */,
 				E39C27E02AB4111E004CC5F9 /* ChatCell.swift in Sources */,
@@ -453,7 +453,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AJ/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = M;
+				INFOPLIST_KEY_CFBundleDisplayName = "✌️";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone desc";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech desc";
@@ -494,7 +494,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AJ/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = M;
+				INFOPLIST_KEY_CFBundleDisplayName = "✌️";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone desc";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech desc";
