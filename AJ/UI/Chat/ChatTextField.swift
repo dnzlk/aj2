@@ -39,7 +39,7 @@ struct ChatTextField: View {
             TextField("Type here",
                       text: $inputText,
                       axis: .vertical)
-            .font(.body)
+            .font(.system(size: 16))
             .lineLimit(3)
             .padding(.vertical, 10)
             .padding(.horizontal, 12)
@@ -51,7 +51,7 @@ struct ChatTextField: View {
                     Image(systemName: "doc.on.clipboard")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 25)
+                        .frame(height: 23)
                         .foregroundStyle(Assets.Colors.mediumGray.opacity(0.5))
                 }
                 .padding(.horizontal)
@@ -59,7 +59,7 @@ struct ChatTextField: View {
         }
         .overlay(
             RoundedRectangle(cornerRadius: 25)
-                .stroke(Assets.Colors.mediumGray.opacity(0.5), lineWidth: 1)
+                .stroke(Assets.Colors.mediumGray.opacity(0.5), lineWidth: 0.4)
         )
     }
 }
