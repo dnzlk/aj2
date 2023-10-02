@@ -36,6 +36,9 @@ final class AudioPlayer: NSObject, ObservableObject, AVSpeechSynthesizerDelegate
 
         let utterance = AVSpeechUtterance(string: translation.text)
 
+        let audioSession = AVAudioSession.sharedInstance()
+        try? audioSession.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+
         utterance.voice = AVSpeechSynthesisVoice(language: translation.language)
         synthesizer.speak(utterance)
         currentUtterance = utterance

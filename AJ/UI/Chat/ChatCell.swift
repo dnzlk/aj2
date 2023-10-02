@@ -130,7 +130,6 @@ struct ChatCell: View {
             star()
         }
         .offset(y: message.isFav ? -8 : 0)
-
     }
 
     private func originalText() -> some View {
