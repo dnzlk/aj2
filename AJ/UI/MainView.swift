@@ -17,7 +17,6 @@ struct MainView: View {
             VStack {
                 ChatView()
             }
-            .background(Assets.Colors.solidWhite)
         }
         .onViewDidLoad {
             let fetchDescriptor = FetchDescriptor(sortBy: [SortDescriptor(\Message.createdAt)])
@@ -27,6 +26,11 @@ struct MainView: View {
             for message in messages where message.translation == nil {
                 context.delete(message)
             }
+
+//            for _ in 0...1000 {
+//                let message = Message(id: UUID().uuidString, originalText: UUID().uuidString, translation: .init(text: UUID().uuidString, language: "ru", isSentByUser: true), createdAt: Date(), isFav: false, error: nil)
+//                context.insert(message)
+//            }
         }
     }
 }

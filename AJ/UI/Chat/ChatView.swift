@@ -30,6 +30,12 @@ struct ChatView: View {
 
     @State private var isShowCopiedToast = false
 
+    @State private var isUseMaterialOnBottom = false
+
+    private let bottomSpacerID = UUID().uuidString
+
+    @State private var scrollID: String?
+
     // Speech
 
     @State private var isRecording = false
@@ -52,8 +58,6 @@ struct ChatView: View {
 
     private let ud = UserDefaultsManager.shared
 
-    private let bottomSpacerID = UUID().uuidString
-
     // MARK: - View
 
     var body: some View {
@@ -69,48 +73,27 @@ struct ChatView: View {
                     SettingsView()
                 }
 
-            ScrollViewReader { reader in
-                list()
-                    .onChange(of: messages) { oldValue, newValue in
-                        withAnimation {
-                            reader.scrollTo(bottomSpacerID)
-                        }
+            list()
+                .scrollPosition(id: $scrollID)
+                .onChange(of: messages) { oldValue, newValue in
+                    withAnimation {
+                        scrollID = bottomSpacerID
                     }
-            }
+                }
+                .onChange(of: scrollID) { oldValue, newValue in
+                    isUseMaterialOnBottom = newValue == bottomSpacerID
+                }
         }
+        .background(Assets.Colors.chatBackground)
         .overlay(
             VStack {
                 Spacer()
-                
+
                 bottomBar()
             }
         )
         .alert(speechError?.text ?? "", isPresented: $isShowingSpeechErrorAlert) {
-            VStack {
-                if let speechError {
-                    switch speechError {
-                    case .unknown, .recognizerIsUnavailable:
-                        EmptyView()
-                    case .notAuthorizedToRecognize:
-                        Button("Open settings", role: .none) {
-                            isShowingSpeechErrorAlert = false
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                UIApplication.shared.open(url)
-                            }
-                        }
-                    case .notPermittedToRecord:
-                        Button("Open settings", role: .none) {
-                            isShowingSpeechErrorAlert = false
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                UIApplication.shared.open(url)
-                            }
-                        }
-                    }
-                }
-                Button("Cancel", role: .cancel) {
-                    isShowingSpeechErrorAlert = false
-                }
-            }
+            speechAlert()
         }
         .toast(isShow: $isShowCopiedToast)
         .onViewDidLoad {
@@ -127,6 +110,7 @@ struct ChatView: View {
             Spacer()
                 .frame(height: isMicInput ? 100 : 50)
                 .listRowSeparator(.hidden)
+                .listRowBackground(Assets.Colors.chatBackground)
                 .id(bottomSpacerID)
 
             ForEach(0..<messages.count, id: \.self) { i in
@@ -183,7 +167,35 @@ struct ChatView: View {
                     isMicInput = true
                 }
                 : send(text: inputText)
-//                reader.scrollTo(messages.first?.id)
+            }
+            .background(.thinMaterial.opacity(isUseMaterialOnBottom ? 1 : 0))
+        }
+    }
+
+    private func speechAlert() -> some View {
+        VStack {
+            if let speechError {
+                switch speechError {
+                case .unknown, .recognizerIsUnavailable:
+                    EmptyView()
+                case .notAuthorizedToRecognize:
+                    Button("Open settings", role: .none) {
+                        isShowingSpeechErrorAlert = false
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                case .notPermittedToRecord:
+                    Button("Open settings", role: .none) {
+                        isShowingSpeechErrorAlert = false
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                isShowingSpeechErrorAlert = false
             }
         }
     }

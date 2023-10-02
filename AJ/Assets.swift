@@ -14,6 +14,7 @@ struct Assets {
 
     struct Colors {
 
+        static let chatBackground = Color("Colors/ChatBackground")
         static let white = Color("Colors/White")
         static let black = Color("Colors/Black")
         static let accentColor = Color("Colors/AccentColor")

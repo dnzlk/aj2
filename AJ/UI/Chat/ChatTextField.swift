@@ -30,7 +30,7 @@ struct ChatTextField: View {
         }
         .padding(.vertical, 8)
         .padding(.horizontal)
-        .background(.ultraThickMaterial)
+        .background(Assets.Colors.chatBackground.opacity(0.5))
     }
 
     @ViewBuilder
