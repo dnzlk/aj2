@@ -27,6 +27,7 @@ enum Language: String, CaseIterable, Equatable {
     case spanish = "es"
     case arabic = "ar"
     case hindi = "hi"
+    case italian = "it"
     case french = "fr"
     case bengali = "bn"
     case russian = "ru"
@@ -53,6 +54,8 @@ enum Language: String, CaseIterable, Equatable {
                 return "Arabic"
             case .hindi:
                 return "Hindi"
+            case .italian:
+                return "Italian"
             case .french:
                 return "French"
             case .bengali:
@@ -86,6 +89,8 @@ enum Language: String, CaseIterable, Equatable {
             return "العربية"
         case .hindi:
             return "हिन्दी"
+        case .italian:
+            return "Italiano"
         case .french:
             return "Français"
         case .bengali:
@@ -119,6 +124,8 @@ enum Language: String, CaseIterable, Equatable {
             return "🇦🇪"
         case .hindi:
             return "🇮🇳"
+        case .italian:
+            return "🇮🇹"
         case .french:
             return "🇫🇷"
         case .bengali:
@@ -152,6 +159,8 @@ enum Language: String, CaseIterable, Equatable {
             return "اكتب هنا"
         case .hindi:
             return "यहां लिखें"
+        case .italian:
+            return "Scrivi qui"
         case .french:
             return "Écrivez ici"
         case .bengali:
@@ -185,6 +194,8 @@ enum Language: String, CaseIterable, Equatable {
             return "تحدث"
         case .hindi:
             return "बोलो"
+        case .italian:
+             return "Parla"
         case .french:
             return "Parler"
         case .bengali:
@@ -218,6 +229,8 @@ enum Language: String, CaseIterable, Equatable {
             return LanguageColors(bgColor: .green, textColor: .white)
         case .hindi:
             return LanguageColors(bgColor: .orange, textColor: .black)
+        case .italian:
+            return LanguageColors(bgColor: .green, textColor: .white)
         case .french:
             return LanguageColors(bgColor: .blue, textColor: .white)
         case .bengali:
@@ -251,6 +264,8 @@ enum Language: String, CaseIterable, Equatable {
             return "ar_SA"
         case .hindi:
             return "hi_IN"
+        case .italian:
+            return "it_IT"
         case .french:
             return "fr_FR"
         case .bengali:
@@ -284,6 +299,8 @@ enum Language: String, CaseIterable, Equatable {
             return "اختر اللغة"
         case .hindi:
             return "भाषा चुनें"
+        case .italian:
+            return "Seleziona lingua"
         case .french:
             return "Sélectionnez la langue"
         case .bengali:
@@ -319,6 +336,8 @@ enum Language: String, CaseIterable, Equatable {
             name = "ICAr"
         case .hindi:
             name = "ICHi"
+        case .italian:
+            name = "ICIt"
         case .french:
             name = "ICFr"
         case .bengali:
