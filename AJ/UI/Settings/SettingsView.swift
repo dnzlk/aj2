@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
 
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(\.dismiss) private var dismiss
 
     // MARK: - Types
@@ -101,6 +102,16 @@ struct SettingsView: View {
         }
         .padding()
     }
+
+//    let style: UIUserInterfaceStyle = {
+//        if colorScheme == .dark {
+//            return .light
+//        } else {
+//            return .dark
+//        }
+//    }()
+//    (UIApplication.shared.connectedScenes.first as?
+//      UIWindowScene)?.windows.first?.overrideUserInterfaceStyle = style
 }
 
 #Preview {

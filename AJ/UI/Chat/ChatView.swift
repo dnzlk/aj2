@@ -71,6 +71,11 @@ struct ChatView: View {
 
             ScrollViewReader { reader in
                 list()
+                    .onChange(of: messages) { oldValue, newValue in
+                        withAnimation {
+                            reader.scrollTo(bottomSpacerID)
+                        }
+                    }
             }
         }
         .overlay(
@@ -121,9 +126,19 @@ struct ChatView: View {
         List {
             Spacer()
                 .frame(height: isMicInput ? 100 : 50)
+                .listRowSeparator(.hidden)
                 .id(bottomSpacerID)
 
-            ForEach(messages, id: \.id) { message in
+            ForEach(0..<messages.count, id: \.self) { i in
+                let message = messages[i]
+
+                if i > 0 && !Calendar.current.isDate(message.createdAt, inSameDayAs: messages[i-1].createdAt) {
+                    DateCell(date: messages[i-1].createdAt)
+                        .flippedUpsideDown()
+                        .listRowSeparator(.hidden)
+                        .id(messages[i-1].createdAt)
+                }
+
                 ChatCell(message: message,
                          isPlaying: message.id == audioPlayer.playingMessageId,
                          onPlay: { play(message: message) },
@@ -131,6 +146,7 @@ struct ChatView: View {
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
                 .transition(.slide)
+                .id(message.id)
             }
         }
         .flippedUpsideDown()
