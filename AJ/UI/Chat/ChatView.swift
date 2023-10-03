@@ -30,8 +30,6 @@ struct ChatView: View {
 
     @State private var isShowCopiedToast = false
 
-    @State private var isUseMaterialOnBottom = false
-
     private let bottomSpacerID = UUID().uuidString
 
     @State private var scrollID: String?
@@ -80,18 +78,12 @@ struct ChatView: View {
                         scrollID = bottomSpacerID
                     }
                 }
-                .onChange(of: scrollID) { oldValue, newValue in
-                    isUseMaterialOnBottom = newValue == bottomSpacerID
-                }
+
+            Spacer()
+
+            bottomBar()
         }
         .background(Assets.Colors.chatBackground)
-        .overlay(
-            VStack {
-                Spacer()
-
-                bottomBar()
-            }
-        )
         .alert(speechError?.text ?? "", isPresented: $isShowingSpeechErrorAlert) {
             speechAlert()
         }
@@ -108,7 +100,7 @@ struct ChatView: View {
     private func list() -> some View {
         List {
             Spacer()
-                .frame(height: isMicInput ? 100 : 50)
+                .frame(height: 5)
                 .listRowSeparator(.hidden)
                 .listRowBackground(Assets.Colors.chatBackground)
                 .id(bottomSpacerID)
@@ -168,7 +160,6 @@ struct ChatView: View {
                 }
                 : send(text: inputText)
             }
-            .background(.thinMaterial.opacity(isUseMaterialOnBottom ? 1 : 0))
         }
     }
 

@@ -18,6 +18,7 @@ struct MainView: View {
                 ChatView()
             }
         }
+        .background(Assets.Colors.chatBackground)
         .onViewDidLoad {
             let fetchDescriptor = FetchDescriptor(sortBy: [SortDescriptor(\Message.createdAt)])
 

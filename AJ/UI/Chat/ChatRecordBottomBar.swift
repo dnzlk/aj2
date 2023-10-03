@@ -61,7 +61,6 @@ struct ChatRecordBottomBar: View {
                 .padding(.bottom, 4)
         }
         .padding(.horizontal)
-        .background(Assets.Colors.chatBackground.opacity(0.5).background(.thinMaterial))
         .onChange(of: isRecording, { oldValue, newValue in
             if newValue {
                 timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
