@@ -17,11 +17,8 @@ struct ChatNavBar: View {
 
     var body: some View {
         HStack {
-            Image("menu")
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(Assets.Colors.accentColor)
-                .frame(height: 40)
+            Text("☰")
+                .font(.title)
                 .onTapGesture {
                     isMenuPresented = true
                 }
