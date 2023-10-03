@@ -92,7 +92,7 @@ struct ChatCell: View {
                 Spacer()
             }
         }
-        .listRowBackground(Color.clear)
+        .listRowBackground(Assets.Colors.chatBackground)
     }
 
     private func loader() -> some View {
@@ -149,10 +149,7 @@ struct ChatCell: View {
             }
     }
 
-    @ViewBuilder
     private func speaker() -> some View {
-        let _ = Self._printChanges()
-
         Button(action: {
             onPlay()
         }, label: {

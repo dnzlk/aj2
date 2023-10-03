@@ -32,8 +32,6 @@ struct ChatView: View {
 
     private let bottomSpacerID = UUID().uuidString
 
-    @State private var scrollID: String?
-
     // Speech
 
     @State private var isRecording = false
@@ -73,16 +71,12 @@ struct ChatView: View {
                     SettingsView()
                 }
 
-            list()
-                .scrollPosition(id: $scrollID)
-                .onChange(of: messages) { oldValue, newValue in
-                    withAnimation {
-                        scrollID = bottomSpacerID
-                    }
-                }
-
-            Spacer()
-
+            ScrollViewReader { reader in
+                list()
+//                    .onChange(of: messages) { _, _ in
+//                        reader.scrollTo(bottomSpacerID)
+//                    }
+            }
             bottomBar()
         }
         .background(Assets.Colors.chatBackground)
@@ -98,11 +92,10 @@ struct ChatView: View {
         }
     }
 
-    @ViewBuilder
     private func list() -> some View {
         List {
             Spacer()
-                .frame(height: 5)
+                .frame(height: 1)
                 .listRowSeparator(.hidden)
                 .listRowBackground(Assets.Colors.chatBackground)
                 .id(bottomSpacerID)
