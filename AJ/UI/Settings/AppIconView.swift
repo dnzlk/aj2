@@ -66,7 +66,7 @@ struct AppIconView: View {
             }
         }
         .scrollIndicators(.hidden)
-        .transition(.identity)
+        .transition(.opacity)
     }
 
     private func icon(title: String, font: CGFloat) -> some View {

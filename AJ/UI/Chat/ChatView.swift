@@ -176,16 +176,12 @@ struct ChatView: View {
                 case .notAuthorizedToRecognize:
                     Button("Open settings", role: .none) {
                         isShowingSpeechErrorAlert = false
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            UIApplication.shared.open(url)
-                        }
+                        openSettings()
                     }
                 case .notPermittedToRecord:
                     Button("Open settings", role: .none) {
                         isShowingSpeechErrorAlert = false
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            UIApplication.shared.open(url)
-                        }
+                        openSettings()
                     }
                 }
             }
@@ -259,5 +255,11 @@ struct ChatView: View {
         UIPasteboard.general.string = message.translation?.text
 
         isShowCopiedToast = true
+    }
+}
+
+func openSettings() {
+    if let url = URL(string: UIApplication.openSettingsURLString) {
+        UIApplication.shared.open(url)
     }
 }

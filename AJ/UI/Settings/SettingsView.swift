@@ -16,18 +16,28 @@ struct SettingsView: View {
 
     private enum Row: String {
         case favourites
+        case appLanguage
+        case support
 
         var icon: String {
             switch self {
+            case .appLanguage:
+                return "🌐"
             case .favourites:
                 return "⭐"
+            case .support:
+                return "✉️"
             }
         }
 
         var title: String {
             switch self {
+            case .appLanguage:
+                return "App Language"
             case .favourites:
                 return "Favourites"
+            case .support:
+                return "Support"
             }
         }
     }
@@ -42,14 +52,28 @@ struct SettingsView: View {
         NavigationStack {
             List {
                 Section {
-                    row(.favourites)
-
+                    NavigationLink {
+                        FavouritesView()
+                    } label: {
+                        row(.favourites)
+                    }
                 } header: {
                     VStack {
                         navBar()
                         AppIconView()
                     }
                     .listRowInsets(.init(top: 8, leading: -16, bottom: 16, trailing: -16))
+                }
+
+                Section {
+                    row(.appLanguage)
+                        .onTapGesture {
+                            openSettings()
+                        }
+                    row(.support)
+                        .onTapGesture {
+                            // TODO: Email
+                        }
                 } footer: {
                     version()
                 }
@@ -71,20 +95,13 @@ struct SettingsView: View {
     }
 
     private func row(_ row: Row) -> some View {
-        NavigationLink {
-            switch row {
-            case .favourites:
-                return FavouritesView()
-            }
-        } label: {
-            HStack {
-                Text(row.icon)
-                Text(row.title)
-                    .fontWeight(.regular)
-                Spacer()
-            }
-            .contentShape(Rectangle())
+        HStack {
+            Text(row.icon)
+            Text(row.title)
+                .fontWeight(.regular)
+            Spacer()
         }
+        .contentShape(Rectangle())
         .id(row.rawValue)
     }
 
