@@ -59,6 +59,8 @@ struct ChatView: View {
     // MARK: - View
 
     var body: some View {
+        let _ = Self._printChanges()
+
         VStack {
             ChatNavBar(isMenuPresented: $isMenuPresented,
                        isEditMode: $isEditMode,
@@ -109,10 +111,7 @@ struct ChatView: View {
                 let message = messages[i]
 
                 if i > 0 && !Calendar.current.isDate(message.createdAt, inSameDayAs: messages[i-1].createdAt) {
-                    DateCell(date: messages[i-1].createdAt)
-                        .flippedUpsideDown()
-                        .listRowSeparator(.hidden)
-                        .id(messages[i-1].createdAt)
+                    dateCell(message: messages[i-1])
                 }
 
                 ChatCell(message: message,
@@ -123,11 +122,23 @@ struct ChatView: View {
                 .listRowSeparator(.hidden)
                 .transition(.slide)
                 .id(message.id)
+
+                if i == messages.count - 1 {
+                    dateCell(message: messages[i])
+                }
             }
         }
         .flippedUpsideDown()
         .listStyle(.plain)
         .scrollDismissesKeyboard(.immediately)
+    }
+
+    private func dateCell(message: Message) -> some View {
+        DateCell(date: message.createdAt)
+            .flippedUpsideDown()
+            .listRowSeparator(.hidden)
+            .listRowBackground(Assets.Colors.chatBackground)
+            .id(message.createdAt)
     }
 
     @ViewBuilder
