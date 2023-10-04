@@ -113,9 +113,10 @@ struct ChatCell: View, Equatable {
                     speaker()
                 }
                 Text(message.isShowOriginalText ? message.originalText : message.translation?.text ?? "")
+                    .font(.system(size: 18))
                     .foregroundStyle(textColor)
                     .font(.callout)
-                    .padding(8)
+                    .padding(10)
                     .background(bgColor)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .gesture(

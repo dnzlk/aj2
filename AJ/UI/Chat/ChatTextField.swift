@@ -38,10 +38,12 @@ struct ChatTextField: View {
             TextField("Type here",
                       text: $inputText,
                       axis: .vertical)
-            .font(.system(size: 16))
-            .lineLimit(3)
-            .padding(.vertical, 10)
-            .padding(.horizontal, 12)
+            .font(.system(size: 18))
+            .fontWeight(.medium)
+            .lineLimit(5)
+            .padding(.horizontal, 10)
+            .padding(.bottom, 10)
+            .padding(.top, 4)
 
             if inputText.isEmpty && !isMicInput {
                 Button {
@@ -56,10 +58,6 @@ struct ChatTextField: View {
                 .padding(.horizontal)
             }
         }
-        .overlay(
-            RoundedRectangle(cornerRadius: 25)
-                .stroke(Assets.Colors.mediumGray.opacity(0.5), lineWidth: 0.4)
-        )
     }
 }
 
