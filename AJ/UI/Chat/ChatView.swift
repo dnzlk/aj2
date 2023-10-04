@@ -130,6 +130,7 @@ struct ChatView: View {
 
     private func dateCell(message: Message) -> some View {
         DateCell(date: message.createdAt)
+            .equatable()
             .flippedUpsideDown()
             .listRowSeparator(.hidden)
             .listRowBackground(Assets.Colors.chatBackground)

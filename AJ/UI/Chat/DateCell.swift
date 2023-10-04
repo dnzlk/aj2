@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-struct DateCell: View {
+struct DateCell: View, Equatable {
+
+    static func == (lhs: DateCell, rhs: DateCell) -> Bool {
+        lhs.date == rhs.date
+    }
 
     let date: Date
 

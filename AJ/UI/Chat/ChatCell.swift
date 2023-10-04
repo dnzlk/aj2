@@ -11,7 +11,7 @@ import SwiftUI
 struct ChatCell: View, Equatable {
 
     static func == (lhs: ChatCell, rhs: ChatCell) -> Bool {
-        return lhs.message == rhs.message && lhs.isPlaying == rhs.isPlaying
+        lhs.message == rhs.message && lhs.isPlaying == rhs.isPlaying
     }
 
     // MARK: - Types
