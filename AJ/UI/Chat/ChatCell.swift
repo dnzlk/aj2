@@ -8,7 +8,11 @@
 import SwiftData
 import SwiftUI
 
-struct ChatCell: View {
+struct ChatCell: View, Equatable {
+
+    static func == (lhs: ChatCell, rhs: ChatCell) -> Bool {
+        return lhs.message == rhs.message && lhs.isPlaying == rhs.isPlaying
+    }
 
     // MARK: - Types
 
@@ -92,7 +96,6 @@ struct ChatCell: View {
                 Spacer()
             }
         }
-        .listRowBackground(Assets.Colors.chatBackground)
     }
 
     private func loader() -> some View {

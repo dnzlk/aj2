@@ -73,9 +73,11 @@ struct ChatView: View {
 
             ScrollViewReader { reader in
                 list()
-//                    .onChange(of: messages) { _, _ in
-//                        reader.scrollTo(bottomSpacerID)
-//                    }
+                    .onChange(of: messages) { _, _ in
+                        withAnimation {
+                            reader.scrollTo(bottomSpacerID)
+                        }
+                    }
             }
             bottomBar()
         }
@@ -94,10 +96,8 @@ struct ChatView: View {
 
     private func list() -> some View {
         List {
-            Spacer()
-                .frame(height: 1)
+            EmptyView()
                 .listRowSeparator(.hidden)
-                .listRowBackground(Assets.Colors.chatBackground)
                 .id(bottomSpacerID)
 
             ForEach(0..<messages.count, id: \.self) { i in
@@ -111,6 +111,8 @@ struct ChatView: View {
                          isPlaying: message.id == audioPlayer.playingMessageId,
                          onPlay: { play(message: message) },
                          onCopy: { copy(message: message) })
+                .equatable()
+                .listRowBackground(Assets.Colors.chatBackground)
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
                 .transition(.slide)
