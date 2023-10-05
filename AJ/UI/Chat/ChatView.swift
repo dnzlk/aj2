@@ -24,7 +24,7 @@ struct ChatView: View {
 
     @State private var isEditMode = false
 
-    @State private var isSpeakAloud = true
+    @AppStorage("isSpeakAloud") private var isSpeakAloud: Bool = true
 
     @State private var isMenuPresented = false
 

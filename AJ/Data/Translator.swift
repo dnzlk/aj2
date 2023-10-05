@@ -1,5 +1,5 @@
 //
-//  TranslateEndpoint.swift
+//  Translator.swift
 //  AJ
 //
 //  Created by Денис on 08.09.2023.
@@ -18,7 +18,7 @@ struct Translation {
     let language: String?
 }
 
-final class TranslateEndpoint: APIEndpoint {
+final class Translator: APIEndpoint {
 
     // MARK: - Types
 
@@ -29,7 +29,7 @@ final class TranslateEndpoint: APIEndpoint {
 
     // MARK: - Public Properties
 
-    static let shared = TranslateEndpoint()
+    static let shared = Translator()
 
     override var debugUrl: String? {
         "http://127.0.0.1:3000/ask"
