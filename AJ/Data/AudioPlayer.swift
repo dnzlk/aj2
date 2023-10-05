@@ -46,13 +46,13 @@ final class AudioPlayer: NSObject, ObservableObject, AVSpeechSynthesizerDelegate
         playingMessageId = message.id
     }
 
-    // MARK: - Private Methods
-
-    private func stop() {
+    func stop() {
         playingMessageId = nil
         currentUtterance = nil
         synthesizer.stopSpeaking(at: .immediate)
     }
+
+    // MARK: - AVSpeechSynthesizerDelegate
 
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         guard currentUtterance == utterance else { return }

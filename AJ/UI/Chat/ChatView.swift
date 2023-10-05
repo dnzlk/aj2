@@ -24,6 +24,8 @@ struct ChatView: View {
 
     @State private var isEditMode = false
 
+    @State private var isSpeakAloud = true
+
     @State private var isMenuPresented = false
 
     @State private var languages: Languages = .init(from: .english, to: .russian)
@@ -61,7 +63,7 @@ struct ChatView: View {
 
         VStack {
             ChatNavBar(isMenuPresented: $isMenuPresented,
-                       isEditMode: $isEditMode,
+                       isSpeakAloud: $isSpeakAloud,
                        isLanguagesPresented: $isLanguagesPresented,
                        languages: languages)
                 .fullScreenCover(isPresented: $isLanguagesPresented) {
@@ -69,6 +71,11 @@ struct ChatView: View {
                 }
                 .fullScreenCover(isPresented: $isMenuPresented) {
                     SettingsView()
+                }
+                .onChange(of: isSpeakAloud) { _, newValue in
+                    if !newValue {
+                        audioPlayer.stop()
+                    }
                 }
 
             ScrollViewReader { reader in
@@ -220,6 +227,10 @@ struct ChatView: View {
                 let translation = try await translateEndpoint.translate(text: text, languages: languages)
 
                 updateTranslation(message: message, translation: translation)
+
+                if isSpeakAloud {
+                    play(message: message)
+                }
             } catch {
                 message.error = error.localizedDescription
             }
