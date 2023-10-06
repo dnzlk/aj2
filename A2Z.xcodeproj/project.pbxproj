@@ -25,6 +25,7 @@
 		E361BC702AA62459007956AD /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE5BB529D9CAEC00AD411B /* APIEndpoint.swift */; };
 		E361BC812AA6251D007956AD /* AMChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BFCE6629B1F99A00154D87 /* AMChatMessage.swift */; };
 		E361BC832AA6251D007956AD /* AMChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BFCE6429B1F99100154D87 /* AMChatResponse.swift */; };
+		E37022752AD052660031FD0F /* ImageTextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37022742AD052660031FD0F /* ImageTextRecognizer.swift */; };
 		E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */; };
 		E37D06AE2ABC5F20005FE0F1 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */; };
 		E37D06B02ABD51C1005FE0F1 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AF2ABD51C1005FE0F1 /* FavouritesView.swift */; };
@@ -59,6 +60,7 @@
 		E361BC4D2AA61550007956AD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E361BC4F2AA61552007956AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E361BC522AA61552007956AD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E37022742AD052660031FD0F /* ImageTextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTextRecognizer.swift; sourceTree = "<group>"; };
 		E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesView.swift; sourceTree = "<group>"; };
 		E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		E37D06AF2ABD51C1005FE0F1 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				E3D21F6A2AC42E4A002B3F75 /* Bundle+AppIcon.swift */,
 				E33221A72AC6DAA400964402 /* LanguageDetector.swift */,
 				E33221AD2ACA8BA900964402 /* DateFormatters.swift */,
+				E37022742AD052660031FD0F /* ImageTextRecognizer.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				E36008B02AAEF9AE00014191 /* AudioPlayer.swift in Sources */,
 				E39C27E82AB9EEB0004CC5F9 /* FlippedUpsideDown.swift in Sources */,
 				E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */,
+				E37022752AD052660031FD0F /* ImageTextRecognizer.swift in Sources */,
 				E36008A82AAAE4AB00014191 /* Translator.swift in Sources */,
 				E33221A82AC6DAA400964402 /* LanguageDetector.swift in Sources */,
 				E3D21F652AC1C322002B3F75 /* ChatRecordBottomBar.swift in Sources */,
