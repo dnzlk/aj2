@@ -236,7 +236,7 @@ enum Language: String, CaseIterable, Equatable {
         case .bengali:
             return LanguageColors(bgColor: .green, textColor: .white)
         case .russian:
-            return LanguageColors(bgColor: .white, textColor: .blue)
+            return LanguageColors(bgColor: .blue.opacity(0.8), textColor: .white)
         case .portuguese:
             return LanguageColors(bgColor: .green, textColor: .white)
         case .indonesian:

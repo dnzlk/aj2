@@ -12,7 +12,7 @@
 		E33221AA2AC8039500964402 /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33221A92AC8039500964402 /* NavBar.swift */; };
 		E33221AC2ACA8B1100964402 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33221AB2ACA8B1100964402 /* DateCell.swift */; };
 		E33221AE2ACA8BA900964402 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33221AD2ACA8BA900964402 /* DateFormatters.swift */; };
-		E36008A82AAAE4AB00014191 /* TranslateEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */; };
+		E36008A82AAAE4AB00014191 /* Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A72AAAE4AB00014191 /* Translator.swift */; };
 		E36008AA2AAAE62200014191 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008A92AAAE62200014191 /* Language.swift */; };
 		E36008B02AAEF9AE00014191 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008AF2AAEF9AE00014191 /* AudioPlayer.swift */; };
 		E36008D42AB0592F00014191 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36008D32AB0592F00014191 /* SpeechRecognizer.swift */; };
@@ -50,7 +50,7 @@
 		E33221AD2ACA8BA900964402 /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
 		E342442329A52A68006A2AF9 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		E36008A02AA9907000014191 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateEndpoint.swift; sourceTree = "<group>"; };
+		E36008A72AAAE4AB00014191 /* Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translator.swift; sourceTree = "<group>"; };
 		E36008A92AAAE62200014191 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		E36008AF2AAEF9AE00014191 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		E36008D32AB0592F00014191 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 				E36008AF2AAEF9AE00014191 /* AudioPlayer.swift */,
 				E36008D32AB0592F00014191 /* SpeechRecognizer.swift */,
 				E36008A92AAAE62200014191 /* Language.swift */,
-				E36008A72AAAE4AB00014191 /* TranslateEndpoint.swift */,
+				E36008A72AAAE4AB00014191 /* Translator.swift */,
 				E37D06B32ABD6D8C005FE0F1 /* GlobalConst.swift */,
 				E3D21F6A2AC42E4A002B3F75 /* Bundle+AppIcon.swift */,
 				E33221A72AC6DAA400964402 /* LanguageDetector.swift */,
@@ -310,7 +310,7 @@
 				E36008B02AAEF9AE00014191 /* AudioPlayer.swift in Sources */,
 				E39C27E82AB9EEB0004CC5F9 /* FlippedUpsideDown.swift in Sources */,
 				E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */,
-				E36008A82AAAE4AB00014191 /* TranslateEndpoint.swift in Sources */,
+				E36008A82AAAE4AB00014191 /* Translator.swift in Sources */,
 				E33221A82AC6DAA400964402 /* LanguageDetector.swift in Sources */,
 				E3D21F652AC1C322002B3F75 /* ChatRecordBottomBar.swift in Sources */,
 				E361BC5F2AA615CE007956AD /* Message.swift in Sources */,

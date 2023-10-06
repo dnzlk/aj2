@@ -17,8 +17,6 @@ struct ChatCell: View, Equatable {
     // MARK: - Types
 
     private enum Style: Hashable {
-        case loading
-        case error
         case right
         case left
     }
@@ -32,30 +30,16 @@ struct ChatCell: View, Equatable {
 
     // MARK: - Private Properties
 
-    private var style: Style {
-        if message.state == .loading {
-            return .loading
-        }
-        if message.state == .failed {
-            return .error
-        }
-        return message.translation?.isSentByUser == true ? .right : .left
-    }
-
     private var isLeft: Bool {
-        style == .left
+        message.translation?.isSentByUser == false
     }
 
     private var isRight: Bool {
-        style == .right
+        message.translation?.isSentByUser == true
     }
 
     private var hasTranslation: Bool {
         message.translation != nil
-    }
-
-    private var isError: Bool {
-        message.error != nil
     }
 
     private var bgColor: Color {
@@ -83,7 +67,7 @@ struct ChatCell: View, Equatable {
                 Spacer()
             }
             VStack(alignment: isRight ? .trailing : isLeft ? .leading : .center, spacing: 0) {
-                if !hasTranslation && !isError {
+                if !hasTranslation {
                     loader()
                 }
                 if hasTranslation {

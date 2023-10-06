@@ -10,6 +10,41 @@ import SwiftUI
 
 struct ChatView: View {
 
+    // MARK: - Types
+
+    private enum E {
+        case translator(Translator.E)
+        case network
+
+        var image: Image {
+            switch self {
+            case let .translator(e):
+                switch e {
+                case .wrongUrl:
+                    return .init(systemName: "questionmark.bubble.fill")
+                case .unknownLanguage:
+                        return .init(systemName: "questionmark.bubble.fill")
+                }
+            case .network:
+                return .init(systemName: "network.slash")
+            }
+        }
+
+        var title: String {
+            switch self {
+            case let .translator(e):
+                switch e {
+                case .wrongUrl:
+                    return "Something went wrong :("
+                case .unknownLanguage:
+                    return "Unknown language"
+                }
+            case .network:
+                return "No internet connection"
+            }
+        }
+    }
+
     // MARK: - Private Properties
 
     @Environment(\.modelContext) private var context
@@ -32,6 +67,8 @@ struct ChatView: View {
 
     @State private var isShowCopiedToast = false
 
+    @State private var error: E?
+
     private let bottomSpacerID = UUID().uuidString
 
     // Speech
@@ -52,7 +89,7 @@ struct ChatView: View {
 
     @StateObject private var audioPlayer = AudioPlayer()
 
-    private let translateEndpoint = TranslateEndpoint.shared
+    private let translator = Translator.shared
 
     private let ud = UserDefaultsManager.shared
 
@@ -107,6 +144,10 @@ struct ChatView: View {
                 .listRowSeparator(.hidden)
                 .id(bottomSpacerID)
 
+            if let error {
+                errorCell(error)
+            }
+
             ForEach(0..<messages.count, id: \.self) { i in
                 let message = messages[i]
 
@@ -142,6 +183,28 @@ struct ChatView: View {
             .listRowSeparator(.hidden)
             .listRowBackground(Assets.Colors.chatBackground)
             .id(message.createdAt)
+    }
+
+    @ViewBuilder
+    private func errorCell(_ error: E) -> some View {
+        HStack {
+            Spacer()
+            VStack(alignment: .center) {
+                error.image
+                    .imageScale(.large)
+                    .foregroundStyle(.red)
+                    .padding(2)
+                Text(error.title)
+                    .italic()
+                    .font(.system(size: 12))
+                    .fontWeight(.medium)
+                    .foregroundStyle(.gray)
+            }
+            Spacer()
+        }
+        .listRowBackground(Assets.Colors.chatBackground)
+        .flippedUpsideDown()
+        .transition(.scale)
     }
 
     @ViewBuilder
@@ -207,9 +270,7 @@ struct ChatView: View {
 
         guard !isTranslating else { return }
 
-        if let message = messages.last, case .failed = message.state {
-            context.delete(message)
-        }
+        error = nil
 
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
 
@@ -224,17 +285,20 @@ struct ChatView: View {
             do {
                 isTranslating = true
 
-                let translation = try await translateEndpoint.translate(text: text, languages: languages)
+                let translation = try await translator.translate(text: text, languages: languages)
 
                 updateTranslation(message: message, translation: translation)
 
                 if isSpeakAloud {
                     play(message: message)
                 }
+            } catch let error as Translator.E {
+                context.delete(message)
+                self.error = .translator(error)
             } catch {
-                message.error = error.localizedDescription
+                context.delete(message)
+                self.error = .translator(.wrongUrl)
             }
-
             isTranslating = false
         }
     }

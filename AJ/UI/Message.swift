@@ -16,31 +16,18 @@ class Message: Hashable {
     var translation: Translation?
     let createdAt: Date
     var isFav: Bool
-    var error: String?
     var isShowOriginalText = false
-
-    var state: State {
-        if error != nil {
-            return .failed
-        }
-        if translation == nil {
-            return .loading
-        }
-        return .loaded
-    }
 
     init(id: String = UUID().uuidString,
          originalText: String,
          translation: Translation? = nil,
          createdAt: Date,
-         isFav: Bool = false,
-         error: String? = nil) {
+         isFav: Bool = false) {
         self.id = id
         self.originalText = originalText
         self.translation = translation
         self.createdAt = createdAt
         self.isFav = isFav
-        self.error = error
     }
 
     struct Translation: Codable {
@@ -52,7 +39,6 @@ class Message: Hashable {
 
     enum State: Codable {
         case loading
-        case failed
         case loaded
     }
 }
