@@ -13,8 +13,9 @@ struct AJApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
-                .modelContainer(for: Message.self)
+            ImageScreenView()
+//            MainView()
+//                .modelContainer(for: Message.self)
         }
     }
 }

@@ -13,7 +13,7 @@ final class ImageTextRecognizer {
 
     struct Data {
 
-        let string: String
+        var string: String
         let box: CGRect
     }
 
@@ -29,12 +29,17 @@ final class ImageTextRecognizer {
         let request = VNRecognizeTextRequest { [weak self] (request, error) in
             guard let self, let observations = request.results as? [VNRecognizedTextObservation] else { return }
 
-            let data: [Data] = observations.map { .init(string: $0.topCandidates(1).first?.string ?? "", box: $0.boundingBox) }
+            Task {
+                let data: [Data] = observations.map { .init(string: $0.topCandidates(1).first?.string ?? "", box: $0.boundingBox) }
 
-            DispatchQueue.main.async {
-                if let updatedImage = self.drawBoundingBoxes(on: self.image, data: data) {
-                    self.image = updatedImage
+                let translatedData = (try? await ImageTranslator.shared.translate(imageData: data, languages: .init(from: .english, to: .chineseSimplified), textLanguage: .english)) ?? data
+
+                DispatchQueue.main.async {
+                    if let updatedImage = self.drawBoundingBoxes(on: self.image, data: translatedData) {
+                        self.image = updatedImage
+                    }
                 }
+
             }
         }
         request.recognitionLevel = .accurate
