@@ -10,8 +10,9 @@ import SwiftUI
 struct ChatNavBar: View {
 
     @Binding var isMenuPresented: Bool
-    @Binding var isSpeakAloud: Bool
     @Binding var isLanguagesPresented: Bool
+    @Binding var isOpenCamera: Bool
+    @Binding var isOpenLibrary: Bool
 
     var languages: Languages
 
@@ -36,12 +37,17 @@ struct ChatNavBar: View {
             }
 
             Spacer()
-            Image(systemName: isSpeakAloud ? "speaker.wave.3.fill" : "speaker.wave.3")
-                .contentTransition(.symbolEffect(.replace, options: .speed(2.2)))
-                .foregroundStyle(isSpeakAloud ? Assets.Colors.accentColor : Color.gray)
-                .onTapGesture {
-                    isSpeakAloud.toggle()
-                }
+            Menu {
+                Button(action: {isOpenCamera = true}, label: {
+                    Label("Camera", systemImage: "camera.viewfinder")
+                })
+                Button(action: {isOpenLibrary = true}, label: {
+                    Label("Library", systemImage: "photo")
+                })
+            } label: {
+                Image(systemName: "camera")
+                    .foregroundStyle(Assets.Colors.accentColor)
+            }
         }
         .padding(.horizontal)
         .padding(.vertical, 8)

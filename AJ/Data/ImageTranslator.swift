@@ -20,8 +20,6 @@ final class ImageTranslator: APIEndpoint {
 
     // MARK: - Public Properties
 
-    static let shared = ImageTranslator()
-
     override var debugUrl: String? {
         "http://127.0.0.1:3000/ask"
     }
@@ -32,7 +30,7 @@ final class ImageTranslator: APIEndpoint {
 
     // MARK: - Public Methods
 
-    func translate(imageData: ImageData, languages: Languages, textLanguage: Language) async throws -> ImageData {
+    func translate(imageData: ImageData, languages: Languages) async throws -> ImageData {
 
         let splitCount = 10
 
@@ -42,7 +40,7 @@ final class ImageTranslator: APIEndpoint {
 
         let arrayOfLines = lines.splitIntoChunks(of: splitCount).map { $0.joined() }
 
-        let translatedLines = await makeLinesRequest(arrayOfLines, languages, textLanguage)
+        let translatedLines = await makeLinesRequest(arrayOfLines, languages)
 
         let splittedData = imageData.splitIntoChunks(of: splitCount)
 
@@ -63,14 +61,14 @@ final class ImageTranslator: APIEndpoint {
         return translatedImageData.reduce(into: [], { $0 += $1 })
     }
 
-    private func makeLinesRequest(_ arrayOfLines: [String], _ languages: Languages, _ textLanguage: Language) async -> [[String]] {
+    private func makeLinesRequest(_ arrayOfLines: [String], _ languages: Languages) async -> [[String]] {
         let requestData: [(Int, String)] = arrayOfLines.enumerated().map { i, lines in
             (i, lines)
         }
         let translatedStrings = await withTaskGroup(of: (Int, [String]).self) { group -> [[String]] in
             for data in requestData {
                 group.addTask { [weak self] in
-                    let translatedLines = (try? await self?.translate(line: data.1, languages: languages, textLanguage: textLanguage)) ?? ""
+                    let translatedLines = (try? await self?.translate(line: data.1, languages: languages)) ?? ""
                     let array = self?.parse(imageTextTranslate: translatedLines) ?? []
 
                     return (data.0, array)
@@ -87,14 +85,12 @@ final class ImageTranslator: APIEndpoint {
         return translatedStrings
     }
 
-    private func translate(line: String, languages: Languages, textLanguage: Language) async throws -> String {
+    private func translate(line: String, languages: Languages) async throws -> String {
 
         guard let url else { throw E.wrongUrl }
 
-        guard let translateToLanguage = [languages.from, languages.to].first(where: { $0.code != textLanguage.code} ) else { throw E.unknownLanguage }
-
         let amMessages: [AMChatMessage] = [
-            .init(role: "user", content: "Translate line by line from \(textLanguage.englishName) to \(translateToLanguage.englishName) (response must contain same amount of lines): \(line)")
+            .init(role: "user", content: "Translate line by line from \(languages.from.englishName) to \(languages.to.englishName) (response must contain same amount of lines): \(line)")
         ]
         let amChat = AMChat(messages: amMessages)
         let encodedAmChat = try JSONEncoder().encode(amChat)

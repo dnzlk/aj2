@@ -17,41 +17,42 @@ final class ImageTextRecognizer {
         let box: CGRect
     }
 
-    @Binding var image: UIImage
-
-    init(image: Binding<UIImage>) {
-        self._image = image
+    enum E: Error {
+        case brokenImage
+        case failedObservations
+        case failedBoundingBoxDrawing
     }
 
-    func recognizeText() {
-        guard let cgImage = resize(image: image, to: size(of: image))?.cgImage else { return }
+    func recognizeText(onImage image: UIImage, languages: Languages) async throws -> UIImage {
+        guard let cgImage = resize(image: image, to: size(of: image))?.cgImage else { throw E.brokenImage }
 
-        let request = VNRecognizeTextRequest { [weak self] (request, error) in
-            guard let self, let observations = request.results as? [VNRecognizedTextObservation] else { return }
-
-            Task {
-                let data: [Data] = observations.map { .init(string: $0.topCandidates(1).first?.string ?? "", box: $0.boundingBox) }
-
-                let translatedData = (try? await ImageTranslator.shared.translate(imageData: data, languages: .init(from: .english, to: .chineseSimplified), textLanguage: .english)) ?? data
-
-                DispatchQueue.main.async {
-                    if let updatedImage = self.drawBoundingBoxes(on: self.image, data: translatedData) {
-                        self.image = updatedImage
-                    }
+        let data: [Data] = try await withCheckedThrowingContinuation { continuation in
+            let request = VNRecognizeTextRequest { (request, error) in
+                guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                    continuation.resume(throwing: E.failedObservations)
+                    return
                 }
-
+                let extractedData: [Data] = observations.map { .init(string: $0.topCandidates(1).first?.string ?? "", box: $0.boundingBox) }
+                continuation.resume(returning: extractedData)
+            }
+            request.recognitionLevel = .accurate
+            let requests = [request]
+            let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+            do {
+                try imageRequestHandler.perform(requests)
+            } catch {
+                continuation.resume(throwing: error)
             }
         }
-        request.recognitionLevel = .accurate
+        let translatedData = try await ImageTranslator().translate(imageData: data, languages: languages)
 
-        let requests = [request]
-        let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        do {
-            try imageRequestHandler.perform(requests)
-        } catch {
-            print("Failed to perform image request: \(error.localizedDescription)")
+        if let updatedImage = drawBoundingBoxes(on: image, data: translatedData) {
+            return updatedImage
+        } else {
+            throw E.failedBoundingBoxDrawing
         }
     }
+
 
     private func drawBoundingBoxes(on originalImage: UIImage, data: [Data]) -> UIImage? {
         let desiredSize = size(of: originalImage)
