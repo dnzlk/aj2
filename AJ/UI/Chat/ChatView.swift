@@ -63,10 +63,6 @@ struct ChatView: View {
 
     @State private var isMenuPresented = false
 
-    @State private var isOpenCamera = false
-
-    @State private var isOpenLibrary = false
-
     @State private var languages: Languages = .init(from: .english, to: .russian)
 
     @State private var isShowCopiedToast = false
@@ -89,6 +85,12 @@ struct ChatView: View {
 
     @State private var speechError: SpeechRecognizer.E?
 
+    // Photo
+
+    @State private var isPhotoPresented = false
+
+    @StateObject private var photoModel = PhotoViewModel()
+
     // Services
 
     @StateObject private var audioPlayer = AudioPlayer()
@@ -105,8 +107,7 @@ struct ChatView: View {
         VStack {
             ChatNavBar(isMenuPresented: $isMenuPresented,
                        isLanguagesPresented: $isLanguagesPresented,
-                       isOpenCamera: $isOpenCamera,
-                       isOpenLibrary: $isOpenLibrary,
+                       isPhotoPresented: $isPhotoPresented,
                        languages: languages)
                 .fullScreenCover(isPresented: $isLanguagesPresented) {
                     LanguagesView(languages: $languages)
@@ -114,11 +115,9 @@ struct ChatView: View {
                 .fullScreenCover(isPresented: $isMenuPresented) {
                     SettingsView()
                 }
-                .fullScreenCover(isPresented: $isOpenCamera) {
-                    PhotoView(source: .camera)
-                }
-                .sheet(isPresented: $isOpenLibrary) {
-                    PhotoView(source: .library)
+                .sheet(isPresented: $isPhotoPresented) {
+                    PhotoBottomSheet(languages: languages, source: $photoModel.source)
+                        .presentationDetents([.medium])
                 }
 
             ScrollViewReader { reader in

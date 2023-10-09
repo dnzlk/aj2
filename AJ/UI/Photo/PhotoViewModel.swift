@@ -13,22 +13,22 @@ final class PhotoViewModel: ObservableObject {
     // MARK: - Types
 
     enum State {
-        case camera
-        case library
-        case chooseLanguage
+        case initial
         case translating
         case translationDone
     }
 
     // MARK: - Public Properties
 
-    @Published private(set) var state: State
-    @Published var languages: Languages?
+    @Published private(set) var state: State = .initial
+    @Published var languages = UserDefaultsManager.shared.languages()
     @Published var isShowOriginalPhoto = true
-    @Published var source: ImagePicker.Source
+
+    @Published var source: ImagePicker.Source?
 
     @Published var originalPhoto: UIImage?
     var translatedPhoto: UIImage?
+
 
     // MARK: - Private Properties
 
@@ -37,26 +37,11 @@ final class PhotoViewModel: ObservableObject {
 
     // MARK: - Init
 
-    init(source: ImagePicker.Source) {
-        self.source = source
-        switch source {
-        case .camera:
-            state = .camera
-        case .library:
-            state = .library
-        }
+    init() {
         $originalPhoto
             .receive(on: DispatchQueue.main)
-            .sink { photo in
-                guard let photo else { return }
-                
-                Task { [weak self] in await self?.onReceivedPhoto(photo) }
-            }
-            .store(in: &disposables)
-        $languages
-            .receive(on: DispatchQueue.main)
-            .sink { languages in
-                Task { [weak self] in await self?.onChoseLanguages() }
+            .sink { _ in
+                Task { [weak self] in await self?.translate() }
             }
             .store(in: &disposables)
     }
@@ -64,15 +49,8 @@ final class PhotoViewModel: ObservableObject {
     // MARK: - Private Methods
 
     @MainActor
-    private func onReceivedPhoto(_ photo: UIImage) {
-        state = .chooseLanguage
-
-        languages = .init(from: .english, to: .french)
-    }
-
-    @MainActor
-    private func onChoseLanguages() async {
-        guard state == .chooseLanguage, let languages, let originalPhoto else { return }
+    private func translate() async {
+        guard let originalPhoto else { return }
 
         state = .translating
 

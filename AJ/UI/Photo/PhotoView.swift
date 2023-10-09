@@ -9,15 +9,10 @@ import SwiftUI
 
 struct PhotoView: View {
 
-    init(source: ImagePicker.Source) {
-        _model = StateObject(wrappedValue: PhotoViewModel(source: source))
-    }
-
     // MARK: - Private Properties
 
-    @StateObject private var model: PhotoViewModel
-    @State private var isOpenImagePicker = true
-
+    @StateObject private var model = PhotoViewModel()
+    @State private var source: ImagePicker.Source?
     @Environment(\.dismiss) var dismiss
 
     // MARK: - Views
@@ -30,21 +25,9 @@ struct PhotoView: View {
                 Spacer()
             }
         }
-        .sheet(isPresented: $isOpenImagePicker) {
-            ImagePicker(source: model.source, image: $model.originalPhoto)
-        }
-        .onChange(of: model.state) { oldValue, newValue in
-            switch newValue {
-            case .camera, .library:
-                isOpenImagePicker = true
-            case .chooseLanguage:
-                break
-            case .translating:
-                break
-            case .translationDone:
-                break
-            }
-        }
+//        .sheet(item: $source) { source in
+//            ImagePicker(source: source, image: $model.originalPhoto)
+//        }
     }
 
     private func image() -> some View {

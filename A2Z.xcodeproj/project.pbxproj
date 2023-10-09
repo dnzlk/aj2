@@ -31,6 +31,7 @@
 		E370227E2AD15D5D0031FD0F /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E370227D2AD15D5D0031FD0F /* PhotoView.swift */; };
 		E37022802AD15D760031FD0F /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E370227F2AD15D760031FD0F /* PhotoViewModel.swift */; };
 		E37022822AD18FE80031FD0F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37022812AD18FE80031FD0F /* ImagePicker.swift */; };
+		E370229E2AD1BAFE0031FD0F /* PhotoBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E370229D2AD1BAFE0031FD0F /* PhotoBottomSheet.swift */; };
 		E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */; };
 		E37D06AE2ABC5F20005FE0F1 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */; };
 		E37D06B02ABD51C1005FE0F1 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AF2ABD51C1005FE0F1 /* FavouritesView.swift */; };
@@ -71,6 +72,7 @@
 		E370227D2AD15D5D0031FD0F /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		E370227F2AD15D760031FD0F /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 		E37022812AD18FE80031FD0F /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		E370229D2AD1BAFE0031FD0F /* PhotoBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheet.swift; sourceTree = "<group>"; };
 		E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesView.swift; sourceTree = "<group>"; };
 		E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		E37D06AF2ABD51C1005FE0F1 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				E370227D2AD15D5D0031FD0F /* PhotoView.swift */,
 				E370227F2AD15D760031FD0F /* PhotoViewModel.swift */,
 				E37022812AD18FE80031FD0F /* ImagePicker.swift */,
+				E370229D2AD1BAFE0031FD0F /* PhotoBottomSheet.swift */,
 			);
 			path = Photo;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				E39C27E82AB9EEB0004CC5F9 /* FlippedUpsideDown.swift in Sources */,
 				E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */,
 				E37022752AD052660031FD0F /* ImageTextRecognizer.swift in Sources */,
+				E370229E2AD1BAFE0031FD0F /* PhotoBottomSheet.swift in Sources */,
 				E36008A82AAAE4AB00014191 /* Translator.swift in Sources */,
 				E33221A82AC6DAA400964402 /* LanguageDetector.swift in Sources */,
 				E3D21F652AC1C322002B3F75 /* ChatRecordBottomBar.swift in Sources */,

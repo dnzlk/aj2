@@ -11,8 +11,7 @@ struct ChatNavBar: View {
 
     @Binding var isMenuPresented: Bool
     @Binding var isLanguagesPresented: Bool
-    @Binding var isOpenCamera: Bool
-    @Binding var isOpenLibrary: Bool
+    @Binding var isPhotoPresented: Bool
 
     var languages: Languages
 
@@ -37,17 +36,12 @@ struct ChatNavBar: View {
             }
 
             Spacer()
-            Menu {
-                Button(action: {isOpenCamera = true}, label: {
-                    Label("Camera", systemImage: "camera.viewfinder")
-                })
-                Button(action: {isOpenLibrary = true}, label: {
-                    Label("Library", systemImage: "photo")
-                })
-            } label: {
-                Image(systemName: "camera")
-                    .foregroundStyle(Assets.Colors.accentColor)
-            }
+
+            Image(systemName: "camera")
+                .foregroundStyle(Assets.Colors.accentColor)
+                .onTapGesture {
+                    isPhotoPresented = true
+                }
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
