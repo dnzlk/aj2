@@ -12,15 +12,22 @@ struct SettingsView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(\.dismiss) private var dismiss
 
+    @AppStorage("isSpeakAloud") private var isSpeakAloud: Bool = true
+
     // MARK: - Types
 
     private enum Row: String {
         case favourites
+
+        case autoplayMessages
+
         case appLanguage
         case support
 
         var icon: String {
             switch self {
+            case .autoplayMessages:
+                return "🗣"
             case .appLanguage:
                 return "🌐"
             case .favourites:
@@ -32,12 +39,23 @@ struct SettingsView: View {
 
         var title: String {
             switch self {
+            case .autoplayMessages:
+                return "Automatically play messages"
             case .appLanguage:
                 return "App Language"
             case .favourites:
                 return "Favourites"
             case .support:
                 return "Support"
+            }
+        }
+
+        var hasToggle: Bool {
+            switch self {
+            case .autoplayMessages:
+                return true
+            default:
+                return false
             }
         }
     }
@@ -63,6 +81,10 @@ struct SettingsView: View {
                         AppIconView()
                     }
                     .listRowInsets(.init(top: 8, leading: -16, bottom: 16, trailing: -16))
+                }
+
+                Section {
+                    row(.autoplayMessages)
                 }
 
                 Section {
@@ -100,6 +122,10 @@ struct SettingsView: View {
             Text(row.title)
                 .fontWeight(.regular)
             Spacer()
+            if row.hasToggle {
+                Toggle("", isOn: $isSpeakAloud)
+                    .padding(.horizontal)
+            }
         }
         .contentShape(Rectangle())
         .id(row.rawValue)
@@ -119,16 +145,6 @@ struct SettingsView: View {
         }
         .padding()
     }
-
-//    let style: UIUserInterfaceStyle = {
-//        if colorScheme == .dark {
-//            return .light
-//        } else {
-//            return .dark
-//        }
-//    }()
-//    (UIApplication.shared.connectedScenes.first as?
-//      UIWindowScene)?.windows.first?.overrideUserInterfaceStyle = style
 }
 
 #Preview {
