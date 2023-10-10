@@ -54,6 +54,7 @@
 		E3F0328F2AD52BFD00C5D42C /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032842AD52BFD00C5D42C /* CameraPreviewView.swift */; };
 		E3F032902AD52BFD00C5D42C /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032852AD52BFD00C5D42C /* CameraViewModel.swift */; };
 		E3F032912AD52BFD00C5D42C /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032862AD52BFD00C5D42C /* CameraView.swift */; };
+		E3F032952AD543BE00C5D42C /* FullScreenText.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032942AD543BE00C5D42C /* FullScreenText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +107,7 @@
 		E3F032842AD52BFD00C5D42C /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		E3F032852AD52BFD00C5D42C /* CameraViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		E3F032862AD52BFD00C5D42C /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		E3F032942AD543BE00C5D42C /* FullScreenText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 				E3D21F622AC1BCA2002B3F75 /* ChatTextField.swift */,
 				E3D21F642AC1C322002B3F75 /* ChatRecordBottomBar.swift */,
 				E33221AB2ACA8B1100964402 /* DateCell.swift */,
+				E3F032942AD543BE00C5D42C /* FullScreenText.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				E37D06B22ABD68D5005FE0F1 /* Loader.swift in Sources */,
 				E370227C2AD15BEC0031FD0F /* Plan.swift in Sources */,
 				E3F032892AD52BFD00C5D42C /* Camera.swift in Sources */,
+				E3F032952AD543BE00C5D42C /* FullScreenText.swift in Sources */,
 				E3F0328D2AD52BFD00C5D42C /* LibraryView.swift in Sources */,
 				E39C27DB2AB1729D004CC5F9 /* ChatView.swift in Sources */,
 				E361BC812AA6251D007956AD /* AMChatMessage.swift in Sources */,
@@ -527,15 +531,15 @@
 				INFOPLIST_FILE = AJ/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Moe;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
-				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) needs ur camera";
+				INFOPLIST_KEY_NSCameraUsageDescription = "AJ needs ur camera";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone desc";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need it";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech desc";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -570,15 +574,15 @@
 				INFOPLIST_FILE = AJ/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Moe;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
-				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) needs ur camera";
+				INFOPLIST_KEY_NSCameraUsageDescription = "AJ needs ur camera";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone desc";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need it";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech desc";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

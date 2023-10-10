@@ -69,6 +69,8 @@ struct ChatView: View {
 
     @State private var error: E?
 
+    @State private var fullScreenMessage: Message?
+
     private let bottomSpacerID = UUID().uuidString
 
     // Speech
@@ -158,6 +160,7 @@ struct ChatView: View {
                 }
 
                 ChatCell(message: message,
+                         fullScreenMessage: $fullScreenMessage,
                          isPlaying: message.id == audioPlayer.playingMessageId,
                          onPlay: { play(message: message) },
                          onCopy: { copy(message: message) })
@@ -166,6 +169,9 @@ struct ChatView: View {
                 .flippedUpsideDown()
                 .listRowSeparator(.hidden)
                 .transition(.slide)
+                .fullScreenCover(item: $fullScreenMessage) { message in
+                    FullScreenText(text: message.translation?.text ?? "")
+                }
                 .id(message.id)
 
                 if i == messages.count - 1 {
@@ -327,7 +333,11 @@ struct ChatView: View {
     }
 
     private func play(message: Message) {
-        audioPlayer.play(message: message)
+        if audioPlayer.playingMessageId == message.id {
+            audioPlayer.stop()
+        } else {
+            audioPlayer.play(message: message)
+        }
     }
 
     private func copy(message: Message) {

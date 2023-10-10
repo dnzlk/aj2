@@ -24,6 +24,8 @@ struct ChatCell: View, Equatable {
     // MARK: - Public Properties
 
     @Bindable var message: Message
+    @Binding var fullScreenMessage: Message?
+
     var isPlaying: Bool
     var onPlay: () -> Void
     var onCopy: () -> Void
@@ -79,6 +81,24 @@ struct ChatCell: View, Equatable {
                 Spacer()
                 Spacer()
             }
+        }
+        .swipeActions(edge: .leading) {
+            Button {
+                fullScreenMessage = message
+            } label: {
+                Image(systemName: "viewfinder")
+            }
+            .tint(bgColor)
+            .foregroundStyle(textColor)
+        }
+        .swipeActions(edge: .trailing) {
+            Button {
+                fullScreenMessage = message
+            } label: {
+                Image(systemName: "viewfinder")
+            }
+            .tint(bgColor)
+            .foregroundStyle(textColor)
         }
     }
 

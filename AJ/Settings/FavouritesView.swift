@@ -14,6 +14,8 @@ struct FavouritesView: View {
 
     @Environment(\.dismiss) private var dismiss
 
+    @State private var fullScreenMessage: Message?
+
     @Query(filter: #Predicate<Message> { $0.isFav }, sort: \Message.createdAt, order: .reverse)
     private var messages: [Message]
 
@@ -26,6 +28,7 @@ struct FavouritesView: View {
             NavBar(title: "Favourites ⭐")
             List(messages, id: \.id) { message in
                 ChatCell(message: message,
+                        fullScreenMessage: $fullScreenMessage,
                          isPlaying: message.id == audioPlayer.playingMessageId,
                          onPlay: { audioPlayer.play(message: message) },
                          onCopy: { UIPasteboard.general.string = message.translation?.text })
