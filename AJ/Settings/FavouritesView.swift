@@ -28,7 +28,7 @@ struct FavouritesView: View {
             NavBar(title: "Favourites ⭐")
             List(messages, id: \.id) { message in
                 ChatCell(message: message,
-                        fullScreenMessage: $fullScreenMessage,
+                         fullScreenMessage: $fullScreenMessage,
                          isPlaying: message.id == audioPlayer.playingMessageId,
                          onPlay: { audioPlayer.play(message: message) },
                          onCopy: { UIPasteboard.general.string = message.translation?.text })
@@ -37,6 +37,9 @@ struct FavouritesView: View {
             }
             .flippedUpsideDown()
             .listStyle(.plain)
+            .fullScreenCover(item: $fullScreenMessage) { message in
+                FullScreenText(text: message.translation?.text ?? "")
+            }
         }
         .toolbar(.hidden, for: .navigationBar)
     }
