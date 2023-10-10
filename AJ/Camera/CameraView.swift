@@ -10,6 +10,7 @@ import SwiftUI
 struct CameraView: View {
 
     @StateObject private var model = CameraViewModel()
+    @State private var isLanguagesPresented: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     private static let barHeightFactor = 0.15
@@ -31,11 +32,11 @@ struct CameraView: View {
                             if model.isTranslating {
                                 Spacer()
                                 ProgressView()
-                                    .controlSize(.large)
+                                    .controlSize(.extraLarge)
                                 Spacer()
                             }
                         }
-                            .background(model.isTranslating ? Color.black.opacity(0.1) : .clear)
+                            .background(model.isTranslating ? Color.black.opacity(0.2) : .clear)
                     )
             } else {
                 GeometryReader { geometry in
@@ -62,6 +63,9 @@ struct CameraView: View {
             try? await model.camera.start()
             await model.loadPhotos()
             await model.loadThumbnail()
+        }
+        .onDisappear {
+            model.camera.stop()
         }
     }
 
@@ -123,11 +127,37 @@ struct CameraView: View {
                 .padding()
             }
         )
+        .fullScreenCover(isPresented: $isLanguagesPresented) {
+            LanguagesView(languages: $model.languages)
+        }
     }
 
     private func navBar() -> some View {
         HStack {
+            Button(action: { dismiss() }, label: {
+                Image(systemName: "xmark.circle.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundStyle(.gray)
+            })
+            .padding()
+            .opacity(0)
+
             Spacer()
+
+            HStack(spacing: 4) {
+                Text(model.languages.from.flag)
+                    .font(.title2)
+                Image(._2)
+                Text(model.languages.to.flag)
+                    .font(.title2)
+            }
+            .onTapGesture {
+                isLanguagesPresented = true
+            }
+
+            Spacer()
+            
             Button(action: { dismiss() }, label: {
                 Image(systemName: "xmark.circle.fill")
                     .resizable()
