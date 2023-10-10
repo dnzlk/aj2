@@ -87,9 +87,7 @@ struct ChatView: View {
 
     // Photo
 
-    @State private var isPhotoPresented = false
-
-    @StateObject private var photoModel = PhotoViewModel()
+    @State private var isCameraPresented = false
 
     // Services
 
@@ -107,7 +105,7 @@ struct ChatView: View {
         VStack {
             ChatNavBar(isMenuPresented: $isMenuPresented,
                        isLanguagesPresented: $isLanguagesPresented,
-                       isPhotoPresented: $isPhotoPresented,
+                       isPhotoPresented: $isCameraPresented,
                        languages: languages)
                 .fullScreenCover(isPresented: $isLanguagesPresented) {
                     LanguagesView(languages: $languages)
@@ -115,9 +113,8 @@ struct ChatView: View {
                 .fullScreenCover(isPresented: $isMenuPresented) {
                     SettingsView()
                 }
-                .sheet(isPresented: $isPhotoPresented) {
-                    PhotoBottomSheet(languages: languages, source: $photoModel.source)
-                        .presentationDetents([.medium])
+                .fullScreenCover(isPresented: $isCameraPresented) {
+                    CameraView()
                 }
 
             ScrollViewReader { reader in

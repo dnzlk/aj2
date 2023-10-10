@@ -20,53 +20,5 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E1FEC5A9-2902-43FC-BAB5-6C3362D2534E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AJ/Data/ImageTranslator.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "translate(imageData:languages:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E1FEC5A9-2902-43FC-BAB5-6C3362D2534E - 2705bf182a3e1674"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for AJ.ImageTranslator.translate(imageData: Swift.Array&lt;AJ.ImageTextRecognizer.Data&gt;, languages: AJ.Languages) async throws -&gt; Swift.Array&lt;AJ.ImageTextRecognizer.Data&gt;"
-                  moduleName = "AJ"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dnzlk/Desktop/AJ2/AJ/Data/ImageTranslator.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "136">
-               </Location>
-               <Location
-                  uuid = "E1FEC5A9-2902-43FC-BAB5-6C3362D2534E - 572fa8139a314276"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for AJ.ImageTranslator.translate(imageData: Swift.Array&lt;AJ.ImageTextRecognizer.Data&gt;, languages: AJ.Languages) async throws -&gt; Swift.Array&lt;AJ.ImageTextRecognizer.Data&gt;"
-                  moduleName = "AJ"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dnzlk/Desktop/AJ2/AJ/Data/ImageTranslator.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "2432">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
