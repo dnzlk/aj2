@@ -21,6 +21,7 @@ struct LibraryView: View {
 
     @ObservedObject var photoCollection: PhotoCollection
     @Binding var image: UIImage?
+    @Binding var isPresented: Bool
 
     // MARK: - Private Properties
 
@@ -58,6 +59,12 @@ struct LibraryView: View {
         .navigationTitle("Gallery")
         .navigationBarTitleDisplayMode(.inline)
         .statusBar(hidden: false)
+        .onAppear {
+            isPresented = true
+        }
+        .onDisappear {
+            isPresented = false
+        }
     }
 
     private func photoItemView(asset: PhotoAsset) -> some View {

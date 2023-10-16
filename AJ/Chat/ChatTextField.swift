@@ -11,6 +11,7 @@ struct ChatTextField: View {
 
     @Binding var inputText: String
     @Binding var isMicInput: Bool
+    var languages: Languages
 
     var onSend: () -> Void
 
@@ -35,7 +36,7 @@ struct ChatTextField: View {
     @ViewBuilder
     private func textField() -> some View {
         HStack {
-            TextField("Type here",
+            TextField("\(languages.from.typeHereText) / \(languages.to.typeHereText)",
                       text: $inputText,
                       axis: .vertical)
             .font(.system(size: 18))
@@ -64,6 +65,6 @@ struct ChatTextField: View {
 #Preview {
     @State var input = ""
     @State var isMic = false
-    return ChatTextField(inputText: $input, isMicInput: $isMic) {
+    return ChatTextField(inputText: $input, isMicInput: $isMic, languages: .defaultValues) {
     }
 }

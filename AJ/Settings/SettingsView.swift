@@ -39,7 +39,7 @@ struct SettingsView: View {
             }
         }
 
-        var title: String {
+        var title: LocalizedStringKey {
             switch self {
             case .autoplayMessages:
                 return "Automatically play messages"

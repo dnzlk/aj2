@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NavBar: View {
 
-    let title: String
+    let title: LocalizedStringKey
 
     @Environment(\.dismiss) private var dismiss
 

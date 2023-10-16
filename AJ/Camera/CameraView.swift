@@ -10,7 +10,8 @@ import SwiftUI
 struct CameraView: View {
 
     @StateObject private var model = CameraViewModel()
-    @State private var isLanguagesPresented: Bool = false
+    @State private var isLanguagesPresented = false
+    @State private var isLibraryPresented = false
     @Environment(\.dismiss) private var dismiss
 
     private static let barHeightFactor = 0.15
@@ -58,6 +59,7 @@ struct CameraView: View {
                 navBar()
                 Spacer()
             }
+                .opacity(isLibraryPresented ? 0 : 1)
         )
         .task {
             try? await model.camera.start()
@@ -94,7 +96,7 @@ struct CameraView: View {
             HStack {
                 if let thumbnail = model.libraryThumbnail {
                     NavigationLink {
-                        LibraryView(photoCollection: model.library, image: $model.originalImage)
+                        LibraryView(photoCollection: model.library, image: $model.originalImage, isPresented: $isLibraryPresented)
                     } label: {
                         ZStack {
                             Color.white
@@ -155,6 +157,7 @@ struct CameraView: View {
             .onTapGesture {
                 isLanguagesPresented = true
             }
+            .opacity(model.originalImage == nil ? 1 : 0)
 
             Spacer()
             

@@ -57,6 +57,7 @@
 		E3F032992ADD5ECB00C5D42C /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032982ADD5ECB00C5D42C /* AppStorageKeys.swift */; };
 		E3F0329B2ADD694400C5D42C /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F0329A2ADD694400C5D42C /* Languages.swift */; };
 		E3F0329D2ADD6ED100C5D42C /* UIGestureRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F0329C2ADD6ED100C5D42C /* UIGestureRecognizerDelegate.swift */; };
+		E3F032A42ADD765000C5D42C /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E3F032A32ADD764F00C5D42C /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +113,7 @@
 		E3F032982ADD5ECB00C5D42C /* AppStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKeys.swift; sourceTree = "<group>"; };
 		E3F0329A2ADD694400C5D42C /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		E3F0329C2ADD6ED100C5D42C /* UIGestureRecognizerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerDelegate.swift; sourceTree = "<group>"; };
+		E3F032A32ADD764F00C5D42C /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 				E315408E2AC43F2F00D5A36C /* UICommon */,
 				E3C95E4D299BB9710099DC16 /* Languages */,
 				E361BC512AA61552007956AD /* Preview Content */,
+				E3F032A32ADD764F00C5D42C /* Localizable.xcstrings */,
 			);
 			path = AJ;
 			sourceTree = "<group>";
@@ -315,10 +318,7 @@
 			knownRegions = (
 				en,
 				Base,
-				fr,
-				it,
-				de,
-				es,
+				ru,
 			);
 			mainGroup = 22F33CD8298FDD88006CA8E0;
 			packageReferences = (
@@ -339,6 +339,7 @@
 			files = (
 				E361BC532AA61552007956AD /* Preview Assets.xcassets in Resources */,
 				E361BC502AA61552007956AD /* Assets.xcassets in Resources */,
+				E3F032A42ADD765000C5D42C /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

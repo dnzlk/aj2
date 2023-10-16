@@ -230,7 +230,7 @@ struct ChatView: View {
                 selectedSpeakLanguage = nil
             })
         } else {
-            ChatTextField(inputText: $inputText, isMicInput: $isMicInput) {
+            ChatTextField(inputText: $inputText, isMicInput: $isMicInput, languages: languages) {
                 inputText.isEmpty ?
                 withAnimation {
                     isMicInput = true
