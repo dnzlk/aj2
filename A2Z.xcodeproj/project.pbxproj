@@ -54,8 +54,9 @@
 		E3F032912AD52BFD00C5D42C /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032862AD52BFD00C5D42C /* CameraView.swift */; };
 		E3F032952AD543BE00C5D42C /* FullScreenText.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032942AD543BE00C5D42C /* FullScreenText.swift */; };
 		E3F032972ADD16F400C5D42C /* Taptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032962ADD16F400C5D42C /* Taptic.swift */; };
-		E3F032992ADD5ECB00C5D42C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032982ADD5ECB00C5D42C /* Storage.swift */; };
+		E3F032992ADD5ECB00C5D42C /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032982ADD5ECB00C5D42C /* AppStorageKeys.swift */; };
 		E3F0329B2ADD694400C5D42C /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F0329A2ADD694400C5D42C /* Languages.swift */; };
+		E3F0329D2ADD6ED100C5D42C /* UIGestureRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F0329C2ADD6ED100C5D42C /* UIGestureRecognizerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,8 +109,9 @@
 		E3F032862AD52BFD00C5D42C /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		E3F032942AD543BE00C5D42C /* FullScreenText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenText.swift; sourceTree = "<group>"; };
 		E3F032962ADD16F400C5D42C /* Taptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Taptic.swift; sourceTree = "<group>"; };
-		E3F032982ADD5ECB00C5D42C /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		E3F032982ADD5ECB00C5D42C /* AppStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKeys.swift; sourceTree = "<group>"; };
 		E3F0329A2ADD694400C5D42C /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
+		E3F0329C2ADD6ED100C5D42C /* UIGestureRecognizerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,11 +170,13 @@
 		E315408E2AC43F2F00D5A36C /* UICommon */ = {
 			isa = PBXGroup;
 			children = (
+				E3F032962ADD16F400C5D42C /* Taptic.swift */,
 				E39C27E72AB9EEB0004CC5F9 /* FlippedUpsideDown.swift */,
 				E37D06B12ABD68D5005FE0F1 /* Loader.swift */,
 				E3D21F602ABDBFBF002B3F75 /* Toast.swift */,
 				E3D21F662AC28CD4002B3F75 /* ViewDidLoadModifier.swift */,
 				E33221A92AC8039500964402 /* NavBar.swift */,
+				E3F0329C2ADD6ED100C5D42C /* UIGestureRecognizerDelegate.swift */,
 			);
 			path = UICommon;
 			sourceTree = "<group>";
@@ -190,7 +194,7 @@
 				E33221AD2ACA8BA900964402 /* DateFormatters.swift */,
 				E37022742AD052660031FD0F /* ImageTextRecognizer.swift */,
 				E37022782AD11F770031FD0F /* ImageTranslator.swift */,
-				E3F032982ADD5ECB00C5D42C /* Storage.swift */,
+				E3F032982ADD5ECB00C5D42C /* AppStorageKeys.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -210,7 +214,6 @@
 				E315408E2AC43F2F00D5A36C /* UICommon */,
 				E3C95E4D299BB9710099DC16 /* Languages */,
 				E361BC512AA61552007956AD /* Preview Content */,
-				E3F032962ADD16F400C5D42C /* Taptic.swift */,
 			);
 			path = AJ;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				E33221AA2AC8039500964402 /* NavBar.swift in Sources */,
 				E33221AE2ACA8BA900964402 /* DateFormatters.swift in Sources */,
 				E3F032882AD52BFD00C5D42C /* CachedImageManager.swift in Sources */,
+				E3F0329D2ADD6ED100C5D42C /* UIGestureRecognizerDelegate.swift in Sources */,
 				E3F032912AD52BFD00C5D42C /* CameraView.swift in Sources */,
 				E37D06B42ABD6D8C005FE0F1 /* GlobalConst.swift in Sources */,
 				E361BC832AA6251D007956AD /* AMChatResponse.swift in Sources */,
@@ -389,7 +393,7 @@
 				E37022792AD11F770031FD0F /* ImageTranslator.swift in Sources */,
 				E3D21F612ABDBFBF002B3F75 /* Toast.swift in Sources */,
 				E39C27E02AB4111E004CC5F9 /* ChatCell.swift in Sources */,
-				E3F032992ADD5ECB00C5D42C /* Storage.swift in Sources */,
+				E3F032992ADD5ECB00C5D42C /* AppStorageKeys.swift in Sources */,
 				E3D21F632AC1BCA2002B3F75 /* ChatTextField.swift in Sources */,
 				E3F032972ADD16F400C5D42C /* Taptic.swift in Sources */,
 				E3D21F692AC42107002B3F75 /* SettingsView.swift in Sources */,

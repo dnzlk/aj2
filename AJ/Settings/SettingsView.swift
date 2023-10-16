@@ -9,10 +9,12 @@ import SwiftUI
 
 struct SettingsView: View {
 
+    // MARK: - Private Properties
+
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(\.dismiss) private var dismiss
 
-    @AppStorage(Storage.isSpeakAloud.key) private var isSpeakAloud: Bool = true
+    @AppStorage(AppStorageKeys.isSpeakAloud.key) private var isSpeakAloud: Bool = true
 
     // MARK: - Types
 

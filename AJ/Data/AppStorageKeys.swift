@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Storage: String {
+enum AppStorageKeys: String {
     case languages
     case isSpeakAloud
 

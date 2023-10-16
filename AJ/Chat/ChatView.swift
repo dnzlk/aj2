@@ -59,11 +59,11 @@ struct ChatView: View {
 
     @State private var isEditMode = false
 
-    @AppStorage(Storage.isSpeakAloud.key) private var isSpeakAloud: Bool = true
+    @AppStorage(AppStorageKeys.isSpeakAloud.key) private var isSpeakAloud: Bool = true
 
     @State private var isMenuPresented = false
 
-    @AppStorage(Storage.languages.key) private var languages: Languages = .defaultValues
+    @AppStorage(AppStorageKeys.languages.key) private var languages: Languages = .defaultValues
 
     @State private var isShowCopiedToast = false
 

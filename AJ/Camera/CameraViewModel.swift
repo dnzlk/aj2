@@ -21,7 +21,7 @@ final class CameraViewModel: ObservableObject {
     }
     @Published var translatedImage: UIImage?
     @Published var isShowOriginalPhoto = true
-    @AppStorage(Storage.languages.key) var languages: Languages = .defaultValues
+    @AppStorage(AppStorageKeys.languages.key) var languages: Languages = .defaultValues
     @Published var isTranslating = false
 
     @Published var torchIsOn = false {

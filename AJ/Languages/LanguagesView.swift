@@ -11,7 +11,7 @@ struct LanguagesView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    @AppStorage(Storage.languages.key) private var languages: Languages = .defaultValues
+    @AppStorage(AppStorageKeys.languages.key) private var languages: Languages = .defaultValues
 
     @State private var editingLanguage: Language = .english
 
@@ -142,14 +142,4 @@ struct LanguagesView: View {
             editingLanguage = languages.from
         }
     }
-}
-
-#Preview {
-    struct ContentView: View {
-
-        var body: some View {
-            LanguagesView()
-        }
-    }
-    return ContentView()
 }
