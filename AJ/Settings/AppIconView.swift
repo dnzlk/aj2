@@ -37,9 +37,8 @@ struct AppIconView: View {
             updateAppIcon()
         }
         .onTapGesture {
-            withAnimation {
-                isShowIconsCarousel.toggle()
-            }
+            Taptic.light()
+            isShowIconsCarousel.toggle()
         }
     }
 

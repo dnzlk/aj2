@@ -125,7 +125,7 @@ struct ChatCell: View, Equatable {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .gesture(
                         TapGesture(count: 2).onEnded {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            Taptic.light()
                             withAnimation(.spring(duration: 0.25)) {
                                 message.isFav.toggle()
                             }

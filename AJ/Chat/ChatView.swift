@@ -341,7 +341,7 @@ struct ChatView: View {
     }
 
     private func copy(message: Message) {
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        Taptic.light()
         UIPasteboard.general.string = message.translation?.text
 
         isShowCopiedToast = true

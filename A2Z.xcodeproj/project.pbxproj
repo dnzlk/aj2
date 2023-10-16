@@ -54,6 +54,7 @@
 		E3F032902AD52BFD00C5D42C /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032852AD52BFD00C5D42C /* CameraViewModel.swift */; };
 		E3F032912AD52BFD00C5D42C /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032862AD52BFD00C5D42C /* CameraView.swift */; };
 		E3F032952AD543BE00C5D42C /* FullScreenText.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032942AD543BE00C5D42C /* FullScreenText.swift */; };
+		E3F032972ADD16F400C5D42C /* Taptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F032962ADD16F400C5D42C /* Taptic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +107,7 @@
 		E3F032852AD52BFD00C5D42C /* CameraViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		E3F032862AD52BFD00C5D42C /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		E3F032942AD543BE00C5D42C /* FullScreenText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenText.swift; sourceTree = "<group>"; };
+		E3F032962ADD16F400C5D42C /* Taptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Taptic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 				E315408E2AC43F2F00D5A36C /* UICommon */,
 				E3C95E4D299BB9710099DC16 /* Languages */,
 				E361BC512AA61552007956AD /* Preview Content */,
+				E3F032962ADD16F400C5D42C /* Taptic.swift */,
 			);
 			path = AJ;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				E3D21F612ABDBFBF002B3F75 /* Toast.swift in Sources */,
 				E39C27E02AB4111E004CC5F9 /* ChatCell.swift in Sources */,
 				E3D21F632AC1BCA2002B3F75 /* ChatTextField.swift in Sources */,
+				E3F032972ADD16F400C5D42C /* Taptic.swift in Sources */,
 				E3D21F692AC42107002B3F75 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
