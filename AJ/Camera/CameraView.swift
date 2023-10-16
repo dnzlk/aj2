@@ -128,7 +128,7 @@ struct CameraView: View {
             }
         )
         .fullScreenCover(isPresented: $isLanguagesPresented) {
-            LanguagesView(languages: $model.languages)
+            LanguagesView()
         }
     }
 

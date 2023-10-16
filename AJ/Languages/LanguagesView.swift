@@ -9,16 +9,11 @@ import SwiftUI
 
 struct LanguagesView: View {
 
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
 
-    @Binding var languages: Languages
+    @AppStorage(Storage.languages.key) private var languages: Languages = .defaultValues
 
-    @State private var editingLanguage: Language
-
-    init(languages: Binding<Languages>) {
-        self._languages = languages
-        self._editingLanguage = State(initialValue: languages.wrappedValue.from)
-    }
+    @State private var editingLanguage: Language = .english
 
     var body: some View {
         List {
@@ -44,6 +39,9 @@ struct LanguagesView: View {
             }
         )
         .navigationTitle("")
+        .onViewDidLoad {
+            editingLanguage = languages.from
+        }
     }
 
     private func selectedLanguages() -> some View {
@@ -123,16 +121,14 @@ struct LanguagesView: View {
     private func select(language: Language) {
         withAnimation(.spring(duration: 0.4)) {
             if language == languages.from && editingLanguage == languages.to {
-                languages.from = languages.to
-                languages.to = language
+                languages = .init(from: languages.to, to: language)
             } else if language == languages.to && editingLanguage == languages.from {
-                languages.to = languages.from
-                languages.from = language
+                languages = .init(from: language, to: languages.from)
             } else {
                 if languages.from == editingLanguage {
-                    languages.from = language
+                    languages = .init(from: language, to: languages.to)
                 } else if languages.to == editingLanguage {
-                    languages.to = language
+                    languages = .init(from: languages.from, to: language)
                 }
             }
             editingLanguage = language
@@ -150,10 +146,9 @@ struct LanguagesView: View {
 
 #Preview {
     struct ContentView: View {
-        @State var languages: Languages = .init(from: .russian, to: .english)
 
         var body: some View {
-            LanguagesView(languages: $languages)
+            LanguagesView()
         }
     }
     return ContentView()

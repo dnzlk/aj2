@@ -12,7 +12,7 @@ struct SettingsView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(\.dismiss) private var dismiss
 
-    @AppStorage("isSpeakAloud") private var isSpeakAloud: Bool = true
+    @AppStorage(Storage.isSpeakAloud.key) private var isSpeakAloud: Bool = true
 
     // MARK: - Types
 

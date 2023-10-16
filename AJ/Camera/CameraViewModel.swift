@@ -21,11 +21,7 @@ final class CameraViewModel: ObservableObject {
     }
     @Published var translatedImage: UIImage?
     @Published var isShowOriginalPhoto = true
-    @Published var languages = UserDefaultsManager.shared.languages() {
-        didSet {
-            ud.saveLanguages(languages: languages)
-        }
-    }
+    @AppStorage(Storage.languages.key) var languages: Languages = .defaultValues
     @Published var isTranslating = false
 
     @Published var torchIsOn = false {
@@ -41,7 +37,6 @@ final class CameraViewModel: ObservableObject {
     // MARK: - Private Properties
 
     private let recognizer = ImageTextRecognizer()
-    private let ud = UserDefaultsManager.shared
 
     // MARK: - Init
 

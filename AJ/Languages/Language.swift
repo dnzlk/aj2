@@ -7,17 +7,10 @@
 
 import SwiftUI
 
-struct Languages: Equatable {
-    
-    var from: Language
-    var to: Language
-}
-typealias LanguageColors = (bgColor: Color, textColor: Color)
+enum Language: String, CaseIterable, Equatable, Codable {
 
+    struct Colors {
 
-enum Language: String, CaseIterable, Equatable {
-
-    struct LanguageColors {
         var bgColor: Color
         var textColor: Color
     }
@@ -217,38 +210,38 @@ enum Language: String, CaseIterable, Equatable {
         }
     }
 
-    var color: LanguageColors {
+    var color: Colors {
         switch self {
         case .english:
-            return LanguageColors(bgColor: .blue, textColor: .white)
+            return Colors(bgColor: .blue, textColor: .white)
         case .chineseSimplified:
-            return LanguageColors(bgColor: .red, textColor: .white)
+            return Colors(bgColor: .red, textColor: .white)
         case .spanish:
-            return LanguageColors(bgColor: .yellow, textColor: .black)
+            return Colors(bgColor: .yellow, textColor: .black)
         case .arabic:
-            return LanguageColors(bgColor: .green, textColor: .white)
+            return Colors(bgColor: .green, textColor: .white)
         case .hindi:
-            return LanguageColors(bgColor: .orange, textColor: .black)
+            return Colors(bgColor: .orange, textColor: .black)
         case .italian:
-            return LanguageColors(bgColor: .green, textColor: .white)
+            return Colors(bgColor: .green, textColor: .white)
         case .french:
-            return LanguageColors(bgColor: .blue, textColor: .white)
+            return Colors(bgColor: .blue, textColor: .white)
         case .bengali:
-            return LanguageColors(bgColor: .green, textColor: .white)
+            return Colors(bgColor: .green, textColor: .white)
         case .russian:
-            return LanguageColors(bgColor: .init(red: 50/255, green: 135/255, blue: 199/255), textColor: .white)
+            return Colors(bgColor: .init(red: 50/255, green: 135/255, blue: 199/255), textColor: .white)
         case .portuguese:
-            return LanguageColors(bgColor: .green, textColor: .white)
+            return Colors(bgColor: .green, textColor: .white)
         case .indonesian:
-            return LanguageColors(bgColor: .red, textColor: .white)
+            return Colors(bgColor: .red, textColor: .white)
         case .turkish:
-            return LanguageColors(bgColor: .red, textColor: .white)
+            return Colors(bgColor: .red, textColor: .white)
         case .armenian:
-            return LanguageColors(bgColor: .orange, textColor: .black)
+            return Colors(bgColor: .orange, textColor: .black)
         case .georgian:
-            return LanguageColors(bgColor: .blue, textColor: .white)
+            return Colors(bgColor: .blue, textColor: .white)
         case .kazakh:
-            return LanguageColors(bgColor: .blue, textColor: .white)
+            return Colors(bgColor: .blue, textColor: .white)
         }
     }
 

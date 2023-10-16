@@ -59,11 +59,11 @@ struct ChatView: View {
 
     @State private var isEditMode = false
 
-    @AppStorage("isSpeakAloud") private var isSpeakAloud: Bool = true
+    @AppStorage(Storage.isSpeakAloud.key) private var isSpeakAloud: Bool = true
 
     @State private var isMenuPresented = false
 
-    @State private var languages: Languages = .init(from: .english, to: .russian)
+    @AppStorage(Storage.languages.key) private var languages: Languages = .defaultValues
 
     @State private var isShowCopiedToast = false
 
@@ -97,8 +97,6 @@ struct ChatView: View {
 
     private let translator = Translator.shared
 
-    private let ud = UserDefaultsManager.shared
-
     // MARK: - View
 
     var body: some View {
@@ -110,7 +108,7 @@ struct ChatView: View {
                        isPhotoPresented: $isCameraPresented,
                        languages: languages)
                 .fullScreenCover(isPresented: $isLanguagesPresented) {
-                    LanguagesView(languages: $languages)
+                    LanguagesView()
                 }
                 .fullScreenCover(isPresented: $isMenuPresented) {
                     SettingsView()
@@ -134,12 +132,6 @@ struct ChatView: View {
             speechAlert()
         }
         .toast(isShow: $isShowCopiedToast)
-        .onViewDidLoad {
-            languages = ud.languages()
-        }
-        .onChange(of: languages) { _, newValue in
-            ud.saveLanguages(languages: newValue)
-        }
     }
 
     private func list() -> some View {
