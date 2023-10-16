@@ -27,7 +27,6 @@
 		E361BC832AA6251D007956AD /* AMChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BFCE6429B1F99100154D87 /* AMChatResponse.swift */; };
 		E37022752AD052660031FD0F /* ImageTextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37022742AD052660031FD0F /* ImageTextRecognizer.swift */; };
 		E37022792AD11F770031FD0F /* ImageTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37022782AD11F770031FD0F /* ImageTranslator.swift */; };
-		E370227C2AD15BEC0031FD0F /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = E370227B2AD15BEC0031FD0F /* Plan.swift */; };
 		E37D06AC2ABC3216005FE0F1 /* LanguagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */; };
 		E37D06AE2ABC5F20005FE0F1 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */; };
 		E37D06B02ABD51C1005FE0F1 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D06AF2ABD51C1005FE0F1 /* FavouritesView.swift */; };
@@ -76,7 +75,6 @@
 		E361BC522AA61552007956AD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E37022742AD052660031FD0F /* ImageTextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTextRecognizer.swift; sourceTree = "<group>"; };
 		E37022782AD11F770031FD0F /* ImageTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTranslator.swift; sourceTree = "<group>"; };
-		E370227B2AD15BEC0031FD0F /* Plan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
 		E37D06AB2ABC3216005FE0F1 /* LanguagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesView.swift; sourceTree = "<group>"; };
 		E37D06AD2ABC5F20005FE0F1 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		E37D06AF2ABD51C1005FE0F1 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
@@ -260,7 +258,6 @@
 				E3F032832AD52BFD00C5D42C /* PhotoCollection.swift */,
 				E3F0327F2AD52BFD00C5D42C /* PhotoItemView.swift */,
 				E3F032802AD52BFD00C5D42C /* PhotoLibrary.swift */,
-				E370227B2AD15BEC0031FD0F /* Plan.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -354,7 +351,6 @@
 				E3D21F672AC28CD4002B3F75 /* ViewDidLoadModifier.swift in Sources */,
 				E37D06AE2ABC5F20005FE0F1 /* UserDefaultsManager.swift in Sources */,
 				E37D06B22ABD68D5005FE0F1 /* Loader.swift in Sources */,
-				E370227C2AD15BEC0031FD0F /* Plan.swift in Sources */,
 				E3F032892AD52BFD00C5D42C /* Camera.swift in Sources */,
 				E3F032952AD543BE00C5D42C /* FullScreenText.swift in Sources */,
 				E3F0328D2AD52BFD00C5D42C /* LibraryView.swift in Sources */,
