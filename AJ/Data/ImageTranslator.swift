@@ -7,6 +7,17 @@
 
 import Foundation
 
+struct AMGoogleQuery: Codable {
+
+    let query: String
+    let lng: String
+}
+
+struct AMGoogleResponse: Codable {
+
+    let translation: String
+}
+
 final class ImageTranslator: APIEndpoint {
 
     // MARK: - Types
@@ -21,11 +32,11 @@ final class ImageTranslator: APIEndpoint {
     // MARK: - Public Properties
 
     override var debugUrl: String? {
-        "http://127.0.0.1:3000/ask"
+        "http://127.0.0.1:3000/googleTranslate"
     }
 
     override var prodUrl: String? {
-        "http://165.232.91.100:80/ask"
+        "http://165.232.91.100:80/googleTranslate"
     }
 
     // MARK: - Public Methods
@@ -68,7 +79,7 @@ final class ImageTranslator: APIEndpoint {
         let translatedStrings = await withTaskGroup(of: (Int, [String]).self) { group -> [[String]] in
             for data in requestData {
                 group.addTask { [weak self] in
-                    let translatedLines = (try? await self?.translate(line: data.1, languages: languages)) ?? ""
+                    let translatedLines = (try? await self?.translate(text: data.1, translateTo: languages.to.code)) ?? ""
                     let array = self?.parse(imageTextTranslate: translatedLines) ?? []
 
                     return (data.0, array)
@@ -85,24 +96,21 @@ final class ImageTranslator: APIEndpoint {
         return translatedStrings
     }
 
-    private func translate(line: String, languages: Languages) async throws -> String {
-
+    func translate(text: String, translateTo lng: String) async throws -> String {
         guard let url else { throw E.wrongUrl }
 
-        let amMessages: [AMChatMessage] = [
-            .init(role: "user", content: "Translate line by line from \(languages.from.englishName) to \(languages.to.englishName) (response must contain same amount of lines): \(line)")
-        ]
-        let amChat = AMChat(messages: amMessages)
-        let encodedAmChat = try JSONEncoder().encode(amChat)
+        let amQuery = AMGoogleQuery(query: text, lng: lng)
+        let encodedAmQuery = try JSONEncoder().encode(amQuery)
 
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        request.httpBody = encodedAmChat
-        let (data, _) = try await URLSession.shared.data(for: request)
-        let response = try JSONDecoder().decode(AMChatResponse.self, from: data)
+        request.httpBody = encodedAmQuery
 
-        return response.content
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let response = try JSONDecoder().decode(AMGoogleResponse.self, from: data)
+
+        return response.translation
     }
 
     private func parse(imageTextTranslate: String) -> [String] {
