@@ -169,8 +169,6 @@ class Camera: NSObject {
 
         let photoOutput = AVCapturePhotoOutput()
 
-        captureSession.sessionPreset = AVCaptureSession.Preset.photo
-
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "VideoDataOutputQueue"))
 
@@ -204,7 +202,7 @@ class Camera: NSObject {
             return
         case .notDetermined:
             sessionQueue.suspend()
-            let status = await AVCaptureDevice.requestAccess(for: .video)
+            _ = await AVCaptureDevice.requestAccess(for: .video)
             sessionQueue.resume()
         case .denied:
             throw E.cameraDenied
@@ -248,8 +246,7 @@ class Camera: NSObject {
 extension Camera: AVCapturePhotoCaptureDelegate {
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-
-        if let error { return }
+        guard error == nil else { return }
 
         addToPhotoStream?(photo)
     }
