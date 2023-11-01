@@ -45,9 +45,7 @@ final class ImageTranslator: APIEndpoint {
 
         let splitCount = 10
 
-        let lines = imageData.enumerated().map { i, item in
-            return "\(i). \(item.string)\n"
-        }
+        let lines = imageData.map { $0.string + "\n" }
 
         let arrayOfLines = lines.splitIntoChunks(of: splitCount).map { $0.joined() }
 
@@ -80,7 +78,7 @@ final class ImageTranslator: APIEndpoint {
             for data in requestData {
                 group.addTask { [weak self] in
                     let translatedLines = (try? await self?.translate(text: data.1, translateTo: languages.to.code)) ?? ""
-                    let array = self?.parse(imageTextTranslate: translatedLines) ?? []
+                    let array = translatedLines.components(separatedBy: "\n")
 
                     return (data.0, array)
                 }
@@ -111,22 +109,6 @@ final class ImageTranslator: APIEndpoint {
         let response = try JSONDecoder().decode(AMGoogleResponse.self, from: data)
 
         return response.translation
-    }
-
-    private func parse(imageTextTranslate: String) -> [String] {
-        let lines = imageTextTranslate.components(separatedBy: "\n")
-        var texts: [String] = []
-
-        for line in lines {
-            let components = line.components(separatedBy: ". ")
-            if let first = components.first, components.count > 1, Int(first) != nil {
-                let cleanedString = components[1..<components.count].joined(separator: ". ")
-                texts.append(cleanedString)
-            } else {
-                texts.append(line)
-            }
-        }
-        return texts
     }
 }
 
